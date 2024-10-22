@@ -1,0 +1,5 @@
+aqui agregamos los elementos de interfaz grafica
+comunes, las que usamos 
+
+que no sean grandes paginas que se visualizan
+a partir de una url

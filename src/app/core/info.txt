@@ -1,0 +1,62 @@
+en core guardamos todo lo que no tenga interfaz grafica
+elementos que se usan de manera global
+
+
+------WEB--------------
+
+-----sprint 1 ------
+11) Realizar inicio y cierre de sesion      -> saleth
+7) Adm de usuarios (mínimo los siguientes 
+roles: Administrador, Medico y Paciente)    -> said
+13) gestionar roles                         -> saleth
+14) adm permisos                            -> saleth
+1) Gestión de especialidades medicas        -> said
+2) Gestión de médicos                       -> said
+
+-----sprint 2 ------
+16) registro de triaje
+3) Gestión de horarios de atención de los médicos 
+4) Gestión de asegurados (pacientes) 
+5) Obtención de fichas de atención online por parte del paciente 
+        (paciente-> una ficha por dia) 
+9) Gestionar servicio
+15) gestionar tratamiento
+
+-----sprint 3 ------
+6) Gestión de atención de consulta (función principal donde se actualiza la Historia 
+Clínica) 
+8) Generación de reportes 
+    a. La administración requiere un reporte de atención a pacientes por diferentes 
+    criterios como ser: Periodo de fechas, por paciente, por médico, por 
+    especialidad 
+    b. El paciente puede ver su historia clínica pero nunca modificar 
+12) adm historias clinicas (Medico)
+10) Administrar bitacora
+
+
+------MOVIL--------------
+11) Realizar inicio y cierre de sesion      -> jhon
+5) Obtención de fichas de atención online por parte del paciente 
+        (paciente-> una ficha por dia) 
+8) Generación de reportes 
+    a. La administración requiere un reporte de atención a pacientes por diferentes 
+    criterios como ser: Periodo de fechas, por paciente, por médico, por 
+    especialidad 
+    b. El paciente puede ver su historia clínica pero nunca modificar 
+12) adm historia clinica (cliente)
+10) Administrar bitacora
+
+el paciente ingresa usuario y contrasena
+reserva de citas -> el cl puede ver la cantidad de cupos disponibles
+
+
+
+
+
+
+
+
+
+
+
+

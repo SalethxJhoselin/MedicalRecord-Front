@@ -6,8 +6,17 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
 })
+//esta es solo unasimple clase que se esta exportando
 export class AppComponent {
-  title = 'frontSI2';
+  public title: string = 'Atenciones medicas ';//no se esta usando pero en 
+  //comparacion a la otra forma, es para mejorar la legibilidad del codigo
+  public counter: number = 10;
+
+  increaseBy(value: number): void {
+    this.counter += value;
+  }
+  reset(): void {
+    this.counter = 10;
+  }
 }
