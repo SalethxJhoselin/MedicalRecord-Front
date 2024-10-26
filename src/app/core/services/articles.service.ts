@@ -1,1 +1,0 @@
-//aqui manejamos las peticiones externas 

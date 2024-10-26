@@ -1,4 +1,8 @@
 import { Routes } from '@angular/router';
+import { RegisterComponent } from './auth/register/register.component';
+import { LoginComponent } from './auth/login/login.component';
+import { AuthGuard } from './core/guards/auth.guard';
+import { AuthenticatedGuard } from './core/guards/authenticated.guard';
 
 export const routes: Routes = [
     {
@@ -7,11 +11,13 @@ export const routes: Routes = [
         children: [
             {
                 path: 'dashboard',
-                loadComponent: () => import('./business/dashboard/dashboard.component').then(m => m.DashboardComponent)
+                loadComponent: () => import('./business/dashboard/dashboard.component').then(m => m.DashboardComponent),
+                canActivate: [AuthGuard]
             },
             {
                 path: 'profile',
-                loadComponent: () => import('./business/profile/profile.component').then(m => m.ProfileComponent)
+                loadComponent: () => import('./business/profile/profile.component').then(m => m.ProfileComponent),
+                canActivate: [AuthGuard]
             },
             {
                 path: '',
@@ -21,7 +27,16 @@ export const routes: Routes = [
         ]
     },
     {
+        path: 'registrarse', component: RegisterComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'iniciarSesion', component: LoginComponent,
+        canActivate: [AuthenticatedGuard]
+    },
+    {
         path: '**',
-        redirectTo: 'dashboard',
+        redirectTo: 'dashboard'
+
     }
 ];

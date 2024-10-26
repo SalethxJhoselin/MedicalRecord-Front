@@ -1,0 +1,28 @@
+.middle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; 
+  }
+  
+  button {
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  button span.material-icons {
+    font-size: 20px;
+    color: theme('colors.darkGray'); 
+  }
+  
+  button:hover {
+    background-color: theme('colors.mint');
+  }
+  
+  button:active {
+    background-color: theme('colors.mint'); 
+    color: theme('colors.white'); 
+  }
+  
+  ul li ul button:hover {
+    background-color: theme('colors.lightGreen');
+  }
+  
