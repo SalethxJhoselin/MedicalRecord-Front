@@ -1,38 +1,89 @@
-import { NgFor } from '@angular/common';
+// src/app/components/manage-specialties/manage-specialties.component.ts
+import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-
-interface Specialty {
-  id: number;
-  nombre: string;
-  descripcion: string;
-}
+import { SpecialtieService, Specialty } from '../../../core/services/specialties.service';
+import { FormsModule } from '@angular/forms'; 
 
 @Component({
   selector: 'app-manage-specialties',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, FormsModule, NgIf], 
   templateUrl: './manage-specialties.component.html',
-  styleUrl: './manage-specialties.component.css'
+  styleUrls: ['./manage-specialties.component.css']
 })
-
 export class ManageSpecialtiesComponent {
-  specialties: Specialty[] = [
-    { id: 1, nombre: 'Oftalmología', descripcion: 'Especialidad médica que se encarga del diagnóstico y tratamiento de enfermedades oculares.' },
-    { id: 2, nombre: 'Optometría', descripcion: 'Ciencia encargada de medir defectos visuales y adaptar lentes correctoras' },
-    { id: 3, nombre: 'Cirugía Refractiva', descripcion: 'Especialidad que corrige los problemas de refracción del ojo mediante cirugía' },
-    { id: 4, nombre: 'Retina', descripcion: 'Rama de la oftalmología que se enfoca en el diagnóstico y tratamiento de enfermedades de la retina' },
-    { id: 5, nombre: 'Pediatría Oftalmológica', descripcion: 'Especialidad que trata las enfermedades oculares en niños' }
-  ];
+  specialties: Specialty[] = [];
+  newSpecialty: Specialty = { nombre: '', descripcion: '' }; 
+  showSuccessMessage = false;
+  showErrorMessage = false;
 
-  constructor() {}
+  constructor(private specialtieService: SpecialtieService) {}
 
-  ngOnInit(): void {}
-
-  editSpecialty(specialtyId: number) {
-    console.log('Editar especialidad con ID:', specialtyId);
+  ngOnInit(): void {
+    this.loadSpecialties();
   }
 
-  deleteSpecialty(specialtyId: number) {
-    console.log('Eliminar especialidad con ID:', specialtyId);
+  // Cargar especialidades desde el backend
+  loadSpecialties(): void {
+    this.specialtieService.getSpecialties().subscribe({
+      next: (data) => {
+        this.specialties = data;
+      },
+      error: (err) => {
+        console.error('Error al cargar especialidades:', err);
+      }
+    });
+  }
+
+  // Guardar nueva especialidad
+  saveSpecialty(): void {
+    if (this.newSpecialty.nombre && this.newSpecialty.descripcion) {
+      this.specialtieService.saveSpecialty(this.newSpecialty).subscribe({
+        next: (savedSpecialty) => {
+          this.specialties.push(savedSpecialty);
+          this.newSpecialty = { nombre: '', descripcion: '' };
+          
+          this.showSuccessMessage = true;
+          setTimeout(() => {
+            this.showSuccessMessage = false;
+          }, 3000);//3seg
+        },
+        error: (err) => {
+          console.error('Error al guardar especialidad:', err);
+        }
+      });
+    } else {
+      console.warn('Por favor, complete todos los campos.');
+    }
+  }
+
+  // Editar especialidad
+  editSpecialty(specialtyId: number | undefined) {
+    if (specialtyId !== undefined) {
+      console.log('Editar especialidad con ID:', specialtyId);
+    } else {
+      console.warn('ID de especialidad no definido');
+    }
+  }
+
+  // Eliminar especialidad
+  deleteSpecialty(specialtyId: number | undefined) {
+    if (specialtyId !== undefined) {
+      this.specialtieService.deleteSpecialty(specialtyId).subscribe({
+        next: () => {
+          this.specialties = this.specialties.filter(specialty => specialty.id !== specialtyId);
+          console.log('Especialidad eliminada con ID:', specialtyId);
+        },
+        error: (err) => {
+          console.error('Error al eliminar especialidad:', err);
+          this.showErrorMessage = true;
+          setTimeout(() => {
+            this.showErrorMessage = false;
+          }, 3000); //3 segundos
+        }
+      });
+    } else {
+      console.warn('ID de especialidad no definido');
+    }
   }
 }
