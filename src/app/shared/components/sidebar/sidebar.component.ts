@@ -20,18 +20,14 @@ export class SidebarComponent {
       submenus: []
     },
     {
-      title: 'Perfil',
-      route: '/profile',
-      icon: 'home',
-      submenus: []
-    },
-    {
       title: 'Usuarios',
       route: '/tables',
       icon: 'home',
       submenus: [
+        { title: 'Perfil de usuario', route: '/perfil' },
+        { title: 'Registrar Usuarios', route: '/registrar' },
         { title: 'Gestionar Roles', route: '/roles' },
-        { title: 'Gestionar Permisos', route: '/permissions' },
+        { title: 'Asignar Permisos', route: '/permisos' },
         { title: 'Administracion de Usuarios', route: '/users' },
         { title: 'Estionar Reportes', route: '/users' },
         { title: 'Administrar bitacora', route: '/users' },
