@@ -16,11 +16,6 @@ export const routes: Routes = [
         loadComponent: () => import('./shared/components/layout/layout.component').then(m => m.LayoutComponent),
         children: [
             {
-                path: 'dashboard',
-                loadComponent: () => import('./business/dashboard/dashboard.component').then(m => m.DashboardComponent),
-                canActivate: [AuthGuard]
-            },
-            {
                 path: 'perfil',
                 component: ProfileComponent,
                 canActivate: [AuthGuard]
