@@ -1,0 +1,83 @@
+<!-- Componente de Gestión de Roles -->
+<div class="p-6 bg-white rounded-lg shadow-md w-full max-w-2xl mx-auto">
+    <h2 class="text-2xl font-semibold mb-4 text-center">Gestionar Roles</h2>
+    
+    <!-- Inputs y botón en la misma fila -->
+    <div class="flex space-x-4 mb-6">
+        <!--[(ngModel)]="roleName" -->
+        <input 
+               class="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-lg text-darkGray placeholder-gray-400 focus:outline-none focus:border-primary transition duration-300" 
+               type="text" placeholder="Nombre del Rol">
+               
+        <!--[(ngModel)]="roleDescription"  -->
+        <input 
+               class="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-lg text-darkGray placeholder-gray-400 focus:outline-none focus:border-primary transition duration-300" 
+               type="text" placeholder="Descripción">
+        <!--(click)="saveRole()" -->
+        <button 
+                class="px-6 py-2 bg-primary hover:bg-mint text-white rounded-lg font-semibold transition duration-300">
+            Guardar
+        </button>
+    </div>
+    
+    <!-- Lista de Roles Existentes -->
+    <div class="bg-lightGray p-4 rounded-lg shadow-md">
+        <h3 class="text-lg font-semibold mb-2">Roles Existentes</h3>
+        <ul class="space-y-3">
+            <li class="flex justify-between items-center bg-white px-4 py-2 rounded-md shadow-sm border border-gray-300">
+                <div>
+                    <p class="font-medium">Administrador</p>
+                    <p class="text-sm text-gray-500">Acceso completo al sistema</p>
+                </div>
+                <div class="space-x-2">
+                    <!--(click)="editRole('Administrador')" -->
+                    <button 
+                            class="px-4 py-1 bg-primary hover:bg-mint text-white rounded-md transition duration-300">
+                        Editar
+                    </button>
+                    <!--(click)="deleteRole('Administrador')"  -->
+                    <button 
+                            class="px-4 py-1 bg-red-500 hover:bg-red-700 text-white rounded-md transition duration-300">
+                        Eliminar
+                    </button>
+                </div>
+            </li>
+            <li class="flex justify-between items-center bg-white px-4 py-2 rounded-md shadow-sm border border-gray-300">
+                <div>
+                    <p class="font-medium">Médico</p>
+                    <p class="text-sm text-gray-500">Acceso a gestión de pacientes</p>
+                </div>
+                <div class="space-x-2">
+                    <!--(click)="editRole('Médico')"  -->
+                    <button 
+                            class="px-4 py-1 bg-primary hover:bg-mint text-white rounded-md transition duration-300">
+                        Editar
+                    </button>
+                    <!--(click)="deleteRole('Médico')"   -->
+                    <button 
+                            class="px-4 py-1 bg-red-500 hover:bg-red-700 text-white rounded-md transition duration-300">
+                        Eliminar
+                    </button>
+                </div>
+            </li>
+            <li class="flex justify-between items-center bg-white px-4 py-2 rounded-md shadow-sm border border-gray-300">
+                <div>
+                    <p class="font-medium">Paciente</p>
+                    <p class="text-sm text-gray-500">Acceso a su historial clínico</p>
+                </div>
+                <div class="space-x-2">
+                    <!--(click)="editRole('Paciente')"  -->
+                    <button 
+                            class="px-4 py-1 bg-primary hover:bg-mint text-white rounded-md transition duration-300">
+                        Editar
+                    </button>
+                    <!--(click)="deleteRole('Paciente')"  -->
+                    <button 
+                            class="px-4 py-1 bg-red-500 hover:bg-red-700 text-white rounded-md transition duration-300">
+                        Eliminar
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

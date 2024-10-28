@@ -1,8 +1,11 @@
 import { Routes } from '@angular/router';
-import { RegisterComponent } from './auth/register/register.component';
+import { ProfileComponent } from './components/Users/profile/profile.component';
+import { RegisterComponent } from './components/Users/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { AuthenticatedGuard } from './core/guards/authenticated.guard';
+import { ManageRolesComponent } from './components/Users/manage-roles/manage-roles.component';
+import { ManagePermissionsComponent } from './components/Users/manage-permissions/manage-permissions.component';
 
 export const routes: Routes = [
     {
@@ -15,8 +18,23 @@ export const routes: Routes = [
                 canActivate: [AuthGuard]
             },
             {
-                path: 'profile',
-                loadComponent: () => import('./business/profile/profile.component').then(m => m.ProfileComponent),
+                path: 'perfil',
+                component: ProfileComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'registrar',
+                component: RegisterComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'roles',
+                component: ManageRolesComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'permisos',
+                component: ManagePermissionsComponent,
                 canActivate: [AuthGuard]
             },
             {
@@ -27,16 +45,12 @@ export const routes: Routes = [
         ]
     },
     {
-        path: 'registrarse', component: RegisterComponent,
-        canActivate: [AuthGuard]
-    },
-    {
-        path: 'iniciarSesion', component: LoginComponent,
+        path: 'iniciarSesion',
+        component: LoginComponent,
         canActivate: [AuthenticatedGuard]
     },
     {
         path: '**',
         redirectTo: 'dashboard'
-
     }
 ];

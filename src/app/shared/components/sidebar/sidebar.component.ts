@@ -14,14 +14,8 @@ export class SidebarComponent {
 
   menuItems = [
     {
-      title: 'Perfil',
-      route: '/profile',
-      icon: 'home',
-      submenus: []
-    },
-    {
       title: 'Home',
-      route: '/#',
+      route: '/',
       icon: 'home',
       submenus: []
     },
@@ -30,26 +24,37 @@ export class SidebarComponent {
       route: '/tables',
       icon: 'home',
       submenus: [
-        { title: 'Tabla 1', route: '/tables/tabla1' },
-        { title: 'Tabla 2', route: '/tables/tabla2' }
+        { title: 'Perfil de usuario', route: '/perfil' },
+        { title: 'Registrar Usuarios', route: '/registrar' },
+        { title: 'Gestionar Roles', route: '/roles' },
+        { title: 'Asignar Permisos', route: '/permisos' },
+        { title: 'Administracion de Usuarios', route: '/users' },
+        { title: 'Estionar Reportes', route: '/users' },
+        { title: 'Administrar bitacora', route: '/users' },
       ]
     },
     {
-      title: 'Atenciones medicas',
-      route: '#',
+      title: 'Gestion Clinica',
+      route: '/table',
       icon: 'notifications',
       submenus: [
-        { title: 'Ver Notificaciones', route: '/notifications/view' },
-        { title: 'Configuración', route: '/notifications/settings' }
+        { title: 'Gestionar especialidades medicas', route: '/notifications/view' },
+        { title: 'Gestionar medicos', route: '/notifications/view' },
+        { title: 'Tegistro de triaje', route: '/notifications/view' },
+        { title: 'Gestionar asegurados', route: '/notifications/view' },
+        { title: 'Gestionar horarios de atencion a medicos', route: '/notifications/settings' }
       ]
     },
     {
-      title: 'Auth Pages',
+      title: 'Atenciones Medicas',
       route: null,
       icon: null,
       submenus: [
-        { title: 'Iniciar Sesión', route: '/iniciarSesion' },
-        { title: 'Registrarse', route: '/registrarse' }
+        { title: 'Gestionar Servicio', route: '/iniciarSesion' },
+        { title: 'Gestionar obtencion de ficha de actencion', route: '/registrarse' },
+        { title: 'Gestionar de atencion de consulta', route: '/registrarse' },
+        { title: 'Administrar historias clinicas', route: '/registrarse' },
+        { title: 'Gestionar tratamiento', route: '/registrarse' }
       ]
     }
   ];
