@@ -1,5 +1,6 @@
 import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
+import { DoctorService } from '../../../core/services/doctors.service';
 
 interface Doctor {
   id: number;
@@ -19,14 +20,24 @@ interface Doctor {
 })
 
 export class ManageDoctorsComponent {
-  doctors: Doctor[] = [
-    { id: 1, usuario: 'ADMIN', nombre: 'Saleth Jhoselin Mamani', email: 'saleth@gmail.com', direccion: '', especialidad: 'Oftalmología' },
-    { id: 2, usuario: 'ADMIN', nombre: 'Jhon Said Andia', email: 'jhademels123@gmail.com', direccion: '', especialidad: 'Optometría' }
-  ];
+  doctors: Doctor[] = [];
 
-  constructor() {}
+  constructor(private doctorService: DoctorService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadDoctors();
+  }
+
+  loadDoctors(): void {
+    this.doctorService.getDoctors().subscribe({
+      next: (data) => {
+        this.doctors = data;
+      },
+      error: (err) => {
+        console.error('Error al cargar especialidades:', err);
+      }
+    });
+  }
 
   editDoctor(doctorId: number) {
     console.log('Editar doctor con ID:', doctorId);
