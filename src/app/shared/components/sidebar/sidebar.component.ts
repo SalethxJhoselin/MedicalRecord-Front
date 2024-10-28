@@ -28,7 +28,7 @@ export class SidebarComponent {
         { title: 'Registrar Usuarios', route: '/registrar' },
         { title: 'Gestionar Roles', route: '/roles' },
         { title: 'Asignar Permisos', route: '/permisos' },
-        { title: 'Administracion de Usuarios', route: '/users' },
+        { title: 'Administracion de Usuarios', route: '/usuarios' },
         { title: 'Estionar Reportes', route: '/users' },
         { title: 'Administrar bitacora', route: '/users' },
       ]
@@ -38,8 +38,8 @@ export class SidebarComponent {
       route: '/table',
       icon: 'notifications',
       submenus: [
-        { title: 'Gestionar especialidades medicas', route: '/notifications/view' },
-        { title: 'Gestionar medicos', route: '/notifications/view' },
+        { title: 'Gestionar especialidades medicas', route: '/especialidades' },
+        { title: 'Gestionar medicos', route: '/medicos' },
         { title: 'Tegistro de triaje', route: '/notifications/view' },
         { title: 'Gestionar asegurados', route: '/notifications/view' },
         { title: 'Gestionar horarios de atencion a medicos', route: '/notifications/settings' }

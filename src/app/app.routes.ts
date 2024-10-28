@@ -6,6 +6,9 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { AuthenticatedGuard } from './core/guards/authenticated.guard';
 import { ManageRolesComponent } from './components/Users/manage-roles/manage-roles.component';
 import { ManagePermissionsComponent } from './components/Users/manage-permissions/manage-permissions.component';
+import { ManageUsersComponent } from './components/Users/manage-users/manage-users.component';
+import { ManageSpecialtiesComponent } from './components/clinicalManagement/manage-specialties/manage-specialties.component';
+import { ManageDoctorsComponent } from './components/clinicalManagement/manage-doctors/manage-doctors.component';
 
 export const routes: Routes = [
     {
@@ -35,6 +38,21 @@ export const routes: Routes = [
             {
                 path: 'permisos',
                 component: ManagePermissionsComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'usuarios',
+                component: ManageUsersComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'especialidades',
+                component: ManageSpecialtiesComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'medicos',
+                component: ManageDoctorsComponent,
                 canActivate: [AuthGuard]
             },
             {
