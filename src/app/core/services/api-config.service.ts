@@ -5,5 +5,6 @@ import { Injectable } from '@angular/core';
 })
 export class ApiConfigService {
   readonly baseUrl: string = 'https://medicalrecord-backend.onrender.com';
+  readonly railwayUrl: string = 'https://medicalrecord-backend-production.up.railway.app/';
   constructor() { }
 }
