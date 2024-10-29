@@ -1,5 +1,5 @@
 import { NgClass, NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -11,6 +11,12 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class SidebarComponent {
   selected: string = '';
+  @Input() isOpen = false;
+  @Output() closeSidebar = new EventEmitter<void>();
+
+  close() {
+    this.closeSidebar.emit();
+  }
 
   menuItems = [
     {

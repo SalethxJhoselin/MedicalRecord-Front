@@ -90,6 +90,14 @@ export class ManageDoctorsComponent {
   }
 
   deleteDoctor(doctorId: number) {
-    console.log('Eliminar doctor con ID:', doctorId);
+    this.doctorService.deleteDoctor(doctorId).subscribe({
+    next: () => {
+      this.doctors = this.doctors.filter(doctor => doctor.id !== doctorId);
+      console.log('Doctor eliminado con ID:', doctorId);
+    },
+    error: (err) => {
+      console.error('Error al eliminar doctor:', err);
+    }
+  });
   }
 }

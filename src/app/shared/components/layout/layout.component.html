@@ -1,14 +1,25 @@
-<div class="layout min-h-screen bg-gray-50/50">
-    <app-sidebar />
-    <div class="main-content p-4 xl:ml-80">
-        <nav class="block w-full max-w-full bg-transparent text-white shadow-none rounded-xl transition-all px-0 py-1">
-            <app-header />
+<div class="layout min-h-screen bg-gray-50/50 flex overflow-hidden">
+    <!-- Sidebar -->
+    <app-sidebar [isOpen]="isSidebarOpen" (closeSidebar)="toggleSidebar()"></app-sidebar>
+
+    <!-- Contenedor de contenido que incluye header, main y footer -->
+    <div class="content-container flex flex-col w-full">
+        <!-- Header -->
+        <nav class="header w-full bg-transparent text-white shadow-none rounded-xl transition-all px-0 py-1">
+            <app-header></app-header>
+            <button class="xl:hidden text-gray-800 p-2" (click)="toggleSidebar()">
+                <span class="material-icons">menu</span>
+            </button>
         </nav>
-        <div class="mt-12">
-            <router-outlet />
+
+        <!-- Main Content -->
+        <div class="main-content flex-grow p-4 overflow-y-auto">
+            <router-outlet></router-outlet>
         </div>
-        <div class="footer text-blue-gray-600">
-            <app-footer />
-        </div>
+
+        <!-- Footer -->
+        <footer class="footer text-blue-gray-600 mt-auto w-full">
+            <app-footer></app-footer>
+        </footer>
     </div>
 </div>

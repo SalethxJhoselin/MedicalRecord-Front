@@ -1,13 +1,21 @@
-<!-- component -->
+<!-- sidebar.component.html -->
 <aside
-  class="bg-white fixed inset-0 z-50 w-64 transition-transform duration-300 xl:translate-x-0 h-screen shadow-lg rounded-lg">
+  [ngClass]="{'translate-x-0': isOpen, '-translate-x-full': !isOpen, 'xl:translate-x-0': true}"
+  class="bg-white fixed inset-0 z-50 w-64 transition-transform duration-300 h-screen shadow-lg rounded-lg xl:block"
+>
   <div class="relative border-b border-mint rounded-t-lg">
     <a class="flex items-center gap-3 py-6 px-6" href="#/">
       <h6 class="block antialiased tracking-normal font-sans text-base font-semibold text-darkGray">
         Medical Dashboard
       </h6>
     </a>
+    <!-- Cerrar botón para dispositivos móviles -->
+    <button (click)="close()" class="xl:hidden absolute right-4 top-4 text-gray-800">
+        <span class="material-icons">close</span>
+    </button>
   </div>
+
+  <!-- Menú (sin cambios) -->
   <div class="m-4">
     <ul class="mb-4 flex flex-col gap-1">
       <li *ngFor="let menuItem of menuItems">
