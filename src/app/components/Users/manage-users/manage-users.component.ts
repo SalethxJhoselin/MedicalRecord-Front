@@ -1,21 +1,7 @@
 import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
+import { User, UserService } from '../../../core/services/users.service';
 
-
-interface Role {
-  id: number;
-  name: string;
-}
-
-interface User {
-  id: number;
-  nombre: string;
-  usuario: string;
-  email: string;
-  direccion: string;
-  enabled: boolean;
-  role: Role;
-}
 
 @Component({
   selector: 'app-manage-users',
@@ -26,38 +12,26 @@ interface User {
 })
 export class ManageUsersComponent{
   users: User[] = [
-    {
-      id: 1,
-      nombre: '123',
-      usuario: 'ADMIN',
-      email: 'saleth@gmail.com',
-      direccion: '',
-      enabled: true,
-      role: { id: 1, name: 'ADMIN' }
-    },
-    {
-      id: 2,
-      nombre: 'Jhon Said Andia',
-      usuario: 'Jeanne',
-      email: 'jhademels123@gmail.com',
-      direccion: '',
-      enabled: true,
-      role: { id: 2, name: 'USER' }
-    },
-    {
-      id: 3,
-      nombre: 'Juan Marcelo Camacho',
-      usuario: 'Marcelo',
-      email: 'marcelo@gmail.com',
-      direccion: '',
-      enabled: true,
-      role: { id: 2, name: 'USER' }
-    }
   ];
 
-  constructor() {}
+  constructor(private userService: UserService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadUsers();
+
+  }
+
+  loadUsers(): void {
+    this.userService.getUsers().subscribe({
+      next: (data) => {
+        this.users = data;
+        console.log(this.users)
+      },
+      error: (err) => {
+        console.error('Error al cargar usuarios:', err);
+      }
+    });
+  }
 
   editUser(userId: number) {
     console.log('Editar usuario con ID:', userId);

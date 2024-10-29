@@ -1,40 +1,43 @@
 <div class="p-6 bg-white rounded-lg shadow-md w-full max-w-3xl mx-auto">
     <h2 class="text-2xl font-semibold mb-4 text-center">Gestionar Doctores</h2>
-    
+  
     <!-- Inputs y botón para agregar doctor -->
     <div class="flex flex-wrap space-x-4 mb-6">
-        <input class="flex-1 min-w-[150px] max-w-[200px] px-4 py-2 text-sm border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none" type="text" placeholder="Nombre del Doctor">
-        <input class="flex-1 min-w-[150px] max-w-[200px] px-4 py-2 text-sm border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none" type="text" placeholder="Email">
-        <select class="flex-1 min-w-[150px] max-w-[200px] px-4 py-2 border border-gray-300 rounded-lg text-darkGray focus:outline-none">
-            <option value="" disabled selected>Seleccionar Especialidad</option>
-            <option value="Oftalmología">Oftalmología</option>
-            <option value="Optometría">Optometría</option>
-            <!-- Agrega más especialidades según sea necesario -->
-        </select>
-        <button class="px-6 py-2 bg-primary text-white rounded-lg font-semibold transition duration-300 hover:bg-mint">
-            Guardar
-        </button>
+      <select [(ngModel)]="selectedUserId" class="flex-1 min-w-[150px] max-w-[200px] px-4 py-2 border border-gray-300 rounded-lg text-darkGray focus:outline-none">
+        <option value="" disabled selected>Seleccionar Usuario</option>
+        <option *ngFor="let user of users" [value]="user.id">{{ user.nombre }}</option>
+      </select>
+  
+      <select [(ngModel)]="selectedSpecialtyId" class="flex-1 min-w-[150px] max-w-[200px] px-4 py-2 border border-gray-300 rounded-lg text-darkGray focus:outline-none">
+        <option value="" disabled selected>Seleccionar Especialidad</option>
+        <option *ngFor="let specialty of specialties" [value]="specialty.id">{{ specialty.nombre }}</option>
+      </select>
+  
+      <button (click)="createDoctor()" class="px-6 py-2 bg-primary text-white rounded-lg font-semibold transition duration-300 hover:bg-mint">
+        Guardar
+      </button>
     </div>
-    
+  
     <!-- Lista de Doctores Existentes -->
     <div class="bg-lightGray p-4 rounded-lg shadow-md">
-        <h3 class="text-lg font-semibold mb-2">Doctores Existentes</h3>
-        <ul class="space-y-3">
-            <li *ngFor="let doctor of doctors" class="flex justify-between items-center bg-white px-4 py-2 rounded-md shadow-sm border border-gray-300">
-                <div>
-                    <p class="font-medium">{{ doctor.nombre }}</p>
-                    <p class="text-sm text-gray-500">Email: {{ doctor.email }}</p>
-                    <p class="text-sm text-gray-500">Especialidad: {{ doctor.especialidad }}</p>
-                </div>
-                <div class="space-x-2">
-                    <button (click)="editDoctor(doctor.id)" class="px-4 py-1 bg-primary text-white rounded-md transition duration-300 hover:bg-mint">
-                        Editar
-                    </button>
-                    <button (click)="deleteDoctor(doctor.id)" class="px-4 py-1 bg-red-500 text-white rounded-md transition duration-300 hover:bg-red-700">
-                        Eliminar
-                    </button>
-                </div>
-            </li>
-        </ul>
+      <h3 class="text-lg font-semibold mb-2">Doctores Existentes</h3>
+      <ul class="space-y-3">
+        <li *ngFor="let doctor of doctors" class="flex justify-between items-center bg-white px-4 py-2 rounded-md shadow-sm border border-gray-300">
+          <div>
+            <p class="font-medium">{{ doctor.nombre }}</p>
+            <p class="text-sm text-gray-500">Email: {{ doctor.email }}</p>
+            <p class="text-sm text-gray-500">Especialidad: {{ doctor.especialidad }}</p>
+          </div>
+          <div class="space-x-2">
+            <button (click)="editDoctor(doctor.id)" class="px-4 py-1 bg-primary text-white rounded-md transition duration-300 hover:bg-mint">
+              Editar
+            </button>
+            <button (click)="deleteDoctor(doctor.id)" class="px-4 py-1 bg-red-500 text-white rounded-md transition duration-300 hover:bg-red-700">
+              Eliminar
+            </button>
+          </div>
+        </li>
+      </ul>
     </div>
-</div>
+  </div>
+  

@@ -16,7 +16,7 @@ export class AuthService {
         private router: Router,
         private apiConfig: ApiConfigService
     ) {
-        this.LOGIN_URL = `${this.apiConfig.baseUrl}/auth/login`;
+        this.LOGIN_URL = `${this.apiConfig.railwayUrl}auth/login`;
     }
 
     login(username: string, password: string): Observable<any> {

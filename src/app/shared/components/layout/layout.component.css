@@ -1,5 +1,27 @@
-.main-content{
-    display: grid;
-    min-height: 100dvh;
-    grid-template-rows: auto 1fr auto;
+.layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+app-sidebar {
+    width: 250px; /* Ancho fijo para el sidebar */
+    flex-shrink: 0; /* Evita que el sidebar se reduzca */
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 250px); /* Ajusta el ancho del contenido al espacio restante */
+    min-height: 100vh;
+}
+
+.main-content {
+    flex-grow: 1;
+    overflow-y: auto; 
+}
+
+.footer {
+    position: relative;
+    width: 100%;
 }
