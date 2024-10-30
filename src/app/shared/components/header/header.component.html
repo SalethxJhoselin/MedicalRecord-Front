@@ -1,35 +1,35 @@
 <!-- Header Container -->
-<div class="header-container flex justify-between items-center gap-6 md:flex-row">
-    <!-- Sidebar solo visible en dispositivos móviles -->
-    <ng-container *ngIf="isMobile">
+<div class="header-container flex items-center justify-between p-4 md:flex-row">
+  <!-- Sidebar solo visible en dispositivos móviles -->
+  <ng-container *ngIf="isMobile">
       <app-sidebar [isOpen]="isSidebarOpen" (closeSidebar)="toggleSidebar()"></app-sidebar>
-    </ng-container>
+  </ng-container>
 
-    <!-- Botón del menú, visible solo en dispositivos móviles -->
-    <button class="block md:hidden text-gray-800 p-2" (click)="toggleSidebar()">
-        <span class="material-icons">menu</span>
-    </button>
+  <!-- Botón del menú, visible solo en dispositivos móviles -->
+  <button class="block md:hidden text-gray-800 p-2" (click)="toggleSidebar()">
+      <span class="material-icons">menu</span>
+  </button>
 
-    <!-- Título del encabezado -->
-    <div class="capitalize">
-      <h6 class="header-title">home</h6>
-    </div>
+  <!-- Título del encabezado, alineado a la izquierda en móvil -->
+  <div class="flex-1 ml-2">
+      <h6 class="header-title text-lg font-semibold">Home</h6>
+  </div>
 
-    <!-- Acciones del encabezado -->
-    <div class="header-actions flex items-center">
-      <div class="search-container mr-auto md:mr-4 md:w-56">
-        <div class="relative w-full min-w-[200px] h-10">
-          <input class="search-input" placeholder=" ">
-          <label class="search-label">Type here</label>
-        </div>
+
+
+  <!-- Acciones del encabezado, visibles solo en escritorio -->
+  <div class="header-actions hidden md:flex items-center space-x-4">
+      <div class="search-container md:w-56">
+          <div class="relative w-full h-10">
+              <input class="search-input" placeholder="Buscar...">
+              <label class="search-label">Buscar aquí</label>
+          </div>
       </div>
-      <a>
-        <button (click)="logout()" class="logout-button" type="button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="icon">
-            <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd"></path>
+      <button (click)="logout()" class="logout-button flex items-center space-x-1 text-gray-800">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="icon w-5 h-5">
+              <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd"></path>
           </svg>
-          Cerrar Sesión
-        </button>
-      </a>
-    </div>
+          <span>Cerrar Sesión</span>
+      </button>
+  </div>
 </div>
