@@ -67,5 +67,6 @@ export class SidebarComponent {
 
   setSelected(title: string) {
     this.selected = title;
+    this.closeSidebar.emit(); 
   }
 }

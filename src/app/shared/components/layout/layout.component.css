@@ -1,3 +1,10 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden; /* Evita scroll horizontal */
+}
+
 .layout {
     min-height: 100vh;
     display: flex;
@@ -5,7 +12,7 @@
 }
 
 app-sidebar {
-    width: 250px; /* Ancho fijo para el sidebar */
+    width: 250px; /* Ancho fijo para el sidebar en pantallas grandes */
     flex-shrink: 0; /* Evita que el sidebar se reduzca */
 }
 
@@ -18,10 +25,22 @@ app-sidebar {
 
 .main-content {
     flex-grow: 1;
-    overflow-y: auto; 
+    overflow-y: auto; /* Permite scroll en el contenido si es necesario */
 }
 
 .footer {
     position: relative;
     width: 100%;
+}
+
+/* Media Query para pantallas pequeñas */
+@media (max-width: 768px) {
+    app-sidebar {
+        width: 0; /* Oculta el sidebar en móviles */
+        flex-shrink: 0;
+    }
+    
+    .content-container {
+        width: 100%; /* Asegura que el contenido ocupe todo el ancho en móviles */
+    }
 }
