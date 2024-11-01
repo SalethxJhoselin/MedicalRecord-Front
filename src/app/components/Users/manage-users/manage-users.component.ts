@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 
 import {  RolesService } from '../../../core/services/Users/roles.service';
 import { FormsModule } from '@angular/forms';
-import { Role, User, UserService } from '../../../core/services/users.service';
+import { Role, User, UserService } from '../../../core/services/Users/users.service';
 
 @Component({
   selector: 'app-manage-users',

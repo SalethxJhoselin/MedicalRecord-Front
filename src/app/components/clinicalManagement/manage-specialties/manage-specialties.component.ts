@@ -1,7 +1,7 @@
 // src/app/components/manage-specialties/manage-specialties.component.ts
 import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { SpecialtieService, Specialty } from '../../../core/services/specialties.service';
+import { SpecialtieService, Specialty } from '../../../core/services/clinical-management/specialties.service';
 import { FormsModule } from '@angular/forms'; 
 
 @Component({

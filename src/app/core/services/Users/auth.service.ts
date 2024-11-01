@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
-import { ApiConfigService } from './api-config.service';
+import { ApiConfigService } from '../api-config.service';
 
 @Injectable({
     providedIn: 'root'

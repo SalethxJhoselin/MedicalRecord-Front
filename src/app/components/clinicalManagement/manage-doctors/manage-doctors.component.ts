@@ -1,8 +1,8 @@
 import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
-import { DoctorService, Doctor } from '../../../core/services/doctors.service';
-import { SpecialtieService, Specialty } from '../../../core/services/specialties.service';
-import { User, UserService } from '../../../core/services/users.service';
+import { DoctorService, Doctor } from '../../../core/services/clinical-management/doctors.service';
+import { SpecialtieService, Specialty } from '../../../core/services/clinical-management/specialties.service';
+import { User, UserService } from '../../../core/services/Users/users.service';
 import { FormsModule, NgModel } from '@angular/forms';
 
 @Component({
