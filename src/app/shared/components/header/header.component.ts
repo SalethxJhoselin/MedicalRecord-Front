@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostListener, Output } from '@angular/core';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../../core/services/Users/auth.service';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { NgIf } from '@angular/common';
 
