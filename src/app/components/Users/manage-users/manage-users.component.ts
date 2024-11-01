@@ -1,31 +1,38 @@
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { User, UserService } from '../../../core/services/users.service';
 
+import {  RolesService } from '../../../core/services/Users/roles.service';
+import { FormsModule } from '@angular/forms';
+import { Role, User, UserService } from '../../../core/services/users.service';
 
 @Component({
   selector: 'app-manage-users',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor,NgIf,FormsModule],
   templateUrl: './manage-users.component.html',
   styleUrl: './manage-users.component.css'
 })
-export class ManageUsersComponent{
-  users: User[] = [
-  ];
+export class ManageUsersComponent {
+  users: User[] = [];
+  roles: Role[] = [];
+  isModalOpen = false;
+  selectedUser: User | null = null;
+  selectedRol: Role | null = null;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private rolesService: RolesService
+  ) {}
 
   ngOnInit(): void {
     this.loadUsers();
-
+    this.loadRoles();
   }
 
   loadUsers(): void {
     this.userService.getUsers().subscribe({
       next: (data) => {
         this.users = data;
-        console.log(this.users)
       },
       error: (err) => {
         console.error('Error al cargar usuarios:', err);
@@ -33,11 +40,41 @@ export class ManageUsersComponent{
     });
   }
 
-  editUser(userId: number) {
-    console.log('Editar usuario con ID:', userId);
+  loadRoles(): void {
+    this.rolesService.getAllRoles().subscribe({
+      next: (data) => {
+        this.roles = data;
+      },
+      error: (err) => {
+        console.error('Error al cargar roles:', err);
+      }
+    });
   }
 
-  deleteUser(userId: number) {
-    console.log('Eliminar usuario con ID:', userId);
+  openModal(user: User, role: Role): void {
+    this.selectedUser = { ...user }; 
+    this.selectedRol = role; // Asigna directamente el objeto Role
+    this.isModalOpen = true;
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
+    this.selectedUser = null;
+  }
+
+  saveChanges(): void {
+    console.log(this.selectedRol?.id);
+    console.log(this.selectedRol?.name);
+    if (this.selectedUser && this.selectedRol) {
+      this.userService.setRolUser(this.selectedUser.id, this.selectedRol).subscribe({
+        next: () => {
+          this.loadUsers(); // Recargar la lista de usuarios después de la edición
+          this.closeModal();
+        },
+        error: (err) => {
+          console.error('Error al actualizar rol del usuario:', err);
+        }
+      });
+    }
   }
 }

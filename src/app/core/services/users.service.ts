@@ -5,34 +5,38 @@ import { Observable } from 'rxjs';
 import { ApiConfigService } from './api-config.service';
 
 export interface Role {
-    id: number;
-    name: string;
-  }
-  
-  export interface User {
-    id: number;
-    usuario: string;
-    nombre: string;
-    email: string;
-    direccion: string;
-    especialidad: string;
-    role: Role;
-  }
+  id?: number;
+  name: string;
+}
+
+export interface User {
+  id: number;
+  usuario: string;
+  nombre: string;
+  email: string;
+  direccion: string;
+  especialidad: string;
+  role: Role;
+}
 
 @Injectable({
-  providedIn: 'root'
+providedIn: 'root'
 })
 export class UserService {
-  private apiUrl: string;
+private apiUrl: string;
 
-  constructor(
-    private http: HttpClient,
-    private apiConfigService: ApiConfigService
-  ) {
-    this.apiUrl = `${this.apiConfigService.railwayUrl}user`;
-  }
+constructor(
+  private http: HttpClient,
+  private apiConfigService: ApiConfigService
+) {
+  this.apiUrl = `${this.apiConfigService.railwayUrl}user`;
+}
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl);
-  }
+getUsers(): Observable<User[]> {
+  return this.http.get<User[]>(this.apiUrl);
+}
+
+setRolUser(id: number, role:Role): Observable<void>{
+  return this.http.put<void>(`${this.apiUrl}/rol/${id}`,role);
+}
 }
