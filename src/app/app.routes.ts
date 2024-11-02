@@ -10,6 +10,9 @@ import { ManageUsersComponent } from './components/Users/manage-users/manage-use
 import { ManageSpecialtiesComponent } from './components/clinicalManagement/manage-specialties/manage-specialties.component';
 import { ManageDoctorsComponent } from './components/clinicalManagement/manage-doctors/manage-doctors.component';
 import { ManageBitacoraComponent } from './components/Users/manage-bitacora/manage-bitacora.component';
+import { TriajeRecordComponent } from './components/clinicalManagement/triaje-record/triaje-record.component';
+import { DoctorsHoursComponent } from './components/clinicalManagement/doctors-hours/doctors-hours.component';
+import { AttentionQuotasComponent } from './components/MedicalCare/attention-quotas/attention-quotas.component';
 
 export const routes: Routes = [
     {
@@ -54,6 +57,21 @@ export const routes: Routes = [
             {
                 path: 'bitacora',
                 component: ManageBitacoraComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'triaje',
+                component: TriajeRecordComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'horariosMedicos',
+                component: DoctorsHoursComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'fichaAtencion',
+                component: AttentionQuotasComponent,
                 canActivate: [AuthGuard]
             },
             {

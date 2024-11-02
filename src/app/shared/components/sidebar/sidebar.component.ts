@@ -27,7 +27,7 @@ export class SidebarComponent {
     },
     {
       title: 'Usuarios',
-      route: '/tables',
+      route: '/*',
       icon: 'home',
       submenus: [
         { title: 'Perfil de usuario', route: '/perfil' },
@@ -41,23 +41,23 @@ export class SidebarComponent {
     },
     {
       title: 'Gestion Clinica',
-      route: '/table',
+      route: '/*',
       icon: 'notifications',
       submenus: [
         { title: 'Gestionar especialidades medicas', route: '/especialidades' },
         { title: 'Gestionar medicos', route: '/medicos' },
-        { title: 'Tegistro de triaje', route: '/notifications/view' },
+        { title: 'Tegistro de triaje', route: '/triaje' },
         { title: 'Gestionar asegurados', route: '/notifications/view' },
-        { title: 'Gestionar horarios de atencion a medicos', route: '/notifications/settings' }
+        { title: 'Gestionar horarios de atencion a medicos', route: '/horariosMedicos' }
       ]
     },
     {
       title: 'Atenciones Medicas',
-      route: null,
-      icon: null,
+      route: '/*',
+      icon: 'notifications',
       submenus: [
         { title: 'Gestionar Servicio', route: '/iniciarSesion' },
-        { title: 'Gestionar obtencion de ficha de actencion', route: '/registrarse' },
+        { title: 'Gestionar obtencion de ficha de actencion', route: '/fichaAtencion' },
         { title: 'Gestionar de atencion de consulta', route: '/registrarse' },
         { title: 'Administrar historias clinicas', route: '/registrarse' },
         { title: 'Gestionar tratamiento', route: '/registrarse' }

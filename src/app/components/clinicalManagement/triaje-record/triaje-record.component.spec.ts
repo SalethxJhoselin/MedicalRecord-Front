@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ManageInsuredComponent } from './manage-insured.component';
+import { TriajeRecordComponent } from './triaje-record.component';
 
-describe('ManageInsuredComponent', () => {
-  let component: ManageInsuredComponent;
-  let fixture: ComponentFixture<ManageInsuredComponent>;
+describe('TriajeRecordComponent', () => {
+  let component: TriajeRecordComponent;
+  let fixture: ComponentFixture<TriajeRecordComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ManageInsuredComponent]
+      imports: [TriajeRecordComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ManageInsuredComponent);
+    fixture = TestBed.createComponent(TriajeRecordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
