@@ -11,7 +11,7 @@ import { ManageSpecialtiesComponent } from './components/clinicalManagement/mana
 import { ManageDoctorsComponent } from './components/clinicalManagement/manage-doctors/manage-doctors.component';
 import { TriajeRecordComponent } from './components/clinicalManagement/triaje-record/triaje-record.component';
 import { DoctorsHoursComponent } from './components/clinicalManagement/doctors-hours/doctors-hours.component';
-import { AttentionSheetsComponent } from './components/MedicalCare/attention-sheets/attention-sheets.component';
+import { AttentionQuotasComponent } from './components/MedicalCare/attention-quotas/attention-quotas.component';
 
 export const routes: Routes = [
     {
@@ -65,7 +65,7 @@ export const routes: Routes = [
             },
             {
                 path: 'fichaAtencion',
-                component: AttentionSheetsComponent,
+                component: AttentionQuotasComponent,
                 canActivate: [AuthGuard]
             },
             {

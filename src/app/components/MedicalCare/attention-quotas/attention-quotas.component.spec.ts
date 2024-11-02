@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AttentionSheetsComponent } from './attention-sheets.component';
+import { AttentionQuotasComponent } from './attention-quotas.component';
 
-describe('AttentionSheetsComponent', () => {
-  let component: AttentionSheetsComponent;
-  let fixture: ComponentFixture<AttentionSheetsComponent>;
+describe('AttentionQuotasComponent', () => {
+  let component: AttentionQuotasComponent;
+  let fixture: ComponentFixture<AttentionQuotasComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AttentionSheetsComponent]
+      imports: [AttentionQuotasComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AttentionSheetsComponent);
+    fixture = TestBed.createComponent(AttentionQuotasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
