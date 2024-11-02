@@ -15,8 +15,8 @@
     </button>
   </div>
 
-  <!-- Menú (sin cambios) -->
-  <div class="m-4">
+  <!-- Contenedor del menú con desplazamiento -->
+  <div class="m-4 h-[calc(100vh-100px)] overflow-y-auto">
     <ul class="mb-4 flex flex-col gap-1">
       <li *ngFor="let menuItem of menuItems">
         <a [routerLink]="menuItem.route" (click)="setSelected(menuItem.title)" *ngIf="menuItem.route">
