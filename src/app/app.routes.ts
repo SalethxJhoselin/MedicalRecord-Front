@@ -9,6 +9,9 @@ import { ManagePermissionsComponent } from './components/Users/manage-permission
 import { ManageUsersComponent } from './components/Users/manage-users/manage-users.component';
 import { ManageSpecialtiesComponent } from './components/clinicalManagement/manage-specialties/manage-specialties.component';
 import { ManageDoctorsComponent } from './components/clinicalManagement/manage-doctors/manage-doctors.component';
+import { TriajeRecordComponent } from './components/clinicalManagement/triaje-record/triaje-record.component';
+import { DoctorsHoursComponent } from './components/clinicalManagement/doctors-hours/doctors-hours.component';
+import { AttentionSheetsComponent } from './components/MedicalCare/attention-sheets/attention-sheets.component';
 
 export const routes: Routes = [
     {
@@ -48,6 +51,21 @@ export const routes: Routes = [
             {
                 path: 'medicos',
                 component: ManageDoctorsComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'triaje',
+                component: TriajeRecordComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'horariosMedicos',
+                component: DoctorsHoursComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'fichaAtencion',
+                component: AttentionSheetsComponent,
                 canActivate: [AuthGuard]
             },
             {
