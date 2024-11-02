@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { DoctorService, Doctor } from '../../../core/services/clinical-management/doctors.service';
 import { SpecialtieService, Specialty } from '../../../core/services/clinical-management/specialties.service';
@@ -8,7 +8,7 @@ import { FormsModule, NgModel } from '@angular/forms';
 @Component({
   selector: 'app-manage-doctors',
   standalone: true,
-  imports: [NgFor,FormsModule],
+  imports: [NgFor,FormsModule,NgIf],
   templateUrl: './manage-doctors.component.html',
   styleUrl: './manage-doctors.component.css'
 })
@@ -19,6 +19,7 @@ export class ManageDoctorsComponent {
   users: User[] = [];
   selectedUserId: number | null = null;
   selectedSpecialtyId: number | null = null;
+  onWait: boolean = false;
 
   constructor(
     private doctorService: DoctorService,
@@ -27,43 +28,20 @@ export class ManageDoctorsComponent {
   ) {}
 
   ngOnInit(): void {
-    this.loadDoctors();
-    this.loadSpecialties();
-    this.loadUsers();
+    this.loadDatos();
   }
-
-  loadDoctors(): void {
-    this.doctorService.getDoctors().subscribe({
-      next: (data) => {
-        this.doctors = data;
-      },
-      error: (err) => {
-        console.error('Error al cargar doctores:', err);
-      }
-    });
+  async loadDatos() {
+    this.onWait = true;
+    try {
+      this.users = await this.userService.getUsers();
+      this.doctors = await this.doctorService.getDoctors();
+      this.specialties = await this.specialtyService.getSpecialties();
+    } catch (error) {
+      console.error('Error al cargar permisos o roles:', error);
+    }
+    this.onWait = false;
   }
-
-  loadSpecialties(): void {
-    this.specialtyService.getSpecialties().subscribe({
-      next: (data) => {
-        this.specialties = data;
-      },
-      error: (err) => {
-        console.error('Error al cargar especialidades:', err);
-      }
-    });
-  }
-
-  loadUsers(): void {
-    this.userService.getUsers().subscribe({
-      next: (data) => {
-        this.users = data;
-      },
-      error: (err) => {
-        console.error('Error al cargar usuarios:', err);
-      }
-    });
-  }
+  
 
   createDoctor(): void {
     if (this.selectedUserId && this.selectedSpecialtyId) {
@@ -74,7 +52,7 @@ export class ManageDoctorsComponent {
       this.doctorService.createDoctor(doctorData).subscribe({
         next: () => {
           console.log('Doctor creado exitosamente');
-          this.loadDoctors();
+          this.loadDatos();
         },
         error: (err) => {
           console.error('Error al crear el doctor:', err);

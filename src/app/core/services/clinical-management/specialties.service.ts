@@ -1,7 +1,7 @@
 // src/app/services/specialtie.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { ApiConfigService } from '../api-config.service';
 
 export interface Specialty {
@@ -24,8 +24,8 @@ export class SpecialtieService {
   }
 
   // Obtener lista de especialidades
-  getSpecialties(): Observable<Specialty[]> {
-    return this.http.get<Specialty[]>(this.apiUrl);
+  getSpecialties(): Promise<Specialty[]> {
+    return lastValueFrom(this.http.get<Specialty[]>(this.apiUrl));
   }
 
   // Guardar una nueva especialidad

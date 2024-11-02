@@ -1,7 +1,7 @@
 // src/app/services/doctors.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { ApiConfigService } from '../api-config.service';
 
 export interface Doctor {
@@ -26,8 +26,8 @@ export class DoctorService {
     this.apiUrl = `${this.apiConfigService.railwayUrl}doctors`;
   }
 
-  getDoctors(): Observable<Doctor[]> {
-    return this.http.get<Doctor[]>(this.apiUrl);
+  getDoctors(): Promise<Doctor[]> {
+    return lastValueFrom(this.http.get<Doctor[]>(this.apiUrl));
   }
 
   createDoctor(doctorData: { personaId: number; especialidadId: number }): Observable<any> {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { ApiConfigService } from '../api-config.service';
 
 export interface Role {
@@ -22,8 +22,8 @@ export class RolesService {
   }
 
   // Obtener lista de especialidades
-  getAllRoles(): Observable<Role[]> {
-    return this.http.get<Role[]>(`${this.apiUrl}/get-all`);
+  async getAllRoles(): Promise<Role[]> {
+    return await lastValueFrom(this.http.get<Role[]>(`${this.apiUrl}/get-all`));
   }
 
   // Guardar una nuevo rol

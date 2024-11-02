@@ -1,6 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-
 import {  RolesService } from '../../../core/services/Users/roles.service';
 import { FormsModule } from '@angular/forms';
 import { Role, User, UserService } from '../../../core/services/Users/users.service';
@@ -18,6 +17,7 @@ export class ManageUsersComponent {
   isModalOpen = false;
   selectedUser: User | null = null;
   selectedRol: Role | null = null;
+  onWait: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -25,35 +25,22 @@ export class ManageUsersComponent {
   ) {}
 
   ngOnInit(): void {
-    this.loadUsers();
-    this.loadRoles();
+    this.loadDatos();
   }
-
-  loadUsers(): void {
-    this.userService.getUsers().subscribe({
-      next: (data) => {
-        this.users = data;
-      },
-      error: (err) => {
-        console.error('Error al cargar usuarios:', err);
-      }
-    });
-  }
-
-  loadRoles(): void {
-    this.rolesService.getAllRoles().subscribe({
-      next: (data) => {
-        this.roles = data;
-      },
-      error: (err) => {
-        console.error('Error al cargar roles:', err);
-      }
-    });
+  async loadDatos() {
+    this.onWait = true;
+    try {
+      this.users = await this.userService.getUsers();
+      this.roles = await this.rolesService.getAllRoles();
+    } catch (error) {
+      console.error('Error al cargar los datos:', error);
+    }
+    this.onWait = false;
   }
 
   openModal(user: User, role: Role): void {
     this.selectedUser = { ...user }; 
-    this.selectedRol = role; // Asigna directamente el objeto Role
+    this.selectedRol = role; 
     this.isModalOpen = true;
   }
 
@@ -68,7 +55,7 @@ export class ManageUsersComponent {
     if (this.selectedUser && this.selectedRol) {
       this.userService.setRolUser(this.selectedUser.id, this.selectedRol).subscribe({
         next: () => {
-          this.loadUsers(); // Recargar la lista de usuarios después de la edición
+          this.loadDatos();
           this.closeModal();
         },
         error: (err) => {

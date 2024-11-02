@@ -9,6 +9,7 @@ import { ManagePermissionsComponent } from './components/Users/manage-permission
 import { ManageUsersComponent } from './components/Users/manage-users/manage-users.component';
 import { ManageSpecialtiesComponent } from './components/clinicalManagement/manage-specialties/manage-specialties.component';
 import { ManageDoctorsComponent } from './components/clinicalManagement/manage-doctors/manage-doctors.component';
+import { ManageBitacoraComponent } from './components/Users/manage-bitacora/manage-bitacora.component';
 
 export const routes: Routes = [
     {
@@ -48,6 +49,11 @@ export const routes: Routes = [
             {
                 path: 'medicos',
                 component: ManageDoctorsComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'bitacora',
+                component: ManageBitacoraComponent,
                 canActivate: [AuthGuard]
             },
             {
