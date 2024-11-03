@@ -1,0 +1,19 @@
+<div>
+    <input placeholder="Buscar especialista" [(ngModel)]="search" (ngModelChange)="handleSearch()"
+        class="mb-3 mt-4 w-full p-2 border rounded" />
+    <table class="w-full border">
+        <thead>
+            <tr>
+                <th class="p-2 border">Nombre Completo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let doctor of filteredDoctors" [ngClass]="{ 'bg-green-200': doctor.id === selectedDoctorId }"
+                (click)="handleRowClick(doctor)">
+                <td class="p-2 border">
+                    {{ doctor.nombre }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
