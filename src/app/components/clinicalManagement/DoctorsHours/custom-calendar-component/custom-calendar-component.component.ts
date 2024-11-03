@@ -1,12 +1,17 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-//import {MatButtonModule} from '@angular/material/button';
+import { ChangeDetectionStrategy, Component, model, Input, Output, EventEmitter } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-custom-calendar-component',
   standalone: true,
-  imports: [],
+  providers: [provideNativeDateAdapter()],
+  imports: [MatCardModule, MatDatepickerModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './custom-calendar-component.component.html',
-  styleUrl: './custom-calendar-component.component.css'
+  styleUrl: './custom-calendar-component.component.css',
+
 })
 export class CustomCalendarComponentComponent {
   @Input() value!: Date;
