@@ -24,15 +24,13 @@ export class SpecialistsTableSearchComponentComponent implements OnInit {
     this.fetchDoctors();
   }
 
-  fetchDoctors(): void {
-    this.doctorService.getDoctors().subscribe({
-      next: (doctors) => {
-        this.doctors = doctors;
-        this.filteredDoctors = doctors;
-      },
-      error: (error) => console.error('Error al obtener los Especialistas - Medicos - Doctores:', error),
-    });
-    console.log("lista de doctores", this.doctors)
+  async fetchDoctors() {
+    try {
+      this.doctors = await this.doctorService.getDoctors();
+      this.filteredDoctors = await this.doctorService.getDoctors();
+    } catch (error) {
+      console.error('Error al obtener los Especialistas - Medicos - Doctores:', error);
+    }
   }
 
   handleSearch(): void {
