@@ -11,8 +11,9 @@ import { ManageSpecialtiesComponent } from './components/clinicalManagement/mana
 import { ManageDoctorsComponent } from './components/clinicalManagement/manage-doctors/manage-doctors.component';
 import { ManageBitacoraComponent } from './components/Users/manage-bitacora/manage-bitacora.component';
 import { TriajeRecordComponent } from './components/clinicalManagement/triaje-record/triaje-record.component';
-import { DoctorsHoursComponent } from './components/clinicalManagement/doctors-hours/doctors-hours.component';
 import { AttentionQuotasComponent } from './components/MedicalCare/attention-quotas/attention-quotas.component';
+import { ProgrammingCalendarComponentComponent } from './components/clinicalManagement/DoctorsHours/programming-calendar-component/programming-calendar-component.component';
+
 
 export const routes: Routes = [
     {
@@ -66,7 +67,7 @@ export const routes: Routes = [
             },
             {
                 path: 'horariosMedicos',
-                component: DoctorsHoursComponent,
+                component: ProgrammingCalendarComponentComponent,
                 canActivate: [AuthGuard]
             },
             {
