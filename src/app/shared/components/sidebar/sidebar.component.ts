@@ -36,7 +36,7 @@ export class SidebarComponent {
         { title: 'Asignar Permisos', route: '/permisos' },
         { title: 'Administracion de Usuarios', route: '/usuarios' },
         { title: 'Estionar Reportes', route: '/users' },
-        { title: 'Administrar bitacora', route: '/users' },
+        { title: 'Administrar bitacora', route: '/bitacora' },
       ]
     },
     {

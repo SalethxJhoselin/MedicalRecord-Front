@@ -16,6 +16,7 @@ export class ManageSpecialtiesComponent {
   newSpecialty: Specialty = { nombre: '', descripcion: '' }; 
   showSuccessMessage = false;
   showErrorMessage = false;
+  onWait: boolean = false;
 
   constructor(private specialtieService: SpecialtieService) {}
 
@@ -24,15 +25,14 @@ export class ManageSpecialtiesComponent {
   }
 
   // Cargar especialidades desde el backend
-  loadSpecialties(): void {
-    this.specialtieService.getSpecialties().subscribe({
-      next: (data) => {
-        this.specialties = data;
-      },
-      error: (err) => {
-        console.error('Error al cargar especialidades:', err);
-      }
-    });
+  async loadSpecialties(): Promise<void> {
+    this.onWait = true;
+    try {
+      this.specialties = await this.specialtieService.getSpecialties();
+    } catch (error) {
+      console.error('Error al cargar permisos o roles:', error);
+    }
+    this.onWait = false;
   }
 
   // Guardar nueva especialidad

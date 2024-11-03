@@ -87,3 +87,10 @@
         </div>
     </div>
 </div>
+<!-- Overlay de carga -->
+<div *ngIf="onWait" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+    <div class="text-center text-white">
+        <div class="loader mb-4"></div>
+        <p>Cargando datos...</p>
+    </div>
+</div>

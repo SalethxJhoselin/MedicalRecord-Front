@@ -24,15 +24,12 @@ export class ManageRolesComponent implements OnInit {
     this.loadRoles();
   }
 
-  loadRoles(): void {
-    this.rolesService.getAllRoles().subscribe({
-      next: (data) => {
-        this.roles = data;
-      },
-      error: (err) => {
-        console.error('Error al cargar roles:', err);
-      }
-    });
+  async loadRoles(): Promise<void> {
+    try {
+      this.roles = await this.rolesService.getAllRoles();
+    } catch (error) {
+      console.error('Error al cargar permisos o roles:', error);
+    }
   }
 
   saveRole(): void {
