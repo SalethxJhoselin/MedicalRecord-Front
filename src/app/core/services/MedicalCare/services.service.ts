@@ -13,6 +13,15 @@ export interface Service {
     especialidad?: Specialty
 }
 
+export interface ServiceCreate {
+    id?: number,
+    nombre?: String,
+    descripcion?: String,
+    precio?: number,
+    imagen?: String,
+    especialidad?: number
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -27,7 +36,15 @@ export class Services {
         this.apiUrl = `${this.apiConfigService.railwayUrl}services`;
     }
 
-    async getDates(): Promise<Service[]>{
+    async getDates(): Promise<Service[]> {
         return await lastValueFrom(this.http.get<Service[]>(this.apiUrl))
-      }
+    }
+
+    async createService(service: ServiceCreate): Promise<ServiceCreate>{
+        return await lastValueFrom(this.http.post<ServiceCreate>(this.apiUrl,service))
+    }
+
+    async deleteService(serviceId: number): Promise<void>{
+        return await lastValueFrom(this.http.delete<void>(`${this.apiUrl}/${serviceId}`))
+    }
 }
