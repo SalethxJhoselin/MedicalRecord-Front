@@ -29,7 +29,6 @@ export class ManageBitacoraComponent {
 
   async loadDates() {
     this.onWait = true;
-    console.log(this.onWait)
     try {
       this.bitacoras = await this.bitacoraService.getDates();
       this.applyFilter();
@@ -37,8 +36,6 @@ export class ManageBitacoraComponent {
       console.error('Error al cargar los datos', error);
     }
     this.onWait = false;
-    console.log(this.onWait)
-
   }
 
   applyFilter() {

@@ -13,6 +13,7 @@ import { ManageBitacoraComponent } from './components/Users/manage-bitacora/mana
 import { TriajeRecordComponent } from './components/clinicalManagement/triaje-record/triaje-record.component';
 import { AttentionQuotasComponent } from './components/MedicalCare/attention-quotas/attention-quotas.component';
 import { ProgrammingCalendarComponentComponent } from './components/clinicalManagement/DoctorsHours/programming-calendar-component/programming-calendar-component.component';
+import { ManageServicesComponent } from './components/MedicalCare/manage-services/manage-services.component';
 
 
 export const routes: Routes = [
@@ -76,10 +77,16 @@ export const routes: Routes = [
                 canActivate: [AuthGuard]
             },
             {
+                path: 'servicios',
+                component: ManageServicesComponent,
+                canActivate: [AuthGuard]
+            },
+            {
                 path: '',
                 redirectTo: 'dashboard',
                 pathMatch: 'full'
             }
+            
         ]
     },
     {

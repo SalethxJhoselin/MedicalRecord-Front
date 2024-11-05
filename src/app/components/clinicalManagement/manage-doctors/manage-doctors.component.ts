@@ -1,14 +1,18 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DoctorService, Doctor } from '../../../core/services/clinical-management/doctors.service';
 import { SpecialtieService, Specialty } from '../../../core/services/clinical-management/specialties.service';
 import { User, UserService } from '../../../core/services/Users/users.service';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatOption } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+
 
 @Component({
   selector: 'app-manage-doctors',
   standalone: true,
-  imports: [NgFor,FormsModule,NgIf],
+  imports: [NgFor,FormsModule,NgIf,MatFormField,MatLabel,MatOption,MatSelectModule ],
   templateUrl: './manage-doctors.component.html',
   styleUrl: './manage-doctors.component.css'
 })
