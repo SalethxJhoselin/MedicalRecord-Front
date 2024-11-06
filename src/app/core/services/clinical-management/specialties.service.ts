@@ -20,7 +20,7 @@ export class SpecialtieService {
     private http: HttpClient,
     private apiConfigService: ApiConfigService
   ) {
-    this.apiUrl = `${this.apiConfigService.railwayUrl}specialties`;
+    this.apiUrl = `${this.apiConfigService.url}specialties`;
   }
 
   // Obtener lista de especialidades

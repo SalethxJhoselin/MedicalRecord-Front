@@ -23,7 +23,7 @@ export class AssignPermissionsService {
     private http: HttpClient,
     private apiConfigService: ApiConfigService
   ) {
-    this.apiUrl = `${this.apiConfigService.railwayUrl}`;
+    this.apiUrl = `${this.apiConfigService.url}`;
   }
 
   // Obtener lista de permisos

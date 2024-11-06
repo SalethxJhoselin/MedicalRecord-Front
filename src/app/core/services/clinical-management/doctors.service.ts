@@ -23,7 +23,7 @@ export class DoctorService {
     private http: HttpClient,
     private apiConfigService: ApiConfigService
   ) {
-    this.apiUrl = `${this.apiConfigService.railwayUrl}doctors`;
+    this.apiUrl = `${this.apiConfigService.url}doctors`;
   }
 
   getDoctors(): Promise<Doctor[]> {

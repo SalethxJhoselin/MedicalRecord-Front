@@ -23,7 +23,7 @@ export class RegisterService {
     private http: HttpClient,
     private apiConfigService: ApiConfigService
   ) {
-    this.apiUrl = `${this.apiConfigService.railwayUrl}auth/register`;
+    this.apiUrl = `${this.apiConfigService.url}auth/register`;
   }
 
   registerUser(user:User):Observable<User>{

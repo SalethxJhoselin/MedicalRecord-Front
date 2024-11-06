@@ -33,7 +33,7 @@ export class Services {
         private http: HttpClient,
         private apiConfigService: ApiConfigService
     ) {
-        this.apiUrl = `${this.apiConfigService.railwayUrl}services`;
+        this.apiUrl = `${this.apiConfigService.url}services`;
     }
 
     async getDates(): Promise<Service[]> {

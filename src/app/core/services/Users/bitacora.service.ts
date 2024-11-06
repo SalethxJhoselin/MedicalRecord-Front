@@ -26,7 +26,7 @@ export class BitacoraService{
     private http: HttpClient,
     private apiConfigService: ApiConfigService
   ) {
-    this.apiUrl = `${this.apiConfigService.railwayUrl}bitacora`;
+    this.apiUrl = `${this.apiConfigService.url}bitacora`;
   }
 
   async getDates(): Promise<Bitacora[]>{

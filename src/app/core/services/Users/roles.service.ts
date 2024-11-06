@@ -18,7 +18,7 @@ export class RolesService {
     private http: HttpClient,
     private apiConfigService: ApiConfigService
   ) {
-    this.apiUrl = `${this.apiConfigService.railwayUrl}rol`;
+    this.apiUrl = `${this.apiConfigService.url}rol`;
   }
 
   // Obtener lista de especialidades

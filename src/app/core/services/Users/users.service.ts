@@ -30,7 +30,7 @@ export class UserService {
     private http: HttpClient,
     private apiConfigService: ApiConfigService
   ) {
-    this.apiUrl = `${this.apiConfigService.railwayUrl}user`;
+    this.apiUrl = `${this.apiConfigService.url}user`;
   }
 
   async getUsers(): Promise<User[]> {
