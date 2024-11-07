@@ -47,7 +47,7 @@ export class SidebarComponent {
         { title: 'Gestionar especialidades medicas', route: '/especialidades' },
         { title: 'Gestionar medicos', route: '/medicos' },
         { title: 'Tegistro de triaje', route: '/triaje' },
-        { title: 'Gestionar asegurados', route: '/notifications/view' },
+        { title: 'Gestionar asegurados', route: '/asegurados' },
         { title: 'Gestionar horarios de atencion a medicos', route: '/horariosMedicos' }
       ]
     },

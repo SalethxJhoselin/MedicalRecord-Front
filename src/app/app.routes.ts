@@ -14,6 +14,8 @@ import { TriajeRecordComponent } from './components/clinicalManagement/triaje-re
 import { AttentionQuotasComponent } from './components/MedicalCare/attention-quotas/attention-quotas.component';
 import { ProgrammingCalendarComponentComponent } from './components/clinicalManagement/DoctorsHours/programming-calendar-component/programming-calendar-component.component';
 import { ManageServicesComponent } from './components/MedicalCare/manage-services/manage-services.component';
+import { ManageInsuredsComponent } from './components/MedicalCare/manage-insureds/manage-insureds.component';
+import { InsuredDetailsComponent } from './components/MedicalCare/manage-insureds/insured-details/insured-details.component';
 
 
 export const routes: Routes = [
@@ -81,12 +83,22 @@ export const routes: Routes = [
                 component: ManageServicesComponent,
                 canActivate: [AuthGuard]
             },
+
+            {
+                path: 'asegurados',
+                component: ManageInsuredsComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'asegurados/:id',
+                component: InsuredDetailsComponent,
+            },
             {
                 path: '',
                 redirectTo: 'dashboard',
                 pathMatch: 'full'
             }
-            
+
         ]
     },
     {
