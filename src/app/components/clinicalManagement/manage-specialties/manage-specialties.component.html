@@ -1,5 +1,5 @@
-<div class="p-4 md:p-6 bg-white rounded-lg shadow-md w-full max-w-3xl mx-auto">
-  <h2 class="text-xl md:text-2xl font-semibold mb-4 text-center">Gestionar Especialidades</h2>
+<div class="p-6 bg-white rounded-lg shadow-md w-full max-w-screen-xl mx-auto">
+  <h2 class="text-2xl font-semibold mb-4 text-center">Gestionar Especialidades</h2>
 
   <!-- Inputs y botón para agregar especialidad -->
   <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
@@ -12,60 +12,70 @@
   </div>
 
 
-  <!-- Lista de Especialidades Existentes -->
-  <div class="bg-lightGray p-4 rounded-lg shadow-md">
-    <h3 class="text-lg font-semibold mb-2 text-center md:text-left">Especialidades Existentes</h3>
-    <ul class="space-y-3">
-      <li *ngFor="let specialty of filteredSpecialties"
-        class="flex flex-col md:flex-row md:justify-between items-center bg-white px-4 py-2 rounded-md shadow-sm border border-gray-300">
-        <div class="flex-1 text-center md:text-left">
-          <p class="font-medium">{{ specialty.nombre }}</p>
-          <p class="text-sm text-gray-500">{{ specialty.descripcion }}</p>
-        </div>
-        <div class="flex space-x-2 mt-2 md:mt-0">
-          <button (click)="openEditModal(specialty)"
-            class="px-4 py-1 bg-primary text-white rounded-md transition duration-300 hover:bg-mint">
-            Editar
-          </button>
-          <button (click)="confirmDelete(specialty)"
-            class="px-4 py-1 bg-red-500 text-white rounded-md transition duration-300 hover:bg-red-700">
-            Eliminar
-          </button>
-        </div>
-      </li>
-    </ul>
+  <!-- Vista de tabla en pantallas grandes -->
+  <div class="hidden md:block bg-white p-6 rounded-lg shadow-md">
+    <h3 class="text-lg font-semibold mb-2 text-center md:text-left">Usuarios Existentes</h3>
+    <table class="w-full border-collapse text-left rounded-lg overflow-hidden">
+      <thead>
+        <tr class="bg-gray-100 ">
+          <th class="p-3 text-gray-600 font-semibold ">Nombre</th>
+          <th class="p-3 text-gray-600 font-semibold w-1/2">Descripción</th>
+          <th class="p-3 text-gray-600 font-semibold text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let specialty of filteredSpecialties" class="hover:bg-gray-50 border-b border-gray-100">
+          <td class="p-3">{{ specialty.nombre }}</td>
+          <td class="p-3 ">
+            {{ specialty.descripcion }}
+          </td>
+          <td class="p-3 text-center">
+            <div class="inline-flex space-x-2">
+              <button (click)="openEditModal(specialty)"
+                class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-400 transition duration-200">
+                <i class="lni lni-pencil-alt"></i> Editar
+              </button>
+              <button (click)="confirmDelete(specialty)"
+                class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-400 transition duration-200">
+                <i class="lni lni-trash"></i> Eliminar
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
 
   <!-- Modal para crear una nueva especialidad -->
   <div *ngIf="showCreateModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg p-6 w-full max-w-md mx-auto" aria-labelledby="modal-title" role="dialog"
+    <div class="bg-white rounded-lg p-8 w-full max-w-lg mx-auto" aria-labelledby="modal-title" role="dialog"
       aria-modal="true">
-      <h3 id="modal-title" class="text-xl font-semibold mb-4">Nueva especialidad</h3>
-      <form (submit)="saveSpecialty(); closeCreateModal();">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-4">Editar especialidad</h3>
+      <form (submit)="openCreateModal(); closeCreateModal();">
         <!-- Campos del formulario -->
         <!-- Estructura optimizada para mantener consistencia en etiquetas y campos -->
         <div class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700">Nombre</label>
+            <label class="block text-sm font-semibold text-gray-700">Nombre</label>
             <input type="text" [(ngModel)]="newSpecialty.nombre" name="nombre"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none" />
+              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700">Descripción</label>
+            <label class="block text-sm font-semibold text-gray-700">Descripción</label>
             <textarea [(ngModel)]="newSpecialty.descripcion" name="descripcion"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"></textarea>
+              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
           </div>
         </div>
 
         <!-- Botones de acción en el modal -->
         <div class="flex justify-end space-x-2 mt-6">
           <button type="button" (click)="closeCreateModal()"
-            class="px-4 py-2 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none">
+            class="px-5 py-2 bg-gray-300 text-gray-800 rounded-md shadow-sm hover:bg-gray-400 transition duration-200">
             Cancelar
           </button>
           <button type="submit"
-            class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none">
+            class="px-5 py-2 bg-primary text-white rounded-md shadow-sm hover:bg-primary-dark transition duration-200">
             Guardar
           </button>
         </div>
@@ -75,33 +85,33 @@
 
   <!-- Modal para editar una nueva especialidad -->
   <div *ngIf="showEditModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg p-6 w-full max-w-md mx-auto" aria-labelledby="modal-title" role="dialog"
+    <div class="bg-white rounded-lg p-8 w-full max-w-lg mx-auto" aria-labelledby="modal-title" role="dialog"
       aria-modal="true">
-      <h3 id="modal-title" class="text-xl font-semibold mb-4">Nueva especialidad</h3>
+      <h3 class="text-2xl font-semibold text-gray-800 mb-4">Editar especialidad</h3>
       <form (submit)="editSpecialty(); closeEditModal();">
         <!-- Campos del formulario -->
         <!-- Estructura optimizada para mantener consistencia en etiquetas y campos -->
         <div class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700">Nombre</label>
+            <label class="block text-sm font-semibold text-gray-700">Nombre</label>
             <input type="text" [(ngModel)]="selectEditSpecialty.nombre" name="nombre"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none" />
+              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700">Descripción</label>
+            <label class="block text-sm font-semibold text-gray-700">Descripción</label>
             <textarea [(ngModel)]="selectEditSpecialty.descripcion" name="descripcion"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"></textarea>
+              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
           </div>
         </div>
 
         <!-- Botones de acción en el modal -->
         <div class="flex justify-end space-x-2 mt-6">
           <button type="button" (click)="closeEditModal()"
-            class="px-4 py-2 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none">
+            class="px-5 py-2 bg-gray-300 text-gray-800 rounded-md shadow-sm hover:bg-gray-400 transition duration-200">
             Cancelar
           </button>
           <button type="submit"
-            class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none">
+            class="px-5 py-2 bg-primary text-white rounded-md shadow-sm hover:bg-primary-dark transition duration-200">
             Guardar
           </button>
         </div>
