@@ -2,33 +2,39 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { SpecialtieService, Specialty } from '../../../core/services/clinical-management/specialties.service';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-manage-specialties',
   standalone: true,
-  imports: [NgFor, FormsModule, NgIf], 
+  imports: [NgFor, FormsModule, NgIf],
   templateUrl: './manage-specialties.component.html',
   styleUrls: ['./manage-specialties.component.css']
 })
 export class ManageSpecialtiesComponent {
   specialties: Specialty[] = [];
-  newSpecialty: Specialty = { nombre: '', descripcion: '' }; 
-  showSuccessMessage = false;
-  showErrorMessage = false;
+  filteredSpecialties: Specialty[] = [];
+  specialtyFilter: string = '';
+  newSpecialty: Specialty = { nombre: '', descripcion: '' };
   onWait: boolean = false;
 
-  constructor(private specialtieService: SpecialtieService) {}
+  selectSpecialtyId: number | undefined = undefined;
+  selectEditSpecialty: Specialty = { nombre: '', descripcion: '' };
+  showCreateModal: boolean = false;
+  showEditModal: boolean = false;
+  showDeleteModal: boolean = false;
+
+  constructor(private specialtieService: SpecialtieService) { }
 
   ngOnInit(): void {
     this.loadSpecialties();
   }
 
-  // Cargar especialidades desde el backend
   async loadSpecialties(): Promise<void> {
     this.onWait = true;
     try {
       this.specialties = await this.specialtieService.getSpecialties();
+      this.applyFilter()
     } catch (error) {
       console.error('Error al cargar permisos o roles:', error);
     }
@@ -36,54 +42,82 @@ export class ManageSpecialtiesComponent {
   }
 
   // Guardar nueva especialidad
-  saveSpecialty(): void {
+  async saveSpecialty(){
     if (this.newSpecialty.nombre && this.newSpecialty.descripcion) {
-      this.specialtieService.saveSpecialty(this.newSpecialty).subscribe({
-        next: (savedSpecialty) => {
-          this.specialties.push(savedSpecialty);
-          this.newSpecialty = { nombre: '', descripcion: '' };
-          
-          this.showSuccessMessage = true;
-          setTimeout(() => {
-            this.showSuccessMessage = false;
-          }, 3000);//3seg
-        },
-        error: (err) => {
-          console.error('Error al guardar especialidad:', err);
-        }
-      });
+      try {
+        await this.specialtieService.saveSpecialty(this.newSpecialty)
+        this.loadSpecialties()
+        this.newSpecialty = { nombre: '', descripcion: '' };
+      } catch (error) {
+        console.error("Error al crear la especialidad", error)
+      }
     } else {
       console.warn('Por favor, complete todos los campos.');
     }
   }
 
   // Editar especialidad
-  editSpecialty(specialtyId: number | undefined) {
-    if (specialtyId !== undefined) {
-      console.log('Editar especialidad con ID:', specialtyId);
+  async editSpecialty() {
+    if (this.selectEditSpecialty !== undefined) {
+      try {
+        await this.specialtieService.editSpecialty(this.selectEditSpecialty)
+        this.selectEditSpecialty = { id: undefined ,nombre: '', descripcion: '' };
+        this.loadSpecialties()
+      } catch (error) {
+        console.error("Error al editar la especialidad", error)
+      }
     } else {
       console.warn('ID de especialidad no definido');
     }
   }
 
   // Eliminar especialidad
-  deleteSpecialty(specialtyId: number | undefined) {
+  async deleteSpecialty(specialtyId: number | undefined) {
     if (specialtyId !== undefined) {
-      this.specialtieService.deleteSpecialty(specialtyId).subscribe({
-        next: () => {
-          this.specialties = this.specialties.filter(specialty => specialty.id !== specialtyId);
-          console.log('Especialidad eliminada con ID:', specialtyId);
-        },
-        error: (err) => {
-          console.error('Error al eliminar especialidad:', err);
-          this.showErrorMessage = true;
-          setTimeout(() => {
-            this.showErrorMessage = false;
-          }, 3000); //3 segundos
-        }
-      });
+      try {
+        await this.specialtieService.deleteSpecialty(specialtyId)
+        this.loadSpecialties()
+        this.showDeleteModal = false
+        this.selectSpecialtyId = undefined
+      } catch (error) {
+        console.error("Error al eliminar la especialidad", error)
+      }
     } else {
       console.warn('ID de especialidad no definido');
     }
+  }
+
+  applyFilter() {
+    this.filteredSpecialties = this.specialties.filter(specialty => {
+      return specialty.nombre.toLowerCase().includes(this.specialtyFilter.toLowerCase())
+    });
+  }
+
+  // Modales
+  confirmDelete(specialty: any) {
+    this.selectSpecialtyId = specialty.id
+    this.showDeleteModal = true;
+  }
+
+  cancelDelete() {
+    this.selectSpecialtyId = undefined
+    this.showDeleteModal = false;
+  }
+
+  openCreateModal() {
+    this.showCreateModal = true;
+  }
+
+  closeCreateModal() {
+    this.showCreateModal = false;
+  }
+
+  openEditModal(specialty: Specialty) {
+    this.selectEditSpecialty = specialty
+    this.showEditModal = true;
+  }
+
+  closeEditModal() {
+    this.showEditModal = false;
   }
 }

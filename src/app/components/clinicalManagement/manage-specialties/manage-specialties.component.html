@@ -3,63 +3,135 @@
 
   <!-- Inputs y botón para agregar especialidad -->
   <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
-    <input
-      [(ngModel)]="newSpecialty.nombre"
-      class="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none"
-      type="text"
-      placeholder="Nombre de la Especialidad"
-    />
-    <input
-      [(ngModel)]="newSpecialty.descripcion"
-      class="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none"
-      type="text"
-      placeholder="Descripción de la Especialidad"
-    />
-    <button
-      (click)="saveSpecialty()"
-      class="w-full md:w-auto px-6 py-2 bg-primary text-white rounded-lg font-semibold transition duration-300 hover:bg-mint"
-    >
-      Guardar
+    <input class="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none"
+      type="text" placeholder="Nombre de la Especialidad" [(ngModel)]="specialtyFilter" (input)="applyFilter()" />
+
+    <button (click)="openCreateModal()" class="px-4 py-1 bg-primary text-white rounded-md hover:bg-mint">
+      <i class="lni lni-plus mr-2"></i> Agregar Especialidad
     </button>
   </div>
 
-  <!-- Modal para mostrar mensaje de éxito -->
-  <div *ngIf="showSuccessMessage" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg shadow-md p-6 w-full max-w-md mx-auto">
-      <h3 class="text-lg font-semibold text-center">¡Éxito!</h3>
-      <p class="text-center">Especialidad guardada exitosamente.</p>
-      <button (click)="showSuccessMessage = false" class="mt-4 px-4 py-2 bg-primary text-white rounded-lg w-full">
-        Cerrar
-      </button>
-    </div>
-  </div>
 
   <!-- Lista de Especialidades Existentes -->
   <div class="bg-lightGray p-4 rounded-lg shadow-md">
     <h3 class="text-lg font-semibold mb-2 text-center md:text-left">Especialidades Existentes</h3>
     <ul class="space-y-3">
-      <li *ngFor="let specialty of specialties" class="flex flex-col md:flex-row md:justify-between items-center bg-white px-4 py-2 rounded-md shadow-sm border border-gray-300">
+      <li *ngFor="let specialty of filteredSpecialties"
+        class="flex flex-col md:flex-row md:justify-between items-center bg-white px-4 py-2 rounded-md shadow-sm border border-gray-300">
         <div class="flex-1 text-center md:text-left">
           <p class="font-medium">{{ specialty.nombre }}</p>
           <p class="text-sm text-gray-500">{{ specialty.descripcion }}</p>
         </div>
         <div class="flex space-x-2 mt-2 md:mt-0">
-          <button (click)="editSpecialty(specialty.id)" class="px-4 py-1 bg-primary text-white rounded-md transition duration-300 hover:bg-mint">
+          <button (click)="openEditModal(specialty)"
+            class="px-4 py-1 bg-primary text-white rounded-md transition duration-300 hover:bg-mint">
             Editar
           </button>
-          <button (click)="deleteSpecialty(specialty.id)" class="px-4 py-1 bg-red-500 text-white rounded-md transition duration-300 hover:bg-red-700">
+          <button (click)="confirmDelete(specialty)"
+            class="px-4 py-1 bg-red-500 text-white rounded-md transition duration-300 hover:bg-red-700">
             Eliminar
           </button>
         </div>
       </li>
     </ul>
   </div>
+
+
+  <!-- Modal para crear una nueva especialidad -->
+  <div *ngIf="showCreateModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md mx-auto" aria-labelledby="modal-title" role="dialog"
+      aria-modal="true">
+      <h3 id="modal-title" class="text-xl font-semibold mb-4">Nueva especialidad</h3>
+      <form (submit)="saveSpecialty(); closeCreateModal();">
+        <!-- Campos del formulario -->
+        <!-- Estructura optimizada para mantener consistencia en etiquetas y campos -->
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Nombre</label>
+            <input type="text" [(ngModel)]="newSpecialty.nombre" name="nombre"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Descripción</label>
+            <textarea [(ngModel)]="newSpecialty.descripcion" name="descripcion"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"></textarea>
+          </div>
+        </div>
+
+        <!-- Botones de acción en el modal -->
+        <div class="flex justify-end space-x-2 mt-6">
+          <button type="button" (click)="closeCreateModal()"
+            class="px-4 py-2 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none">
+            Cancelar
+          </button>
+          <button type="submit"
+            class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none">
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para editar una nueva especialidad -->
+  <div *ngIf="showEditModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md mx-auto" aria-labelledby="modal-title" role="dialog"
+      aria-modal="true">
+      <h3 id="modal-title" class="text-xl font-semibold mb-4">Nueva especialidad</h3>
+      <form (submit)="editSpecialty(); closeEditModal();">
+        <!-- Campos del formulario -->
+        <!-- Estructura optimizada para mantener consistencia en etiquetas y campos -->
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Nombre</label>
+            <input type="text" [(ngModel)]="selectEditSpecialty.nombre" name="nombre"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Descripción</label>
+            <textarea [(ngModel)]="selectEditSpecialty.descripcion" name="descripcion"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"></textarea>
+          </div>
+        </div>
+
+        <!-- Botones de acción en el modal -->
+        <div class="flex justify-end space-x-2 mt-6">
+          <button type="button" (click)="closeEditModal()"
+            class="px-4 py-2 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none">
+            Cancelar
+          </button>
+          <button type="submit"
+            class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none">
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de confirmación de eliminación -->
+  <div *ngIf="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-80">
+      <h2 class="text-lg font-semibold mb-4">Confirmar eliminación</h2>
+      <p class="text-gray-600 mb-6">¿Estás seguro de que quieres eliminar este servicio?</p>
+      <div class="flex justify-end">
+        <button (click)="cancelDelete()"
+          class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold py-2 px-4 rounded mr-2">
+          Cancelar
+        </button>
+        <button (click)="deleteSpecialty(selectSpecialtyId)"
+          class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded">
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Overlay de carga -->
 <div *ngIf="onWait" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
   <div class="text-center text-white">
-      <div class="loader mb-4"></div>
-      <p>Cargando datos...</p>
+    <div class="loader mb-4"></div>
+    <p>Cargando datos...</p>
   </div>
 </div>

@@ -30,12 +30,12 @@ export class DoctorService {
     return lastValueFrom(this.http.get<Doctor[]>(this.apiUrl));
   }
 
-  createDoctor(doctorData: { personaId: number; especialidadId: number }): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, doctorData);
+  createDoctor(doctorData: { personaId: number; especialidadId: number }): Promise<Doctor> {
+    return lastValueFrom(this.http.post<Doctor>(`${this.apiUrl}`, doctorData));
   }
 
   // Eliminar una especialidad
-  deleteDoctor(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  deleteDoctor(id: number): Promise<Doctor> {
+    return lastValueFrom(this.http.delete<Doctor>(`${this.apiUrl}/${id}`));
   }
 }

@@ -29,12 +29,17 @@ export class SpecialtieService {
   }
 
   // Guardar una nueva especialidad
-  saveSpecialty(specialty: Specialty): Observable<Specialty> {
-    return this.http.post<Specialty>(this.apiUrl, specialty);
+  saveSpecialty(specialty: Specialty): Promise<Specialty> {
+    return lastValueFrom(this.http.post<Specialty>(this.apiUrl, specialty));
+  }
+
+  // Editar una nueva especialidad
+  editSpecialty(specialty: Specialty): Promise<Specialty> {
+    return lastValueFrom(this.http.put<Specialty>(`${this.apiUrl}/${specialty.id}`, specialty));
   }
 
   // Eliminar una especialidad
-  deleteSpecialty(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  deleteSpecialty(id: number): Promise<void> {
+    return lastValueFrom(this.http.delete<void>(`${this.apiUrl}/${id}`));
   }
 }

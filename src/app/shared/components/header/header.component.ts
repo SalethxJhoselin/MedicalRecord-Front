@@ -12,6 +12,7 @@ import { NgIf } from '@angular/common';
 })
 export class HeaderComponent {
     isSidebarOpen = false;
+    isDarkMode: boolean = false; 
     isMobile: boolean | undefined;
 
 
