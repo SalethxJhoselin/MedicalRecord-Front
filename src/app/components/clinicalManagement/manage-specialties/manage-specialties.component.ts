@@ -72,10 +72,10 @@ export class ManageSpecialtiesComponent {
   }
 
   // Eliminar especialidad
-  async deleteSpecialty(specialtyId: number | undefined) {
-    if (specialtyId !== undefined) {
+  async deleteSpecialty() {
+    if (this.selectSpecialtyId !== undefined) {
       try {
-        await this.specialtieService.deleteSpecialty(specialtyId)
+        await this.specialtieService.deleteSpecialty(this.selectSpecialtyId)
         this.loadSpecialties()
         this.showDeleteModal = false
         this.selectSpecialtyId = undefined
