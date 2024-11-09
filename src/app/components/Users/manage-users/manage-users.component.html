@@ -2,7 +2,7 @@
     <h2 class="text-2xl font-semibold mb-4 text-center">Gestionar Usuarios</h2>
 
     <!-- Inputs para filtrar usuarios -->
-    <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 mb-6">
+    <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 mb-6 px-6">
         <input
             class="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none"
             type="text" placeholder="Nombre del Usuario" />
@@ -12,55 +12,36 @@
     </div>
 
     <!-- Vista de tabla en pantallas grandes -->
-    <div class="hidden md:block bg-white p-6 rounded-lg shadow-md">
-        <h3 class="text-lg font-semibold mb-2 text-center md:text-left">Usuarios Existentes</h3>
-        <table class="w-full border-collapse text-left rounded-lg overflow-hidden">
+    <div class=" md:block bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-lg font-semibold mb-2 text-center md:text-left">Usuarios</h3>
+        <table class="w-full border border-gray-100 border-collapse text-left overflow-hidden sm:text-sm">
             <thead>
                 <tr class="bg-gray-100 ">
-                    <th class="p-3 text-gray-600 font-semibold">Nombre</th>
-                    <th class="p-3 text-gray-600 font-semibold">Usuario</th>
-                    <th class="p-3 text-gray-600 font-semibold">Email</th>
-                    <th class="p-3 text-gray-600 font-semibold">Rol</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100">Nombre</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100">Usuario</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100">Email</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100">Rol</th>
                     <th class="p-3 text-gray-600 font-semibold text-center">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let user of users" class="hover:bg-gray-50 border-b border-gray-100">
-                    <td class="p-3">{{ user.nombre }}</td>
-                    <td class="p-3">{{ user.usuario }}</td>
-                    <td class="p-3">{{ user.email }}</td>
-                    <td class="p-3">{{ user.role.name }}</td>
+                    <td class="p-3 border-r border-gray-100">{{ user.nombre }}</td>
+                    <td class="p-3 border-r border-gray-100">{{ user.usuario }}</td>
+                    <td class="p-3 border-r border-gray-100">{{ user.email }}</td>
+                    <td class="p-3 border-r border-gray-100">{{ user.role.name }}</td>
                     <td class="p-3 text-center">
-                        <button (click)="openModal(user,user.role)"
-                            class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-400">
-                            <i class="lni lni-pencil-alt mr-2"></i> Editar
-                        </button>
+                        <div class="inline-flex space-x-2">
+                            <button (click)="openModal(user,user.role)"
+                                class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-400 transition duration-200">
+                                <i class="lni lni-pencil-alt "></i>
+                            </button>
+                        </div>
+
                     </td>
                 </tr>
             </tbody>
         </table>
-    </div>
-
-    <!-- Vista de lista en pantallas móviles -->
-    <div class="block md:hidden bg-lightGray p-4 rounded-lg shadow-md">
-        <h3 class="text-lg font-semibold mb-2 text-center md:text-left">Usuarios Existentes</h3>
-        <ul class="space-y-3">
-            <li *ngFor="let user of users"
-                class="flex flex-col bg-white px-4 py-2 rounded-md shadow-sm border border-gray-300">
-                <div class="text-center">
-                    <p class="font-medium">{{ user.nombre }}</p>
-                    <p class="text-sm text-gray-500">Usuario: {{ user.usuario }}</p>
-                    <p class="text-sm text-gray-500">Email: {{ user.email }}</p>
-                    <p class="text-sm text-gray-500">Rol: {{ user.role.name }}</p>
-                </div>
-                <div class="flex justify-center space-x-2 mt-2">
-                    <button (click)="openModal(user, user.role)"
-                        class="px-4 py-1 bg-primary text-white rounded-md transition duration-300 hover:bg-mint">
-                        Editar
-                    </button>
-                </div>
-            </li>
-        </ul>
     </div>
 
     <!-- Modal de edición -->

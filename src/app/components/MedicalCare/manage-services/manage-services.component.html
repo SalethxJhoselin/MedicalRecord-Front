@@ -6,10 +6,6 @@
         <input
             class="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none"
             type="text" placeholder="Nombre del Servicio" [(ngModel)]="userFilter" (input)="applyFilter()" />
-    </div>
-
-    <!-- Botones de acción (Crear y Limpiar) en pantalla grande -->
-    <div class="flex justify-end space-x-4 mb-6">
         <button (click)="openModal()"
             class="md:px-5 md:py-2 px-3 py-1 text-sm md:text-base bg-primary text-white rounded-lg shadow-sm hover:bg-mint transition duration-200">
             <i class="lni lni-plus mr-2"></i> Nuevo Servicio
@@ -72,74 +68,45 @@
             </form>
         </div>
     </div>
-    
+
     <!-- Tabla de servicios (vista de escritorio) -->
-    <div class="hidden md:block bg-white p-6 rounded-lg shadow-md">
-        <table class="w-full border-collapse text-left rounded-lg overflow-hidden">
+    <div class="md:block bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-lg font-semibold mb-2 text-center md:text-left">Servicios</h3>
+        <table class="w-full border border-gray-100 border-collapse text-left overflow-hidden sm:text-sm">
             <thead>
                 <tr class="bg-gray-100">
-                    <th class="p-3 text-gray-600 font-semibold">ID</th>
-                    <th class="p-3 text-gray-600 font-semibold">Nombre</th>
-                    <th class="p-3 text-gray-600 font-semibold">Descripción</th>
-                    <th class="p-3 text-gray-600 font-semibold">Precio</th>
-                    <th class="p-3 text-gray-600 font-semibold">Especialidad</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100">ID</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100">Nombre</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100">Descripción</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100">Precio</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100">Especialidad</th>
                     <th class="p-3 text-center text-gray-600 font-semibold">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let service of filteredServices" class="hover:bg-gray-50 border-b border-gray-100">
-                    <td class="p-3">{{ service.id }}</td>
-                    <td class="p-3">{{ service.nombre }}</td>
-                    <td class="p-3">{{ service.descripcion }}</td>
-                    <td class="p-3">{{ service.precio }} Bs</td>
-                    <td class="p-3">{{ service.especialidad?.nombre ?? 'N/A' }}</td>
+                    <td class="p-3 border-r border-gray-100">{{ service.id }}</td>
+                    <td class="p-3 border-r border-gray-100">{{ service.nombre }}</td>
+                    <td class="p-3 border-r border-gray-100">{{ service.descripcion }}</td>
+                    <td class="p-3 border-r border-gray-100">{{ service.precio }} Bs</td>
+                    <td class="p-3 border-r border-gray-100">{{ service.especialidad?.nombre ?? 'N/A' }}</td>
                     <td class="p-3 text-center">
-                        <button (click)="editService(service)"
-                            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-400 transition duration-200">
-                            <i class="lni lni-pencil-alt"></i>
-                        </button>
-                        <button (click)="confirmDelete(service)"
-                            class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 transition duration-200">
-                            <i class="lni lni-trash"></i>
-                        </button>
+                        <div class="inline-flex space-x-2">
+                            <button (click)="editService(service)"
+                                class="px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-400 transition duration-200">
+                                <i class="lni lni-pencil-alt"></i>
+                            </button>
+                            <button (click)="confirmDelete(service)"
+                                class="px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-500 transition duration-200">
+                                <i class="lni lni-trash"></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <!-- Vista de lista en pantallas móviles -->
-    <div class="block md:hidden bg-lightGray p-4 rounded-lg shadow-md">
-        <ul class="space-y-3">
-            <li *ngFor="let service of filteredServices"
-                class="flex flex-col bg-white px-4 py-2 rounded-md shadow-sm border border-gray-300">
-                <div class="flex justify-between">
-                    <span class="font-medium">ID:</span>
-                    <span>{{ service.id }}</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="font-medium">Nombre:</span>
-                    <span>{{ service.nombre }}</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="font-medium">Precio:</span>
-                    <span>{{ service.precio }} Bs</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="font-medium">Especialidad:</span>
-                    <span>{{ service.especialidad?.nombre ?? 'N/A' }}</span>
-                </div>
-                <div class="flex justify-end space-x-2 mt-2">
-                    <button (click)="editService(service)" class="text-blue-500 hover:text-blue-700 text-sm">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button (click)="confirmDelete(service)" class="text-red-500 hover:text-red-700 text-sm">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </div>
-            </li>
-        </ul>
-    </div>
 
     <!-- Modal de confirmación de eliminación -->
     <div *ngIf="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">

@@ -2,7 +2,7 @@
   <h2 class="text-2xl font-semibold mb-4 text-center">Gestionar Especialidades</h2>
 
   <!-- Inputs y botón para agregar especialidad -->
-  <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
+  <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6 px-6">
     <input class="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none"
       type="text" placeholder="Nombre de la Especialidad" [(ngModel)]="specialtyFilter" (input)="applyFilter()" />
 
@@ -13,31 +13,31 @@
 
 
   <!-- Vista de tabla en pantallas grandes -->
-  <div class="hidden md:block bg-white p-6 rounded-lg shadow-md">
-    <h3 class="text-lg font-semibold mb-2 text-center md:text-left">Usuarios Existentes</h3>
-    <table class="w-full border-collapse text-left rounded-lg overflow-hidden">
+  <div class=" md:block bg-white p-6 rounded-lg shadow-md">
+    <h3 class="text-lg font-semibold mb-2 text-center md:text-left">Especialidades</h3>
+    <table class="w-full border border-gray-100 border-collapse text-left overflow-hidden sm:text-sm">
       <thead>
         <tr class="bg-gray-100 ">
-          <th class="p-3 text-gray-600 font-semibold ">Nombre</th>
-          <th class="p-3 text-gray-600 font-semibold w-1/2">Descripción</th>
+          <th class="p-3 text-gray-600 font-semibold border-r border-gray-100 ">Nombre</th>
+          <th class="p-3 text-gray-600 font-semibold border-r border-gray-100 w-2/3">Descripción</th>
           <th class="p-3 text-gray-600 font-semibold text-center">Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let specialty of filteredSpecialties" class="hover:bg-gray-50 border-b border-gray-100">
-          <td class="p-3">{{ specialty.nombre }}</td>
-          <td class="p-3 ">
+          <td class="p-3 border-r border-gray-100">{{ specialty.nombre }}</td>
+          <td class="p-3 border-r border-gray-100">
             {{ specialty.descripcion }}
           </td>
           <td class="p-3 text-center">
             <div class="inline-flex space-x-2">
               <button (click)="openEditModal(specialty)"
                 class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-400 transition duration-200">
-                <i class="lni lni-pencil-alt"></i> Editar
+                <i class="lni lni-pencil-alt"></i>
               </button>
               <button (click)="confirmDelete(specialty)"
                 class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-400 transition duration-200">
-                <i class="lni lni-trash"></i> Eliminar
+                <i class="lni lni-trash"></i>
               </button>
             </div>
           </td>

@@ -2,20 +2,20 @@
     <h2 class="text-2xl font-semibold mb-4 text-center">Administrar Bitácora</h2>
 
     <!-- Inputs para filtrar -->
-    <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 mb-6">
+    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6 px-6">
         <input
             class="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none"
             type="text" placeholder="Nombre del Usuario" [(ngModel)]="userFilter" (input)="applyFilter()" />
 
-        <input matInput [matDatepicker]="picker" placeholder="Seleccionar fecha" [(ngModel)]="dateFilter"
-            (dateChange)="applyFilter()"
-            class="px-4 py-2 border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-    </div>
 
-    <!-- Botón para limpiar filtros -->
-    <div class="flex justify-end mb-4">
+        <div class="relative w-full md:w-auto">
+            <input matInput [matDatepicker]="picker" placeholder="Seleccionar fecha" [(ngModel)]="dateFilter"
+                (dateChange)="applyFilter()"
+                class="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none" />
+            <mat-datepicker-toggle matSuffix [for]="picker"
+                class="absolute right-2 top-1/2 transform -translate-y-1/2"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </div>
         <button
             class="md:px-5 md:py-2 px-3 py-1 text-sm md:text-base bg-red-500 text-white rounded-lg shadow-sm hover:bg-red-600 transition duration-200"
             (click)="clearFilters()">
@@ -24,60 +24,34 @@
     </div>
 
     <!-- Vista de tabla en pantallas grandes -->
-    <div class="hidden md:block bg-white p-6 rounded-lg shadow-md">
-        <table class="w-full text-left border-collapse rounded-lg overflow-hidden">
+    <div class="md:block bg-white p-6 rounded-lg shadow-md">
+        <table class="w-full border border-gray-100 border-collapse text-left overflow-hidden sm:text-sm">
             <thead>
                 <tr class="bg-gray-100 ">
-                    <th class="p-3 text-gray-600 font-semibold">ID</th>
-                    <th class="p-3 text-gray-600 font-semibold">IP</th>
-                    <th class="p-3 text-gray-600 font-semibold w-40">Usuario</th>
-                    <th class="p-3 text-gray-600 font-semibold w-32">Fecha</th>
-                    <th class="p-3 text-gray-600 font-semibold">Hora</th>
-                    <th class="p-3 text-gray-600 font-semibold w-50">Acción</th>
-                    <th class="p-3 text-gray-600 font-semibold">Tabla Afectada</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100 sm:p-2">ID</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100 sm:p-2">IP</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100 w-40 sm:w-32 sm:p-2">Usuario</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100 w-32 sm:p-2">Fecha</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100 sm:p-2">Hora</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100 w-50 sm:p-2">Acción</th>
+                    <th class="p-3 text-gray-600 font-semibold sm:p-2">Tabla Afectada</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let Bitacora of filteredBitacoras"
-                    class="border-b border-gray-100 hover:bg-gray-50">
-                    <td class="p-3">{{ Bitacora.id }}</td>
-                    <td class="p-3">{{ Bitacora.ip }}</td>
-                    <td class="p-3">{{ Bitacora.usuario }}</td>
-                    <td class="p-3">{{ Bitacora.fecha }}</td>
-                    <td class="p-3">{{ Bitacora.hora }}</td>
-                    <td class="p-3">{{ Bitacora.accion }}</td>
-                    <td class="p-3">{{ Bitacora.tablaAfectada }}</td>
+                <tr *ngFor="let Bitacora of filteredBitacoras" class="border-b border-gray-100 hover:bg-gray-50">
+                    <td class="p-3 border-r border-gray-100 sm:p-2">{{ Bitacora.id }}</td>
+                    <td class="p-3 border-r border-gray-100 sm:p-2">{{ Bitacora.ip }}</td>
+                    <td class="p-3 border-r border-gray-100 sm:p-2">{{ Bitacora.usuario }}</td>
+                    <td class="p-3 border-r border-gray-100 sm:p-2">{{ Bitacora.fecha }}</td>
+                    <td class="p-3 border-r border-gray-100 sm:p-2">{{ Bitacora.hora }}</td>
+                    <td class="p-3 border-r border-gray-100 sm:p-2">{{ Bitacora.accion }}</td>
+                    <td class="p-3 border-r border-gray-100 sm:p-2">{{ Bitacora.tablaAfectada }}</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <!-- Vista de lista en pantallas móviles -->
-    <div class="block md:hidden bg-lightGray p-4 rounded-lg shadow-md">
-        <ul class="space-y-3">
-            <li *ngFor="let Bitacora of filteredBitacoras"
-                class="flex flex-col bg-white px-4 py-2 rounded-md shadow-sm border border-gray-300">
-                <div class="flex justify-between">
-                    <span class="font-medium">IP:</span> <span>{{ Bitacora.ip }}</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="font-medium">Usuario:</span> <span>{{ Bitacora.usuario }}</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="font-medium">Fecha:</span> <span>{{ Bitacora.fecha }}</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="font-medium">Hora:</span> <span>{{ Bitacora.hora }}</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="font-medium">Acción:</span> <span>{{ Bitacora.accion }}</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="font-medium">Tabla Afectada:</span> <span>{{ Bitacora.tablaAfectada }}</span>
-                </div>
-            </li>
-        </ul>
-    </div>
+
 </div>
 
 <!-- Overlay de carga -->

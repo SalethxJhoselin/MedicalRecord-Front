@@ -9,54 +9,37 @@
     </div>
 
     <!-- Vista de tabla en pantallas grandes -->
-    <div class="hidden md:block bg-lightGray p-4 rounded-lg shadow-md">
+    <div class="md:block bg-white p-6 rounded-lg shadow-md">
         <h3 class="text-lg font-semibold mb-2 text-center md:text-left">Asegurados</h3>
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-gray-100 border-b border-gray-300">
-                        <th class="p-3 text-darkGray font-semibold">Id</th>
-                        <th class="p-3 text-darkGray font-semibold">Nombre</th>
-                        <th class="p-3 text-darkGray font-semibold">Email</th>
-                        <th class="p-3 text-darkGray font-semibold text-center">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let insured of insureds" class="border-b border-gray-300 bg-white hover:bg-gray-50">
-                        <td class="p-3">{{ insured.id }}</td>
-                        <td class="p-3">{{ insured.nombre }}</td>
-                        <td class="p-3">{{ insured.email }}</td>
-                        <td class="p-3 text-center">
-                            <button [routerLink]="['/asegurados', insured.id]" class="px-4 py-1 bg-primary text-white rounded-md transition duration-300 hover:bg-mint">
-                              Ver Detalles
-                            </button>
-                          </td>
-                          
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <table class="w-full border border-gray-100 text-left border-collapse overflow-hidden sm:text-sm">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100">Id</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100">Nombre</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100">Email</th>
+                    <th class="p-3 text-gray-600 font-semibold text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let insured of insureds" class="hover:bg-gray-50 border-b border-gray-100">
+                    <td class="p-3 border-r border-gray-100">{{ insured.id }}</td>
+                    <td class="p-3 border-r border-gray-100">{{ insured.nombre }}</td>
+                    <td class="p-3 border-r border-gray-100">{{ insured.email }}</td>
+                    <td class="p-3 text-center">
+                        <button [routerLink]="['/asegurados', insured.id]"
+                            class="px-4 py-1 bg-primary text-white rounded-md transition duration-300 hover:bg-mint">
+                            Ver Detalles
+                        </button>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
     </div>
 
-    <!-- Vista de lista en pantallas móviles -->
-    <div class="block md:hidden bg-lightGray p-4 rounded-lg shadow-md">
-        <h3 class="text-lg font-semibold mb-2 text-center md:text-left">Usuarios Existentes</h3>
-        <ul class="space-y-3">
-            <li *ngFor="let insured of insureds" class="flex flex-col bg-white px-4 py-2 rounded-md shadow-sm border border-gray-300">
-                <div class="text-center">
-                    <p class="font-medium">{{ insured.id }}</p>
-                    <p class="text-sm text-gray-500">Usuario: {{ insured.nombre }}</p>
-                </div>
-                <div class="flex justify-center space-x-2 mt-2">
-                        Ver detalles
-                </div>
-            </li>
-        </ul>
-    </div>
 
-    
 
-    
+
 </div>
 <!-- Overlay de carga -->
 <div *ngIf="onWait" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
