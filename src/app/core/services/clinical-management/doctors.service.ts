@@ -10,7 +10,7 @@ export interface Doctor {
   nombre: string;
   email: string;
   direccion: string;
-  especialidad: string;
+  especialidades: string[];
 }
 
 @Injectable({
@@ -25,7 +25,7 @@ export class DoctorService {
   ) {
     this.apiUrl = `${this.apiConfigService.url}doctors`;
   }
-
+  
   getDoctors(): Promise<Doctor[]> {
     return lastValueFrom(this.http.get<Doctor[]>(this.apiUrl));
   }
@@ -34,7 +34,7 @@ export class DoctorService {
     return lastValueFrom(this.http.post<Doctor>(`${this.apiUrl}`, doctorData));
   }
 
-  // Eliminar una especialidad
+  // Eliminar una especialidades
   deleteDoctor(id: number): Promise<Doctor> {
     return lastValueFrom(this.http.delete<Doctor>(`${this.apiUrl}/${id}`));
   }

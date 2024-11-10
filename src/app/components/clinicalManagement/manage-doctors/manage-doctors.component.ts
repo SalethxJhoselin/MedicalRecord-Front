@@ -1,5 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component } from '@angular/core';
 import { DoctorService, Doctor } from '../../../core/services/clinical-management/doctors.service';
 import { SpecialtieService, Specialty } from '../../../core/services/clinical-management/specialties.service';
 import { User, UserService } from '../../../core/services/Users/users.service';
@@ -48,6 +48,8 @@ export class ManageDoctorsComponent {
       this.users = await this.userService.getUsers();
       this.doctors = await this.doctorService.getDoctors();
       this.specialties = await this.specialtyService.getSpecialties();
+      console.log(this.doctors)
+
       this.applyFilter()
     } catch (error) {
       console.error('Error al cargar permisos o roles:', error);

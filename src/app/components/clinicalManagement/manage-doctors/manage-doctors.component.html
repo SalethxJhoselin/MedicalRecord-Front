@@ -1,39 +1,49 @@
-<div class="p-4 md:p-6 bg-white rounded-lg shadow-md w-full max-w-3xl mx-auto">
-  <h2 class="text-xl md:text-2xl font-semibold mb-4 text-center">Gestionar Medicos</h2>
+<div class="p-6 bg-white rounded-lg shadow-md w-full max-w-screen-xl mx-auto">
+  <h2 class="text-2xl font-semibold mb-4 text-center">Gestionar Medicos</h2>
 
   <!-- Inputs y botón para agregar doctor -->
-  <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 mb-6">
+  <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 mb-6 px-6">
     <input class="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none"
-      type="text" placeholder="Nombre de la Especialidad" [(ngModel)]="nameFilter" (input)="applyFilter()" />
+      type="text" placeholder="Nombre del Medico" [(ngModel)]="nameFilter" (input)="applyFilter()" />
 
-    <button (click)="openCreateModal()" class="px-4 py-1 bg-primary text-white rounded-md hover:bg-mint">
-      <i class="lni lni-plus mr-2"></i> Agregar Medico
+    <button (click)="openCreateModal()"
+      class="px-2 py-1 bg-primary text-white rounded-md hover:bg-mint flex items-center">
+      <span class="material-icons mr-2 text-lg">add</span> Agregar Medico
     </button>
   </div>
 
-  <!-- Lista de Doctores Existentes -->
-  <div class="bg-lightGray p-4 rounded-lg shadow-md">
+  <!-- Vista de tabla en pantallas grandes -->
+  <div class="hidden md:block bg-white p-6 rounded-lg shadow-md">
     <h3 class="text-lg font-semibold mb-2 text-center md:text-left">Medicos</h3>
-    <ul class="space-y-3">
-      <li *ngFor="let doctor of filteredDoctors"
-        class="flex flex-col md:flex-row md:justify-between items-center bg-white px-4 py-2 rounded-md shadow-sm border border-gray-300">
-        <div class="text-center md:text-left">
-          <p class="font-medium">{{ doctor.nombre }}</p>
-          <p class="text-sm text-gray-500">Email: {{ doctor.email }}</p>
-          <p class="text-sm text-gray-500">Especialidad: {{ doctor.especialidad }}</p>
-        </div>
-        <div class="flex space-x-2 mt-2 md:mt-0">
-          <button (click)="editDoctor(doctor.id)"
-            class="px-4 py-1 bg-primary text-white rounded-md transition duration-300 hover:bg-mint">
-            Editar
-          </button>
-          <button (click)="confirmDelete(doctor)"
-            class="px-4 py-1 bg-red-500 text-white rounded-md transition duration-300 hover:bg-red-700">
-            Eliminar
-          </button>
-        </div>
-      </li>
-    </ul>
+    <table class="w-full border border-gray-100 border-collapse text-left overflow-hidden sm:text-sm">
+      <thead>
+        <tr class="bg-gray-100 ">
+          <th class="p-3 text-gray-600 font-semibold border-r border-gray-100 ">Nombre</th>
+          <th class="p-3 text-gray-600 font-semibold border-r border-gray-100 ">Email</th>
+          <th class="p-3 text-gray-600 font-semibold border-r border-gray-100 ">Especialidades</th>
+          <th class="p-3 text-gray-600 font-semibold text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let doctor of filteredDoctors" class="hover:bg-gray-50 border-b border-gray-100">
+          <td class="p-3 border-r border-gray-100">{{ doctor.nombre }}</td>
+          <td class="p-3 border-r border-gray-100">{{ doctor.email }}</td>
+          <td class="p-3 border-r border-gray-100">{{ doctor.especialidades.join(', ') }}</td>
+          <td class="p-3 text-center">
+            <div class="inline-flex space-x-2">
+              <button (click)="editDoctor(doctor.id)"
+                class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-400 transition duration-200">
+                <i class="lni lni-pencil-alt"></i>
+              </button>
+              <button (click)="confirmDelete(doctor)"
+                class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-400 transition duration-200">
+                <i class="lni lni-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
 
@@ -54,12 +64,12 @@
           </option>
         </select>
 
-        <select name="specialty" [(ngModel)]="selectedSpecialtyId"
+        <select name="doctor" [(ngModel)]="selectedSpecialtyId"
           class="flex-1 min-w-full md:min-w-[150px] max-w-full md:max-w-[200px] px-4 py-2 border border-gray-300 rounded-lg text-darkGray bg-white focus:outline-none focus:border-primary transition">
           <option value="" disabled selected>Seleccionar Especialidad</option>
-          <option *ngFor="let specialty of specialties" [value]="specialty.id"
+          <option *ngFor="let doctor of specialties" [value]="doctor.id"
             class="bg-white text-darkGray hover:bg-primary hover:text-white">
-            {{ specialty.nombre }}
+            {{ doctor.nombre }}
           </option>
         </select>
 

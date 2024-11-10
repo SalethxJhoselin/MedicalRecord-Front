@@ -1,6 +1,6 @@
 // src/app/components/manage-specialties/manage-specialties.component.ts
 import { NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { SpecialtieService, Specialty } from '../../../core/services/clinical-management/specialties.service';
 import { FormsModule } from '@angular/forms';
 
@@ -17,6 +17,7 @@ export class ManageSpecialtiesComponent {
   specialtyFilter: string = '';
   newSpecialty: Specialty = { nombre: '', descripcion: '' };
   onWait: boolean = false;
+  isMobile: boolean = window.innerWidth < 640;
 
   selectSpecialtyId: number | undefined = undefined;
   selectEditSpecialty: Specialty = { nombre: '', descripcion: '' };
@@ -42,7 +43,7 @@ export class ManageSpecialtiesComponent {
   }
 
   // Guardar nueva especialidad
-  async saveSpecialty(){
+  async saveSpecialty() {
     if (this.newSpecialty.nombre && this.newSpecialty.descripcion) {
       try {
         await this.specialtieService.saveSpecialty(this.newSpecialty)
@@ -61,7 +62,7 @@ export class ManageSpecialtiesComponent {
     if (this.selectEditSpecialty !== undefined) {
       try {
         await this.specialtieService.editSpecialty(this.selectEditSpecialty)
-        this.selectEditSpecialty = { id: undefined ,nombre: '', descripcion: '' };
+        this.selectEditSpecialty = { id: undefined, nombre: '', descripcion: '' };
         this.loadSpecialties()
       } catch (error) {
         console.error("Error al editar la especialidad", error)
@@ -119,5 +120,10 @@ export class ManageSpecialtiesComponent {
 
   closeEditModal() {
     this.showEditModal = false;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.isMobile = event.target.innerWidth < 640;
   }
 }

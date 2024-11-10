@@ -13,7 +13,7 @@
 
 
   <!-- Vista de tabla en pantallas grandes -->
-  <div class=" md:block bg-white p-6 rounded-lg shadow-md">
+  <div class="hidden md:block bg-white p-6 rounded-lg shadow-md">
     <h3 class="text-lg font-semibold mb-2 text-center md:text-left">Especialidades</h3>
     <table class="w-full border border-gray-100 border-collapse text-left overflow-hidden sm:text-sm">
       <thead>
@@ -45,6 +45,22 @@
       </tbody>
     </table>
   </div>
+
+  <div *ngIf="isMobile" class="space-y-4">
+    <div *ngFor="let specialty of filteredSpecialties" class="border rounded-lg p-4 shadow-md">
+      <h4 class="text-lg font-semibold">{{ specialty.nombre }}</h4>
+      <p>{{ specialty.descripcion }}</p>
+      <div class="flex space-x-2 mt-2">
+        <button (click)="openEditModal(specialty)" class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-400">
+          <i class="lni lni-pencil-alt"></i>
+        </button>
+        <button (click)="confirmDelete(specialty)" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-400">
+          <i class="lni lni-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  
 
 
   <!-- Modal para crear una nueva especialidad -->
