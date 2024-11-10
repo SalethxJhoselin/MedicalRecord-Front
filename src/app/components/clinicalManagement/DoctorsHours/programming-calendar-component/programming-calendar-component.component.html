@@ -1,4 +1,64 @@
-<p>programming-calendar-component works!</p>
+<div class="programming-calendar-container">
+  <div class="container p-6 bg-white rounded-lg shadow-md max-w-6xl mx-auto flex space-x-6">
 
-<app-specialists-table-search-component></app-specialists-table-search-component>
-<app-custom-calendar-component></app-custom-calendar-component>
+    <!-- Componente de Tabla de Médicos -->
+    <div class="doctor-table bg-lightGray p-4 rounded-lg shadow-sm w-1/2">
+      <h3 class="title">Médicos Disponibles</h3>
+      <app-specialists-table-search-component
+        (selectDoctor)="handleSelectSpecialist($event)"></app-specialists-table-search-component>
+      <!-- Componente de Calendario -->
+      <app-custom-calendar-component [value]="selectedDate" (dateChange)="onDateChange($event)"
+        (dayClick)="handleDayClick($event)"></app-custom-calendar-component>
+    </div>
+    <!-- Recuadro de Fechas Seleccionadas y Botón de Programar Horarios -->
+    <div class="selected-dates-container">
+      <h3 class="selected-title">Fechas Seleccionadas:</h3>
+      <div class="selected-dates">
+        <span *ngFor="let date of additionalSelectedDates" class="date-tag">
+          {{ date }}
+        </span>
+      </div>
+      <button class="programar-horarios-btn" (click)="showModal()">Programar Horarios</button>
+    </div>
+  </div>
+
+  <!-- Modal de programación -->
+  <div *ngIf="isModalVisible" class="modal-overlay">
+    <div class="modal-content">
+      <h2 class="modal-title">Confirmar Programación</h2>
+
+      <!-- Información del Doctor Seleccionado y Fechas Seleccionadas -->
+      <div class="doctor-info" *ngIf="selectedPerson">
+        <p><strong>Doctor:</strong> {{ selectedPerson.nombre || 'No seleccionado' }}</p>
+        <p><strong>ID del Doctor:</strong> {{ selectedPerson.id || 'No disponible' }}</p>
+        <p><strong>Fechas Seleccionadas:</strong></p>
+        <ul class="selected-dates-list">
+          <li *ngFor="let date of additionalSelectedDates">{{ date }}</li>
+        </ul>
+      </div>
+
+      <form [formGroup]="form">
+        <div class="form-group">
+          <label for="servicio">Servicio</label>
+          <select id="servicio" formControlName="servicio" required>
+            <option *ngFor="let service of services" [value]="service.id">
+              {{ service.nombre }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="horaInicio">Hora Inicio</label>
+          <input id="horaInicio" type="time" formControlName="horaInicio" required />
+        </div>
+        <div class="form-group">
+          <label for="horaFinal">Hora Final</label>
+          <input id="horaFinal" type="time" formControlName="horaFinal" required />
+        </div>
+        <div class="modal-actions">
+          <button (click)="handleOk()" [disabled]="form.invalid" class="btn-primary">Aceptar</button>
+          <button (click)="cancel()" class="btn-secondary">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

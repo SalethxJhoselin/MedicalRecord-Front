@@ -1,0 +1,180 @@
+/* Contenedor General */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Títulos */
+.title, .selected-title, .modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #4a4a4a; /* darkGray */
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Tabla de Médicos */
+.doctor-table {
+  background-color: #f4f4f4; /* lightGray */
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* Recuadro de Fechas Seleccionadas */
+.selected-dates-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.selected-dates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.date-tag {
+  background-color: #a7eceb; /* lightGreen */
+  color: #08948c; /* primary */
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 0.9em;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Botón Programar Horarios */
+.programar-horarios-btn {
+  padding: 10px 20px;
+  background-color: #08948c; /* primary */
+  color: #ffffff; /* white */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.programar-horarios-btn:hover {
+  background-color: #6fcfcb; /* mint */
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #ffffff; /* white */
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Información del Doctor */
+.doctor-info p {
+  font-size: 1rem;
+  margin: 5px 0;
+  color: #4a4a4a; /* darkGray */
+}
+
+/* Lista de Fechas Seleccionadas en Modal */
+.selected-dates-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.selected-dates-list li {
+  background-color: #a7eceb; /* lightGreen */
+  color: #08948c; /* primary */
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 0.9em;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Formularios en Modal */
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  color: #4a4a4a; /* darkGray */
+  margin-bottom: 5px;
+}
+
+input[type="time"], select {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+input[type="time"]:focus, select:focus {
+  border-color: #08948c; /* primary */
+  outline: none;
+}
+
+/* Botones del Modal */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-primary {
+  padding: 8px 16px;
+  background-color: #08948c; /* primary */
+  color: #ffffff; /* white */
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:disabled {
+  background-color: #6fcfcb; /* mint */
+  cursor: not-allowed;
+}
+
+.btn-primary:hover:enabled {
+  background-color: #6fcfcb; /* mint */
+}
+
+.btn-secondary {
+  padding: 8px 16px;
+  background-color: #f4f4f4; /* lightGray */
+  color: #4a4a4a; /* darkGray */
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-secondary:hover {
+  background-color: #e0e0e0;
+}

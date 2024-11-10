@@ -8,7 +8,7 @@ import { DoctorService, Doctor } from '../../../../core/services/clinical-manage
   standalone: true,
   imports: [NgFor, NgIf, NgClass, FormsModule],
   templateUrl: './specialists-table-search-component.component.html',
-  styleUrl: './specialists-table-search-component.component.css'
+  styleUrls: ['./specialists-table-search-component.component.css']
 })
 export class SpecialistsTableSearchComponentComponent implements OnInit {
   doctors: Doctor[] = [];
@@ -27,7 +27,7 @@ export class SpecialistsTableSearchComponentComponent implements OnInit {
   async fetchDoctors() {
     try {
       this.doctors = await this.doctorService.getDoctors();
-      this.filteredDoctors = await this.doctorService.getDoctors();
+      this.filteredDoctors = this.doctors;
     } catch (error) {
       console.error('Error al obtener los Especialistas - Medicos - Doctores:', error);
     }
@@ -35,14 +35,13 @@ export class SpecialistsTableSearchComponentComponent implements OnInit {
 
   handleSearch(): void {
     this.filteredDoctors = this.doctors.filter((doctor) =>
-      doctor.nombre
-        .toLowerCase()
-        .includes(this.search.toLowerCase())
+      doctor.nombre.toLowerCase().includes(this.search.toLowerCase())
     );
   }
+
   handleRowClick(doctor: Doctor): void {
     this.selectedDoctorId = doctor.id;
-    console.log("Id seleccionado", this.selectedDoctorId)
+    console.log("Id seleccionado", this.selectedDoctorId);
     this.selectDoctor.emit(doctor);
   }
 }
