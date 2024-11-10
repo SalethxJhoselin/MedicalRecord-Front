@@ -25,6 +25,8 @@ export class ManageDoctorsComponent {
   selectedUserId: number | null = null;
   selectedDoctorId: number | null = null;
   selectedSpecialtyId: number | null = null;
+  selectDoctor: Doctor | null = null;
+  selectedSpecialties: number[] = [];
   nameFilter: string = ''
 
   onWait: boolean = false;
@@ -66,6 +68,8 @@ export class ManageDoctorsComponent {
           especialidadId: this.selectedSpecialtyId
         };
         await this.doctorService.createDoctor(doctorData)
+        this.selectedUserId = null;
+        this.selectedSpecialtyId = null;
         console.log('Doctor creado exitosamente');
         this.loadDatos();
 
@@ -77,8 +81,25 @@ export class ManageDoctorsComponent {
     }
   }
 
-  editDoctor(doctorId: number) {
-    console.log('Editar doctor con ID:', doctorId);
+  async updateDoctorSpecialties() {
+    if (this.selectDoctor) {
+      try {
+        await this.doctorService.updateSpecialtiesByDoctor(this.selectDoctor.id, this.selectedSpecialties);
+        this.loadDatos(); 
+        console.log(this.selectedSpecialties)
+        this.closeEditModal();
+      } catch (error) {
+        console.error('Error al actualizar especialidades:', error);
+      }
+    }
+  }
+
+  onSpecialtyToggle(specialtyId: number) {
+    if (this.selectedSpecialties.includes(specialtyId)) {
+      this.selectedSpecialties = this.selectedSpecialties.filter(id => id !== specialtyId);
+    } else {
+      this.selectedSpecialties.push(specialtyId);
+    }
   }
 
   async deleteDoctor(doctorId: number | null) {
@@ -100,6 +121,10 @@ export class ManageDoctorsComponent {
       return doctor.nombre.toLowerCase().includes(this.nameFilter.toLowerCase())
     });
   }
+
+  getAvailableUsers() {
+    return this.users.filter(user => !this.doctors.some(doctor => doctor.usuario === user.usuario));
+  }
   // Modales
   confirmDelete(doctor: any) {
     this.selectedDoctorId = doctor.id
@@ -111,12 +136,26 @@ export class ManageDoctorsComponent {
     this.showDeleteModal = false;
   }
 
-
   openCreateModal() {
     this.showCreateModal = true;
   }
 
+  openEditModal(doctor: Doctor) {
+    this.selectDoctor = doctor;
+    this.selectedSpecialties = doctor.especialidades
+      .map(name => this.specialties.find(specialty => specialty.nombre === name)?.id)
+      .filter(id => id !== undefined) as number[];  
+    this.showEditModal = true;
+  }
+  
+  
+
   closeCreateModal() {
     this.showCreateModal = false;
+  }
+
+  closeEditModal() {
+    this.showEditModal = false;
+    this.selectDoctor = null;
   }
 }

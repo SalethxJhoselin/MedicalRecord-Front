@@ -1,7 +1,7 @@
 // src/app/services/doctors.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { lastValueFrom, Observable } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 import { ApiConfigService } from '../api-config.service';
 
 export interface Doctor {
@@ -32,6 +32,10 @@ export class DoctorService {
 
   createDoctor(doctorData: { personaId: number; especialidadId: number }): Promise<Doctor> {
     return lastValueFrom(this.http.post<Doctor>(`${this.apiUrl}`, doctorData));
+  }
+
+  updateSpecialtiesByDoctor(id: number,specialties: number[]): Promise<void>{
+    return lastValueFrom(this.http.put<void>(`${this.apiUrl}/${id}`,{specialties}))
   }
 
   // Eliminar una especialidades
