@@ -28,4 +28,8 @@ export class AttentionQuotasService {
   async createReservation(reservationData: ReservationCreate): Promise<ReservationCreate> {
     return await lastValueFrom(this.http.post<ReservationCreate>(this.apiUrl, reservationData));
   }
+
+  async getReservations(): Promise<any[]> {
+    return await lastValueFrom(this.http.get<any[]>(`${this.apiUrl}`));
+  }
 }

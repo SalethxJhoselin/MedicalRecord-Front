@@ -1,1 +1,101 @@
-<p>triaje-record works!</p>
+<div class="reservations-table-container">
+  <h2 class="title">Lista de Reservas</h2>
+
+  <!-- Selector de fecha -->
+  <div class="date-selector">
+    <label for="date">Seleccionar Fecha:</label>
+    <input id="date" type="date" [(ngModel)]="selectedDate" (change)="onDateChange(selectedDate)" />
+  </div>
+
+  <!-- Tablas separadas por servicio -->
+  <div *ngFor="let serviceName of Object.keys(filteredReservationsByService)">
+    <h3 class="service-title">{{ serviceName }}</h3>
+    <table class="reservations-table">
+      <thead>
+        <tr>
+          <th>ID Asegurado</th>
+          <th>Hora</th>
+          <th>Servicio</th>
+          <th>Estado</th>
+          <th>Triaje</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reservation of filteredReservationsByService[serviceName]">
+          <td>{{ reservation.asegurado.id }}</td>
+          <td>{{ reservation.horaReserva[0] }}:{{ reservation.horaReserva[1] }}</td>
+          <td>{{ reservation.service.nombre }}</td>
+          <td>{{ reservation.estado }}</td>
+          <td>
+            <button (click)="openModal()" class="open-modal-button">Registrar Triaje</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal de Registro de Triaje -->
+<div class="modal-overlay" *ngIf="isModalVisible">
+  <div class="modal-content">
+    <h2>Registro de Triaje Médico</h2>
+    
+    <form [formGroup]="triajeForm" (ngSubmit)="onSubmit()">
+      <!-- Datos del Paciente -->
+      <div class="section">
+        <label>Nombre Completo:</label>
+        <input formControlName="nombreCompleto" type="text" placeholder="Nombre Completo" />
+        <label>Número de Documento:</label>
+        <input formControlName="numeroDocumento" type="text" placeholder="Número de Documento" />
+        <label>Edad:</label>
+        <input formControlName="edad" type="number" placeholder="Edad" />
+        <label>Sexo:</label>
+        <select formControlName="sexo">
+          <option value="" disabled>Seleccione</option>
+          <option value="M">Masculino</option>
+          <option value="F">Femenino</option>
+        </select>
+      </div>
+
+      <!-- Signos Vitales -->
+      <div class="section">
+        <label>Temperatura (°C):</label>
+        <input formControlName="temperatura" type="number" placeholder="Temperatura" />
+        <label>Frecuencia Cardiaca (lpm):</label>
+        <input formControlName="frecuenciaCardiaca" type="number" placeholder="Frecuencia Cardiaca" />
+        <label>Frecuencia Respiratoria (rpm):</label>
+        <input formControlName="frecuenciaRespiratoria" type="number" placeholder="Frecuencia Respiratoria" />
+        <label>Presión Arterial (mmHg):</label>
+        <input formControlName="presionArterial" type="text" placeholder="Presión Arterial" />
+        <label>Saturación de Oxígeno (%):</label>
+        <input formControlName="saturacionOxigeno" type="number" placeholder="Saturación de Oxígeno" />
+        <label>Nivel de Conciencia:</label>
+        <input formControlName="nivelConciencia" type="text" placeholder="Nivel de Conciencia" />
+      </div>
+
+      <!-- Queja Principal -->
+      <div class="section">
+        <label>Queja Principal:</label>
+        <textarea formControlName="quejaPrincipal" placeholder="Motivo de consulta"></textarea>
+      </div>
+
+      <!-- Nivel de Urgencia -->
+      <div class="section">
+        <label>Nivel de Urgencia:</label>
+        <select formControlName="nivelUrgencia">
+          <option value="" disabled>Seleccione</option>
+          <option value="1">Nivel 1 - Resucitación</option>
+          <option value="2">Nivel 2 - Emergencia</option>
+          <option value="3">Nivel 3 - Urgente</option>
+          <option value="4">Nivel 4 - Menos Urgente</option>
+          <option value="5">Nivel 5 - No Urgente</option>
+        </select>
+      </div>
+
+      <div class="modal-actions">
+        <button type="submit" [disabled]="!triajeForm.valid">Guardar Triaje</button>
+        <button type="button" (click)="closeModal()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>

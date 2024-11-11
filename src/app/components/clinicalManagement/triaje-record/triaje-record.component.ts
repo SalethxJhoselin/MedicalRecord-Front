@@ -2,18 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AttentionQuotasService } from '../../../core/services/MedicalCare/attention-quotas.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-triaje-record',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule],
   templateUrl: './triaje-record.component.html',
   styleUrls: ['./triaje-record.component.css']
 })
 export class TriajeRecordComponent implements OnInit {
+  Object = Object;
   triajeForm: FormGroup;
   isModalVisible: boolean = false;
   reservations: any[] = [];
+  filteredReservationsByService: { [serviceName: string]: any[] } = {};
+  selectedDate: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -46,6 +50,30 @@ export class TriajeRecordComponent implements OnInit {
     } catch (error) {
       console.error('Error al cargar los datos de reservas:', error);
     }
+  }
+
+  onDateChange(date: string) {
+    console.log('Fecha seleccionada:', date);
+    this.selectedDate = date;
+    this.groupReservationsByService(date);
+  }
+
+  groupReservationsByService(date: string) {
+    const filteredByDate = this.reservations.filter(reservation => {
+      const reservationDate = `${reservation.fecha[0]}-${String(reservation.fecha[1]).padStart(2, '0')}-${String(reservation.fecha[2]).padStart(2, '0')}`;
+      return reservationDate === date;
+    });
+
+    this.filteredReservationsByService = filteredByDate.reduce((groups, reservation) => {
+      const serviceName = reservation.service.nombre.trim();
+      if (!groups[serviceName]) {
+        groups[serviceName] = [];
+      }
+      groups[serviceName].push(reservation);
+      return groups;
+    }, {});
+    
+    console.log('Reservas agrupadas por servicio:', this.filteredReservationsByService);
   }
 
   openModal() {

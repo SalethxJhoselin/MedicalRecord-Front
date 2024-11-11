@@ -12,11 +12,10 @@ import { ManageDoctorsComponent } from './components/clinicalManagement/manage-d
 import { ManageBitacoraComponent } from './components/Users/manage-bitacora/manage-bitacora.component';
 import { TriajeRecordComponent } from './components/clinicalManagement/triaje-record/triaje-record.component';
 import { AttentionQuotasComponent } from './components/MedicalCare/attention-quotas/attention-quotas.component';
-import { ProgrammingCalendarComponentComponent } from './components/clinicalManagement/DoctorsHours/programming-calendar-component/programming-calendar-component.component';
 import { ManageServicesComponent } from './components/MedicalCare/manage-services/manage-services.component';
 import { ManageInsuredsComponent } from './components/MedicalCare/manage-insureds/manage-insureds.component';
 import { InsuredDetailsComponent } from './components/MedicalCare/manage-insureds/insured-details/insured-details.component';
-
+import { ProgrammingCalendarComponentComponent } from './components/clinicalManagement/DoctorsHours/programming-calendar-component/programming-calendar-component.component';
 
 export const routes: Routes = [
     {

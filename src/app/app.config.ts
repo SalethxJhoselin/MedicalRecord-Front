@@ -11,6 +11,6 @@ export const appConfig: ApplicationConfig = {
     { eventCoalescing: true }),
   provideRouter(routes),
   provideClientHydration(),
-  provideHttpClient(withFetch()), provideAnimationsAsync(), provideAnimationsAsync()
+  provideHttpClient(withFetch()), provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync()
   ]
 };
