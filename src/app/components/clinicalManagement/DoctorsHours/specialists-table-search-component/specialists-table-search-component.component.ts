@@ -6,7 +6,7 @@ import { DoctorService, Doctor } from '../../../../core/services/clinical-manage
 @Component({
   selector: 'app-specialists-table-search-component',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, FormsModule],
+  imports: [NgFor, NgClass, FormsModule],
   templateUrl: './specialists-table-search-component.component.html',
   styleUrls: ['./specialists-table-search-component.component.css']
 })
