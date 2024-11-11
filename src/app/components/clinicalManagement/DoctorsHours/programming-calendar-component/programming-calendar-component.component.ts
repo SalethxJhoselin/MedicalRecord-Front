@@ -5,7 +5,7 @@ import { CustomCalendarComponentComponent } from '../custom-calendar-component/c
 import { NgFor, NgIf } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Service, Services } from '../../../../core/services/MedicalCare/services.service';
-import { DoctorHoursService, DoctorHour } from '../../../../core/services/clinical-management/doctors-hours.service';
+import { DoctorHoursService, DoctorHourCreate } from '../../../../core/services/clinical-management/doctors-hours.service';
 
 @Component({
   selector: 'app-programming-calendar-component',
@@ -109,8 +109,8 @@ export class ProgrammingCalendarComponentComponent implements OnInit {
 
     const { servicio, horaInicio, horaFinal } = this.form.value;
 
-    // Estructura de datos para enviar al backend
-    const dataToSend = {
+    // Estructura de datos para enviar al backend como `DoctorHourCreate`
+    const dataToSend: DoctorHourCreate = {
       personaId: this.selectedPerson?.id || null,
       serviceId: servicio,
       fechas: this.additionalSelectedDates,
@@ -132,7 +132,6 @@ export class ProgrammingCalendarComponentComponent implements OnInit {
     this.isModalVisible = false;
     this.form.reset();
   }
-
 
   handleCreateSuccess(): void {
     console.log('Programación creada exitosamente');

@@ -1,9 +1,27 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ApiConfigService } from '../api-config.service';
+import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
+import { ApiConfigService } from '../api-config.service';
 
 export interface DoctorHour {
+  person: {
+    id: number;
+    nombre: string;
+  };
+  horarios: {
+    id: number;
+    startTime: string;
+    endTime: string;
+    service: {
+      id: number;
+      nombre: string;
+      duracion: number;
+    };
+    fechas: string[];
+  }[];
+}
+
+export interface DoctorHourCreate {
   personaId: number;
   serviceId: number;
   fechas: string[];
@@ -24,13 +42,11 @@ export class DoctorHoursService {
     this.apiUrl = `${this.apiConfigService.url}doctor-schedule`;
   }
 
-  // Método para obtener todos los horarios en formato DTO
   async getDoctorHours(): Promise<DoctorHour[]> {
-    return await lastValueFrom(this.http.get<DoctorHour[]>(`${this.apiUrl}/dtos`));
+    return await lastValueFrom(this.http.get<DoctorHour[]>(`${this.apiUrl}`));
   }
 
-  // Método para crear un horario para un doctor con fechas
-  async createDoctorHour(hourData: DoctorHour): Promise<DoctorHour> {
-    return await lastValueFrom(this.http.post<DoctorHour>(`${this.apiUrl}/save-with-dates`, hourData));
+  async createDoctorHour(hourData: DoctorHourCreate): Promise<DoctorHourCreate> {
+    return await lastValueFrom(this.http.post<DoctorHourCreate>(`${this.apiUrl}`, hourData));
   }
 }
