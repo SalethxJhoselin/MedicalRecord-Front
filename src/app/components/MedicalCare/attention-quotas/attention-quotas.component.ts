@@ -23,6 +23,7 @@ export class AttentionQuotasComponent implements OnInit {
   reservationStatus: string = 'Pendiente';
   reservationComment: string = '';
   selectedDate: string = ''; // Fecha seleccionada en formato "YYYY-MM-DD"
+  selectedDoctorHour: DoctorHour | null = null; // Almacenar el DoctorHour seleccionado
 
   constructor(
     private doctorHoursService: DoctorHoursService,
@@ -53,12 +54,10 @@ export class AttentionQuotasComponent implements OnInit {
     }
   }
 
-  // Función para formatear el tiempo de inicio y fin
   formatTime(time: string): string {
     return time;
   }
 
-  // Generar cupos en función de la duración del servicio y el horario seleccionado
   generateQuotas(hour: DoctorHour): void {
     const startTime = hour.horarios[0].startTime;
     const endTime = hour.horarios[0].endTime;
@@ -67,6 +66,7 @@ export class AttentionQuotasComponent implements OnInit {
     let [currentHour, currentMinute] = startTime.split(':').map(Number);
     const [endHour, endMinute] = endTime.split(':').map(Number);
     this.selectedQuotas = [];
+    this.selectedDoctorHour = hour; // Guardar el horario seleccionado
 
     while (currentHour < endHour || (currentHour === endHour && currentMinute < endMinute)) {
       const formattedTime = `${String(currentHour).padStart(2, '0')}:${String(currentMinute).padStart(2, '0')}`;
@@ -80,7 +80,6 @@ export class AttentionQuotasComponent implements OnInit {
     }
   }
 
-  // Mostrar horarios disponibles para la fecha seleccionada
   filterDoctorHoursByDate(): DoctorHour[] {
     return this.doctorHours.filter((hour) =>
       hour.horarios.some((horario) => horario.fechas.includes(this.selectedDate))
@@ -93,9 +92,14 @@ export class AttentionQuotasComponent implements OnInit {
   }
 
   async confirmReservation(): Promise<void> {
+    if (!this.selectedDoctorHour || !this.selectedDoctorHour.horarios[0]) {
+      console.error('No se ha seleccionado un horario o servicio válido');
+      return;
+    }
+
     const reservationData: ReservationCreate = {
-      personaId: this.selectedInsured ? parseInt(this.selectedInsured) : 0,
-      serviceId: this.doctorHours[0].horarios[0].service.id, // ID de servicio del horario seleccionado
+      personaId: this.selectedDoctorHour.person.id,
+      serviceId: this.selectedDoctorHour.horarios[0].service.id,
       horaReserva: this.selectedQuota || '',
       fecha: this.selectedDate,
       estado: this.reservationStatus,
