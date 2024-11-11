@@ -5,6 +5,7 @@ import { CustomCalendarComponentComponent } from '../custom-calendar-component/c
 import { NgFor, NgIf } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Service, Services } from '../../../../core/services/MedicalCare/services.service';
+import { DoctorHoursService, DoctorHour } from '../../../../core/services/clinical-management/doctors-hours.service';
 
 @Component({
   selector: 'app-programming-calendar-component',
@@ -16,7 +17,7 @@ import { Service, Services } from '../../../../core/services/MedicalCare/service
 export class ProgrammingCalendarComponentComponent implements OnInit {
   specialistSchedule = [];
   selectedPerson: any = null;
-  additionalSelectedDates: string[] = []; // Almacena fechas en formato "dd-mm-yyyy" como string[]
+  additionalSelectedDates: string[] = [];
   isModalVisible = false;
   selectedDate: Date = new Date();
   form: FormGroup;
@@ -25,7 +26,8 @@ export class ProgrammingCalendarComponentComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private servicesService: Services // Servicio para obtener los servicios médicos
+    private servicesService: Services,
+    private doctorHoursService: DoctorHoursService
   ) {
     this.form = this.fb.group({
       servicio: [null, Validators.required],
@@ -118,18 +120,19 @@ export class ProgrammingCalendarComponentComponent implements OnInit {
 
     console.log('Datos a enviar:', dataToSend);
 
-    /*try {
-      // Suponiendo que tienes un método en tu servicio que envía estos datos
-      await this.servicesService.sendProgrammingData(dataToSend);
-      console.log('Datos enviados exitosamente');
+    try {
+      // Usar el servicio `DoctorHoursService` para enviar los datos
+      await this.doctorHoursService.createDoctorHour(dataToSend);
+      console.log('Horario creado exitosamente');
       this.handleCreateSuccess();
     } catch (error) {
-      console.error('Error al enviar los datos:', error);
-    }*/
+      console.error('Error al crear el horario:', error);
+    }
 
     this.isModalVisible = false;
     this.form.reset();
   }
+
 
   handleCreateSuccess(): void {
     console.log('Programación creada exitosamente');
