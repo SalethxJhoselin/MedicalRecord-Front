@@ -10,6 +10,7 @@ export interface Service {
     descripcion?: String,
     precio?: number,
     imagen?: String,
+    duracion?: number,
     especialidad?: Specialty
 }
 
@@ -19,6 +20,7 @@ export interface ServiceCreate {
     descripcion?: String,
     precio?: number,
     imagen?: String,
+    duracion?: number,
     especialidad?: number
 }
 
@@ -40,7 +42,7 @@ export class Services {
         return await lastValueFrom(this.http.get<Service[]>(this.apiUrl))
     }
 
-    async createService(service: ServiceCreate): Promise<ServiceCreate>{
+    async createOrUpdateService(service: ServiceCreate): Promise<ServiceCreate>{
         return await lastValueFrom(this.http.post<ServiceCreate>(this.apiUrl,service))
     }
 

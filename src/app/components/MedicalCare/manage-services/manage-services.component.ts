@@ -22,8 +22,10 @@ export class ManageServicesComponent {
   filteredServices: Service[] = [];
   userFilter: string = '';
   onWait: boolean = false;
-  isModalOpen: boolean = false;
+
+  showCreateModal: boolean = false;
   showDeleteModal: boolean = false;
+  showEditModal: boolean = false;
 
 
   constructor(
@@ -76,7 +78,7 @@ export class ManageServicesComponent {
         this.newService.imagen = imageUrl;
       }
 
-      await this.service.createService(this.newService);
+      await this.service.createOrUpdateService(this.newService);
       this.loadDates();
       this.newService = {};
       this.selectedFile = null;
@@ -85,17 +87,7 @@ export class ManageServicesComponent {
     }
   }
 
-  // Mostrar modal de confirmación
-  confirmDelete(service: any) {
-    this.selectedServiceId = service.id;
-    this.showDeleteModal = true;
-  }
-
-  cancelDelete() {
-    this.showDeleteModal = false;
-    this.selectedServiceId = null;
-  }
-
+  
   async deleteService(selectedServiceId: number | null) {
     if (selectedServiceId != null) {
       try {
@@ -109,28 +101,54 @@ export class ManageServicesComponent {
     }
   }
   
-
+  
   async editService(service: Service) {
 
   }
-
+  
   applyFilter() {
     const filterValue = this.userFilter.toLowerCase();
     this.filteredServices = this.services.filter(service =>
       service.nombre?.toLowerCase().includes(filterValue)
     );
   }
-
+  
   clearFilters() {
     this.userFilter = '';
     this.filteredServices = this.services;
   }
-
-  openModal() {
-    this.isModalOpen = true;
+  
+  openCreateModal() {
+    this.showCreateModal = true;
+  }
+  
+  closeCreateModal() {
+    this.showCreateModal = false;
   }
 
-  closeModal() {
-    this.isModalOpen = false;
+  openEditModal(service: Service) {
+    this.newService.id = service.id
+    this.newService.nombre = service.nombre
+    this.newService.descripcion = service.descripcion
+    this.newService.precio = service.precio
+    this.newService.imagen = service.imagen
+    this.newService.duracion = service.duracion
+    this.newService.especialidad = service.especialidad?.id
+    this.showEditModal = true;
+  }
+  
+  closeEditModal() {
+    this.showEditModal = false;
+    this.newService = {}
+  }
+
+  confirmDelete(service: any) {
+    this.selectedServiceId = service.id;
+    this.showDeleteModal = true;
+  }
+  
+  cancelDelete() {
+    this.showDeleteModal = false;
+    this.selectedServiceId = null;
   }
 }
