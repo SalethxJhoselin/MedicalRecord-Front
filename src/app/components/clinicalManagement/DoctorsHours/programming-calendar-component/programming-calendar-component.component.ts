@@ -21,9 +21,12 @@ export class ProgrammingCalendarComponentComponent implements OnInit {
   selectedDate: Date = new Date();
   form: FormGroup;
   services: Service[] = [];
-  onWait: boolean = false; // Control de carga de servicios
+  onWait: boolean = false;
 
-  constructor(private fb: FormBuilder, private servicesService: Services) {
+  constructor(
+    private fb: FormBuilder,
+    private servicesService: Services // Servicio para obtener los servicios médicos
+  ) {
     this.form = this.fb.group({
       servicio: [null, Validators.required],
       horaInicio: [null, Validators.required],
@@ -34,7 +37,7 @@ export class ProgrammingCalendarComponentComponent implements OnInit {
   ngOnInit(): void {
     console.log('Componente ProgrammingCalendarComponent inicializado');
     this.fetchSpecialistSchedules();
-    this.loadServices(); // Cargar servicios al iniciar el componente
+    this.loadServices();
   }
 
   async loadServices() {
@@ -99,19 +102,30 @@ export class ProgrammingCalendarComponentComponent implements OnInit {
     }
   }
 
-  handleOk(): void {
+  async handleOk() {
     if (this.form.invalid) return;
 
     const { servicio, horaInicio, horaFinal } = this.form.value;
-    const dataToLog = {
-      doctor_id: this.selectedPerson?.id || 'ID no disponible',
-      servicio_id: servicio,
+
+    // Estructura de datos para enviar al backend
+    const dataToSend = {
+      personaId: this.selectedPerson?.id || null,
+      serviceId: servicio,
       fechas: this.additionalSelectedDates,
-      hora_inicio: horaInicio,
-      hora_fin: horaFinal,
+      startTime: horaInicio,
+      endTime: horaFinal,
     };
 
-    console.log('Datos de programación:', dataToLog);
+    console.log('Datos a enviar:', dataToSend);
+
+    /*try {
+      // Suponiendo que tienes un método en tu servicio que envía estos datos
+      await this.servicesService.sendProgrammingData(dataToSend);
+      console.log('Datos enviados exitosamente');
+      this.handleCreateSuccess();
+    } catch (error) {
+      console.error('Error al enviar los datos:', error);
+    }*/
 
     this.isModalVisible = false;
     this.form.reset();
