@@ -23,11 +23,11 @@ export class LoginComponent {
   async login(): Promise<void> {
     //console.log(this.user,this.password,"a ver si esto si lo muestra");
     try {
-      this.authService.login(this.username, this.password).subscribe({
+      await this.authService.login(this.username, this.password).subscribe({
         next: () => this.router.navigate(['/dashboard']),
         error: (err) => console.error('Login failed', err)
       })
-      await this.bitacoraService.addBitacoraEntry('El usuario inicio sesion', 'Login')
+      //await this.bitacoraService.addBitacoraEntry('El usuario inicio sesion', 'Login')
     } catch (error) {
       
     }
