@@ -3,6 +3,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import { SpecialtieService, Specialty } from '../../../core/services/clinical-management/specialties.service';
 import { FormsModule } from '@angular/forms';
+import { BitacoraService } from '../../../core/services/Users/bitacora.service';
 
 @Component({
   selector: 'app-manage-specialties',
@@ -25,7 +26,7 @@ export class ManageSpecialtiesComponent {
   showEditModal: boolean = false;
   showDeleteModal: boolean = false;
 
-  constructor(private specialtieService: SpecialtieService) { }
+  constructor(private specialtieService: SpecialtieService,private bitacoraService: BitacoraService) { }
 
   ngOnInit(): void {
     this.loadSpecialties();
@@ -47,6 +48,7 @@ export class ManageSpecialtiesComponent {
     if (this.newSpecialty.nombre && this.newSpecialty.descripcion) {
       try {
         await this.specialtieService.saveSpecialty(this.newSpecialty)
+        await this.bitacoraService.addBitacoraEntry('Se creo una nueva especialidad', 'Especialidades')
         this.loadSpecialties()
         this.newSpecialty = { nombre: '', descripcion: '' };
       } catch (error) {
@@ -62,6 +64,7 @@ export class ManageSpecialtiesComponent {
     if (this.selectEditSpecialty !== undefined) {
       try {
         await this.specialtieService.editSpecialty(this.selectEditSpecialty)
+        await this.bitacoraService.addBitacoraEntry('Se edito una especialidad', 'Especialidades')
         this.selectEditSpecialty = { id: undefined, nombre: '', descripcion: '' };
         this.loadSpecialties()
       } catch (error) {
@@ -77,6 +80,7 @@ export class ManageSpecialtiesComponent {
     if (this.selectSpecialtyId !== undefined) {
       try {
         await this.specialtieService.deleteSpecialty(this.selectSpecialtyId)
+        await this.bitacoraService.addBitacoraEntry('Se elimino una especialidad', 'Especialidades')
         this.loadSpecialties()
         this.showDeleteModal = false
         this.selectSpecialtyId = undefined
