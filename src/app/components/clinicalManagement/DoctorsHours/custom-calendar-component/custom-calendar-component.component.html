@@ -1,5 +1,11 @@
-<mat-card class="demo-inline-calendar-card">
-    <mat-calendar ></mat-calendar>
+<div class="calendar-container">
+  <mat-card class="calendar-card">
+    <mat-calendar
+      [(selected)]="value"
+      [dateClass]="dateClass"
+      (selectedChange)="handleDateChange($event)"
+      (click)="onClickDay(value)"
+      class="custom-calendar"
+    ></mat-calendar>
   </mat-card>
-  <p>Selected date:</p>
-  
+</div>

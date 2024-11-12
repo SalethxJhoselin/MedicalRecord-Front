@@ -1,1 +1,72 @@
-<p>attention-quotas works!</p>
+<div class="medicos-table-container">
+  <h2 class="title">Lista de Médicos y Horarios</h2>
+  
+  <!-- Selección de Fecha -->
+  <label for="date-select">Seleccionar Fecha:</label>
+  <input id="date-select" type="date" [(ngModel)]="selectedDate" (change)="filterDoctorHoursByDate()" />
+
+  <!-- Tabla de Médicos y Horarios Filtrados -->
+  <table class="medicos-table" *ngIf="selectedDate">
+    <thead>
+      <tr>
+        <th>Nombre del Médico</th>
+        <th>Servicio</th>
+        <th>Horario</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr 
+        *ngFor="let hour of filterDoctorHoursByDate()" 
+        class="medico-row" 
+        (click)="generateQuotas(hour)">
+        <td>{{ hour.person.nombre }}</td>
+        <td>{{ hour.horarios[0].service.nombre }}</td>
+        <td>{{ formatTime(hour.horarios[0].startTime) }} - {{ formatTime(hour.horarios[0].endTime) }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Lista de Cupos Generados -->
+  <div class="fichas-list" *ngIf="selectedQuotas.length > 0">
+    <h3 class="fichas-title">Cupos generados</h3>
+    <ul>
+      <li *ngFor="let quota of selectedQuotas" class="ficha-item">
+        <p>Horario: {{ quota }}</p>
+        <button class="reserve-button" (click)="openReservationModal(quota)">Reservar</button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Modal para la Selección de Asegurado y Detalles de Reserva -->
+  <div class="modal-overlay" *ngIf="isModalVisible">
+    <div class="modal-content">
+      <h2>Reserva de Horario</h2>
+      <p><strong>Horario seleccionado:</strong> {{ selectedQuota }}</p>
+
+      <label for="insured-select">Seleccionar Asegurado:</label>
+      <select id="insured-select" [(ngModel)]="selectedInsured">
+        <option *ngFor="let insured of insuredList" [value]="insured.id">{{ insured.nombre }}</option>
+      </select>
+
+      <label for="reservation-date">Fecha de Reserva:</label>
+      <input id="reservation-date" type="date" [(ngModel)]="selectedDate" disabled />
+
+      <label for="reservation-status">Estado:</label>
+      <select id="reservation-status" [(ngModel)]="reservationStatus">
+        <option value="Pendiente">Pendiente</option>
+        <option value="Confirmada">Confirmada</option>
+        <option value="Cancelada">Cancelada</option>
+      </select>
+
+      <label for="reservation-comment">Comentario:</label>
+      <textarea id="reservation-comment" [(ngModel)]="reservationComment" placeholder="Comentario"></textarea>
+
+      <div class="modal-actions">
+        <button (click)="confirmReservation()" [disabled]="!selectedInsured || !reservationComment">
+          Confirmar Reserva
+        </button>
+        <button (click)="cancelReservation()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>

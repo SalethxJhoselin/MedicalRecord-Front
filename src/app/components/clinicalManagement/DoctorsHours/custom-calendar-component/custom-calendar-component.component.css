@@ -1,4 +1,5 @@
-.demo-inline-calendar-card {
-    width: 300px;
-  }
-  
+.selected-date .mat-calendar-body-cell-content {
+  background-color: #3f51b5 !important;
+  color: white !important;
+  border-radius: 50% !important;
+}
