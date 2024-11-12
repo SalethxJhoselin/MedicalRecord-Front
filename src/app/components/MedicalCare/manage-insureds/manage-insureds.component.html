@@ -5,7 +5,7 @@
     <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 mb-6 px-6">
         <input
             class="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none"
-            type="text" placeholder="Nombre del Usuario" />
+            type="text" placeholder="Nombre del Usuario"  [(ngModel)]="insuredFilter" (input)="applyFilters()"/>
         <button (click)="openCreateModal()"
             class="px-2 py-1 bg-primary text-white rounded-md hover:bg-mint flex items-center">
             <span class="material-icons mr-2 text-lg">add</span> Agregar Asegurado
@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let insured of insureds" class="hover:bg-gray-50 border-b border-gray-100">
+                <tr *ngFor="let insured of filteredInsureds" class="hover:bg-gray-50 border-b border-gray-100">
                     <td class="p-3 border-r border-gray-100">{{ insured.id }}</td>
                     <td class="p-3 border-r border-gray-100">{{ insured.nombre }}</td>
                     <td class="p-3 border-r border-gray-100">{{ insured.email }}</td>

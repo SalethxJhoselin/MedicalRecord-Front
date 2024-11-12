@@ -3,6 +3,7 @@ import { Service, ServiceCreate, Services } from '../../../core/services/Medical
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SpecialtieService, Specialty } from '../../../core/services/clinical-management/specialties.service';
+import { BitacoraService } from '../../../core/services/Users/bitacora.service';
 
 @Component({
   selector: 'app-manage-services',
@@ -30,7 +31,8 @@ export class ManageServicesComponent {
 
   constructor(
     private service: Services,
-    private specialty: SpecialtieService
+    private specialty: SpecialtieService,
+    private bitacoraService: BitacoraService
   ) { }
 
   ngOnInit(): void {
@@ -79,6 +81,7 @@ export class ManageServicesComponent {
       }
 
       await this.service.createOrUpdateService(this.newService);
+      await this.bitacoraService.addBitacoraEntry('Se creo un nuevo servicio', 'Servicios')
       this.loadDates();
       this.newService = {};
       this.selectedFile = null;
@@ -92,6 +95,7 @@ export class ManageServicesComponent {
     if (selectedServiceId != null) {
       try {
         await this.service.deleteService(selectedServiceId);
+        await this.bitacoraService.addBitacoraEntry('Se elimino un servicio', 'Servicios')
         this.loadDates();
         this.showDeleteModal = false; 
         this.selectedServiceId = null; 

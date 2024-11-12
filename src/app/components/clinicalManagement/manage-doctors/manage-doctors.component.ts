@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatOption } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { BitacoraService } from '../../../core/services/Users/bitacora.service';
 
 
 @Component({
@@ -38,7 +39,8 @@ export class ManageDoctorsComponent {
   constructor(
     private doctorService: DoctorService,
     private specialtyService: SpecialtieService,
-    private userService: UserService
+    private userService: UserService,
+    private bitacoraService: BitacoraService
   ) { }
 
   ngOnInit(): void {
@@ -68,6 +70,7 @@ export class ManageDoctorsComponent {
           especialidadId: this.selectedSpecialtyId
         };
         await this.doctorService.createDoctor(doctorData)
+        await this.bitacoraService.addBitacoraEntry('Se creo un nuevo Medico', 'Medicos')
         this.selectedUserId = null;
         this.selectedSpecialtyId = null;
         console.log('Doctor creado exitosamente');
@@ -85,6 +88,7 @@ export class ManageDoctorsComponent {
     if (this.selectDoctor) {
       try {
         await this.doctorService.updateSpecialtiesByDoctor(this.selectDoctor.id, this.selectedSpecialties);
+        await this.bitacoraService.addBitacoraEntry('Se edito un Medico', 'Medicos')
         this.loadDatos(); 
         console.log(this.selectedSpecialties)
         this.closeEditModal();
@@ -106,6 +110,7 @@ export class ManageDoctorsComponent {
     if (doctorId != null) {
       try {
         await this.doctorService.deleteDoctor(doctorId);
+        await this.bitacoraService.addBitacoraEntry('Se elimino un Medico', 'Medicos')
         this.loadDatos()
         this.selectedDoctorId = null
         this.showDeleteModal = false

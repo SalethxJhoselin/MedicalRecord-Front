@@ -33,11 +33,32 @@ export class AuthService {
 
     private setToken(token: string): void {
         localStorage.setItem(this.tokenKey, token);
+        const payloadBase64 = token.split('.')[1];
+        const payload = JSON.parse(atob(payloadBase64));
+
+        localStorage.setItem('user', payload.usuario);
+        localStorage.setItem('userId', payload.id);
+        localStorage.setItem('userPermissions', JSON.stringify(payload.Permisos));
     }
 
     private getToken(): string | null {
         return localStorage.getItem(this.tokenKey);
     }
+
+    getTokenPayload(): any | null {
+        const token = this.getToken();
+        if (!token) {
+            return null;
+        }
+        const payloadBase64 = token.split('.')[1];
+        try {
+            return JSON.parse(atob(payloadBase64));
+        } catch (e) {
+            console.error("Error al decodificar el token:", e);
+            return null;
+        }
+    }
+
 
     isAuthenticated(): boolean {
         const token = this.getToken();
@@ -51,6 +72,9 @@ export class AuthService {
 
     logout(): void {
         localStorage.removeItem(this.tokenKey);
+        localStorage.removeItem('user');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userPermissions');
         this.router.navigate(['/iniciarSesion']);
     }
 }

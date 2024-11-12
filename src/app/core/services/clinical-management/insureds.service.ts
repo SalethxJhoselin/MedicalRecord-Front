@@ -4,14 +4,14 @@ import { lastValueFrom } from 'rxjs';
 import { ApiConfigService } from '../api-config.service';
 
 export interface InsuredGet {
-  id: number
-  id_usuario: number
-  usuario: string
-  nombre: string
-  email: string
-  fecha_nacimiento: Date
-  direccion: string
-  telefono: string
+  id?: number
+  id_usuario?: number
+  usuario?: string
+  nombre?: string
+  email?: string
+  fecha_nacimiento?: Date
+  direccion?: string
+  telefono?: string
 }
 
 export interface InsuredPost{
@@ -54,6 +54,12 @@ export class InsuredService {
   async deleteInsured(id: number): Promise<InsuredPost>{
     return await lastValueFrom(this.http.delete<InsuredPost>(`${this.apiUrl}/${id}`))
   }
+
+  async updateInsured(insured: InsuredGet): Promise<InsuredGet>{
+    return await lastValueFrom(this.http.put<InsuredGet>(this.apiUrl, insured))
+  }
+
+  
 
 }
 
