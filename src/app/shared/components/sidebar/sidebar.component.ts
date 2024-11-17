@@ -58,7 +58,7 @@ export class SidebarComponent {
       submenus: [
         { title: 'Gestionar Servicio', route: '/servicios' },
         { title: 'Gestionar obtencion de ficha de actencion', route: '/fichaAtencion' },
-        { title: 'Gestionar de atencion de consulta', route: '/registrarse' },
+        { title: 'Gestionar de atencion de consulta', route: '/atenciones' },
         { title: 'Administrar historias clinicas', route: '/registrarse' },
         { title: 'Gestionar tratamiento', route: '/registrarse' }
       ]

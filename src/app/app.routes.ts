@@ -16,6 +16,7 @@ import { ManageServicesComponent } from './components/MedicalCare/manage-service
 import { ManageInsuredsComponent } from './components/MedicalCare/manage-insureds/manage-insureds.component';
 import { InsuredDetailsComponent } from './components/MedicalCare/manage-insureds/insured-details/insured-details.component';
 import { ProgrammingCalendarComponentComponent } from './components/clinicalManagement/DoctorsHours/programming-calendar-component/programming-calendar-component.component';
+import { ManageAttentionComponent } from './components/MedicalCare/manage-attention/manage-attention.component';
 
 export const routes: Routes = [
     {
@@ -83,6 +84,11 @@ export const routes: Routes = [
                 canActivate: [AuthGuard]
             },
 
+            {
+                path: 'atenciones',
+                component: ManageAttentionComponent,
+                canActivate: [AuthGuard]
+            },
             {
                 path: 'asegurados',
                 component: ManageInsuredsComponent,
