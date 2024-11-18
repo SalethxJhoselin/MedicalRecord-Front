@@ -19,10 +19,8 @@ export class ManageAttentionComponent {
 confirmDelete() {
 throw new Error('Method not implemented.');
 }
-openEditModal() {
-throw new Error('Method not implemented.');
-}
   reservations: any[] = [];
+  reserva: any = {}
   reservationsFiltered: any[] = [];
   doctors: Doctor[] = [];
   services: Service[] = [];
@@ -30,6 +28,46 @@ throw new Error('Method not implemented.');
   doctorFilter: number | null = null;
   dateFilter: Date | null = null;
   onWait: boolean = false;
+
+  isEditModalOpen: boolean = false;
+  activeTab: number = 0;
+  modalSections: string[] = ['Farmacia', 'Laboratorio', 'Tratamiento', 'Atencion Médica', 'Historia Clínica'];
+
+  newMedicamento = {
+    nombre: '',
+    dosis: '',
+    frecuencia: '',
+    duracion: '',
+    instrucciones: ''
+  };
+  
+  medicamentos = [];
+
+  newExamen = {
+    tipo: '',
+    fecha: '',
+    resultados: '',
+    observaciones: '',
+    estado: ''
+  };
+  
+  examenes = [];
+  newTratamiento = {
+    descripcion: '',
+    fechaInicio: '',
+    fechaFin: '',
+    estado: '',
+    resultados: ''
+  };
+  
+  tratamientos = [];
+  altaMedica = {
+    motivoConsulta: '',
+    diagnostico: '',
+    recomendaciones: '',
+    estado: ''
+  };
+
 
   constructor(
     private attentionService: AttentionQuotasService,
@@ -82,13 +120,26 @@ throw new Error('Method not implemented.');
     return `${formattedHours}:${formattedMinutes}`;
   }
 
-
-
   clearFilters() {
     this.doctorFilter = null;
     this.dateFilter = null;
     this.serviceFilter = null;
     this.reservationsFiltered = [];
+  }
+
+
+  openEditModal(reserva: any) {
+    this.reserva = reserva
+    this.isEditModalOpen = true;
+    this.activeTab = 0;
+  }
+
+  closeEditModal() {
+    this.isEditModalOpen = false;
+  }
+
+  selectTab(index: number) {
+    this.activeTab = index;
   }
 }
 

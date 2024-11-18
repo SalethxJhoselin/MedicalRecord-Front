@@ -58,14 +58,14 @@
                 <tr *ngFor="let reservation of reservationsFiltered" class="border-b border-gray-200 hover:bg-gray-50">
                     <td class="p-3 border-r border-gray-200 sm:p-2">{{ reservation.id }}</td>
                     <td class="p-3 border-r border-gray-200 sm:p-2">{{ reservation.persona.id }}</td>
-                    <td class="p-3 border-r border-gray-200 sm:p-2">{{ reservation.persona.nombre }}</td>
+                    <td class="p-3 border-r border-gray-200 sm:p-2">{{ reservation.asegurado.nombreAsegurado }}</td>
                     <td class="p-3 border-r border-gray-200 sm:p-2">
                         {{ formatTime(reservation.horaReserva) }}
                     </td>
                     <td class="p-3 border-r border-gray-200 sm:p-2">{{ reservation.estado}}</td>
                     <td class="p-3 text-center">
                         <div class="inline-flex space-x-2">
-                            <button (click)="openEditModal()"
+                            <button (click)="openEditModal(reservation)"
                                 class="px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-400 transition duration-200">
                                 <i class="lni lni-pencil-alt"></i>
                             </button>
@@ -77,9 +77,255 @@
                     </td>
                 </tr>
             </tbody>
-            
+
         </table>
     </div>
+
+    <!-- Modal para editar atención -->
+    <div *ngIf="isEditModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50">
+        <div class="bg-white rounded-lg w-11/12 max-w-7xl p-6 shadow-lg mt-10 ">
+            <div class="flex justify-between items-center border-b pb-2 mb-6">
+                <h3 class="text-xl font-semibold">Editar Atención</h3>
+                <button (click)="closeEditModal()" class="text-gray-600 hover:text-gray-800 text-2xl">&times;</button>
+            </div>
+
+            <!-- Navegación por pestañas -->
+            <ul class="flex border-b mb-6">
+                <li *ngFor="let section of modalSections; let i = index" class="cursor-pointer px-5 py-3 border-b-2"
+                    [class.border-blue-500]="activeTab === i" [class.font-semibold]="activeTab === i"
+                    (click)="selectTab(i)">
+                    {{ section }}
+                </li>
+            </ul>
+
+            <!-- Contenido del modal -->
+            <div>
+                <div *ngIf="activeTab === 0">
+                    <h4 class="text-blue-500 font-semibold mb-4">Farmacia</h4>
+
+                    <!-- Formulario para agregar medicamentos -->
+                    <div class="flex flex-wrap gap-4 items-center mb-6">
+                        <input type="text" placeholder="Medicamento" [(ngModel)]="newMedicamento.nombre"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" placeholder="Dosis" [(ngModel)]="newMedicamento.dosis"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" placeholder="Frecuencia" [(ngModel)]="newMedicamento.frecuencia"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" placeholder="Duración" [(ngModel)]="newMedicamento.duracion"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" placeholder="Instrucciones" [(ngModel)]="newMedicamento.instrucciones"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <button
+                            class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
+                            Guardar
+                        </button>
+                    </div>
+
+                    <!-- Tabla para mostrar medicamentos -->
+                    <div class="md:block bg-white p-6 rounded-lg shadow-md">
+                        <table class="w-full border border-gray-200 border-collapse text-left overflow-hidden sm:text-sm">
+                            <thead>
+                                <tr class="bg-gray-200">
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Medicamento
+                                    </th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Dosis</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Frecuencia</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Duración</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Instrucciones
+                                    </th>
+                                    <th class="p-3 text-gray-600 font-semibold text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let medicamento of medicamentos"
+                                    class="hover:bg-gray-50 border-b border-gray-300">
+                                    <td class="p-3 border-r border-gray-300">{{ medicamento }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ medicamento }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ medicamento }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ medicamento }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ medicamento }}</td>
+                                    <td class="p-3 text-center">
+                                        <button
+                                            class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200">
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div *ngIf="activeTab === 1">
+                    <h4 class="text-blue-500 font-semibold mb-4">Laboratorio</h4>
+
+                    <!-- Formulario para agregar exámenes -->
+                    <div class="flex flex-wrap gap-4 items-center mb-6">
+                        <input type="text" placeholder="Tipo de examen" [(ngModel)]="newExamen.tipo"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="date" placeholder="Fecha de examen" [(ngModel)]="newExamen.fecha"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" placeholder="Resultados" [(ngModel)]="newExamen.resultados"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" placeholder="Observaciones" [(ngModel)]="newExamen.observaciones"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <select [(ngModel)]="newExamen.estado"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="" disabled selected>Estado</option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Completado">Completado</option>
+                        </select>
+                        <button 
+                            class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
+                            Guardar
+                        </button>
+                    </div>
+
+                    <!-- Tabla para mostrar exámenes -->
+                    <div class="md:block bg-white p-6 rounded-lg shadow-md">
+                        <table class="w-full border border-gray-200 border-collapse text-left overflow-hidden sm:text-sm">
+                            <thead>
+                                <tr class="bg-gray-200">
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Tipo de examen
+                                    </th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Fecha</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Resultados</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Observaciones
+                                    </th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Estado</th>
+                                    <th class="p-3 text-gray-600 font-semibold text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let examen of examenes" class="hover:bg-gray-50 border-b border-gray-300">
+                                    <td class="p-3 border-r border-gray-300">{{ examen }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ examen }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ examen}}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ examen }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ examen}}</td>
+                                    <td class="p-3 text-center">
+                                        <button
+                                            class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200">
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div *ngIf="activeTab === 2">
+                    <h4 class="text-blue-500 font-semibold mb-4">Tratamiento</h4>
+                
+                    <!-- Formulario para agregar tratamientos -->
+                    <div class="flex flex-wrap gap-4 items-center mb-6">
+                        <input type="text" placeholder="Descripción" [(ngModel)]="newTratamiento.descripcion"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <input type="date" placeholder="Fecha de inicio" [(ngModel)]="newTratamiento.fechaInicio"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <input type="date" placeholder="Fecha de fin" [(ngModel)]="newTratamiento.fechaFin"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <select [(ngModel)]="newTratamiento.estado"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                            <option value="" disabled selected>Estado</option>
+                            <option value="En progreso">En progreso</option>
+                            <option value="Completado">Completado</option>
+                            <option value="Pendiente">Pendiente</option>
+                        </select>
+                        <input type="text" placeholder="Resultados" [(ngModel)]="newTratamiento.resultados"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <button 
+                            class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
+                            Guardar
+                        </button>
+                    </div>
+                
+                    <!-- Tabla para mostrar tratamientos -->
+                    <div class="md:block bg-white p-6 rounded-lg shadow-md">
+                        <table class="w-full border border-gray-200 border-collapse text-left overflow-hidden sm:text-sm">
+                            <thead>
+                                <tr class="bg-gray-200">
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Descripción</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Fecha inicio</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Fecha fin</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Estado</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Resultados</th>
+                                    <th class="p-3 text-gray-600 font-semibold text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let tratamiento of tratamientos" class="hover:bg-gray-50 border-b border-gray-300">
+                                    <td class="p-3 border-r border-gray-300">{{ tratamiento }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ tratamiento }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ tratamiento }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ tratamiento }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ tratamiento }}</td>
+                                    <td class="p-3 text-center">
+                                        <button
+                                            class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200">
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div *ngIf="activeTab === 3">
+                    <h4 class="text-blue-500 font-semibold mb-4">Atencion Médica</h4>
+                
+                    <!-- Formulario para alta médica -->
+                    <div class="flex flex-wrap gap-4 items-center">
+                        <input type="text" placeholder="Motivo de consulta" [(ngModel)]="altaMedica.motivoConsulta"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" placeholder="Diagnóstico" [(ngModel)]="altaMedica.diagnostico"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <textarea placeholder="Recomendaciones" [(ngModel)]="altaMedica.recomendaciones"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        <select [(ngModel)]="altaMedica.estado"
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="" disabled selected>Estado</option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Finalizado">Finalizado</option>
+                        </select>
+                    </div>
+                
+                    <!-- Botón para guardar alta médica -->
+                    <div class="mt-4">
+                        <button
+                            class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+                
+                <div *ngIf="activeTab === 4">
+                    <h4 class="text-blue-500 font-semibold">Historia Clínica</h4>
+                    <div class="md:block bg-white p-6 rounded-lg shadow-md">
+                        <table class="w-full border border-gray-200 border-collapse text-left overflow-hidden sm:text-sm">
+                            <thead>
+                                <tr class="bg-gray-200 ">
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2 w-32">ID Atencion</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2 w-32">ID Asegurado</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2 w-32">Servicio</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2">Nombre
+                                        Asegurado</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2 w-28">Hora</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2 w-28">Estado</th>
+                                    <th class="p-3 text-center text-gray-600 font-semibold w-28">Acciones</th>
+                                </tr>
+                            </thead>
+                
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 
 </div>
