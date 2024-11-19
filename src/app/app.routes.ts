@@ -19,6 +19,8 @@ import { ProgrammingCalendarComponentComponent } from './components/clinicalMana
 import { ManageAttentionComponent } from './components/MedicalCare/manage-attention/manage-attention.component';
 import { ManageMedicalEmergencyComponent } from './components/clinicalManagement/manage-medical-emergency/manage-medical-emergency.component';
 
+import { HistorialComponent } from './components/historial/historial.component';
+
 export const routes: Routes = [
     {
         path: '',
@@ -37,6 +39,11 @@ export const routes: Routes = [
             {
                 path: 'roles',
                 component: ManageRolesComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'historial',
+                component: HistorialComponent,
                 canActivate: [AuthGuard]
             },
             {

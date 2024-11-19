@@ -1,0 +1,23 @@
+<div class="historial-container">
+    <h2>Lista de Asegurados</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let insured of insureds">
+            <td>{{ insured.id }}</td>
+            <td>{{ insured.nombre }}</td>
+            <td>
+              <button *ngIf="insured.id !== undefined" (click)="exportPdf(insured.id!)">Exportar PDF</button>
+            </td>
+          </tr>
+          
+      </tbody>
+    </table>
+  </div>
+  
