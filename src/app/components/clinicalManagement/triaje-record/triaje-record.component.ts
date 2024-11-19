@@ -5,6 +5,7 @@ import { AttentionQuotasService } from '../../../core/services/MedicalCare/atten
 import { InsuredService, InsuredGet } from '../../../core/services/clinical-management/insureds.service';
 import { FormsModule } from '@angular/forms';
 import { TriajeRecordService, TriageRequest } from '../../../core/services/clinical-management/triaje-record.service';
+import { AtencionCreate, AtencionService } from '../../../core/services/MedicalCare/atencion.service';
 
 @Component({
   selector: 'app-triaje-record',
@@ -24,12 +25,14 @@ export class TriajeRecordComponent implements OnInit {
   currentInsuredName: string = '';
   currentServiceName: string = '';
   currentReservationId: number | null = null;
+  newAttention: AtencionCreate | null = null
 
   constructor(
     private fb: FormBuilder,
     private attentionQuotasService: AttentionQuotasService,
     private insuredService: InsuredService,
-    private triajeRecordService: TriajeRecordService
+    private triajeRecordService: TriajeRecordService,
+    private consultaService: AtencionService
   ) {
     this.triajeForm = this.fb.group({
       fechaTriaje: ['', Validators.required],
@@ -114,13 +117,13 @@ export class TriajeRecordComponent implements OnInit {
   }
 
   async onOtherButtonClick(): Promise<void> {
-    // if (this.triajeForm.valid) {
     const fechaOriginal = this.triajeForm.value.fechaTriaje;
 
     // Convertir la fecha al formato día-mes-año
     const [fecha, hora] = fechaOriginal.split(' ');
     const [year, month, day] = fecha.split('-');
     const fechaFormateada = `${day}-${month}-${year} ${hora}`;
+
     const triajeData = {
       reservaId: this.currentReservationId,
       fechaTriaje: fechaFormateada,
@@ -132,18 +135,42 @@ export class TriajeRecordComponent implements OnInit {
       comentario: this.triajeForm.value.comentario,
       prioridad: Number(this.triajeForm.value.prioridad)
     };
-    console.log('registro de triaje para enviar:', triajeData);
+
+    console.log('Registro de triaje para enviar:', triajeData);
+
     try {
       const response = await this.triajeRecordService.createTriage(triajeData);
-      console.log('registrado OK:', response);
+      console.log('Triaje registrado correctamente:', response);
+
+      // Crear la consulta inmediatamente después del triaje
+      const ahora = new Date();
+      const fechaAtencion = ahora.toISOString().split('T')[0]; // Obtener "YYYY-MM-DD"
+      const horaAtencion = ahora.toTimeString().split(' ')[0]; // Obtener "HH:mm:ss"
+
+      const nuevaConsulta = {
+        fecha_atencion: fechaAtencion, // Fecha actual en formato esperado
+        hora_atencion: horaAtencion, // Hora actual en formato esperado
+        motivo_consulta: '..', // Datos genéricos
+        recomendaciones: '..', // Datos genéricos
+        diagnostico: '..', // Datos genéricos
+        estado: 'Pendiente', // Estado inicial
+        id_triaje: response.id // ID del triaje creado
+      };
+
+      try {
+        console.log(nuevaConsulta)
+        const consultaResponse = await this.consultaService.createAtencion(nuevaConsulta);
+        console.log('Consulta creada correctamente:', consultaResponse);
+      } catch (error) {
+        console.error('Error al crear la consulta:', error);
+      }
+
       this.closeModal();
     } catch (error) {
       console.error('Error al registrar triaje:', error);
     }
-    /*} else {
-      console.log('Formulario inválido');
-    }*/
   }
+
 
 
 }

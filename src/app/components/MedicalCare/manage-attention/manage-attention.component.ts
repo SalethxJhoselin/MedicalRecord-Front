@@ -7,6 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { Doctor, DoctorService } from '../../../core/services/clinical-management/doctors.service';
 import { Service, Services } from '../../../core/services/MedicalCare/services.service';
+import { AtencionCreate, AtencionService } from '../../../core/services/MedicalCare/atencion.service';
+import { TratamientoCreate, TratamientoService } from '../../../core/services/MedicalCare/tratamiento.service';
+import { LaboratorioCreate, LaboratorioService } from '../../../core/services/MedicalCare/laboratorio.service';
 
 @Component({
   selector: 'app-manage-attention',
@@ -16,9 +19,9 @@ import { Service, Services } from '../../../core/services/MedicalCare/services.s
   styleUrl: './manage-attention.component.css'
 })
 export class ManageAttentionComponent {
-confirmDelete() {
-throw new Error('Method not implemented.');
-}
+  confirmDelete() {
+    throw new Error('Method not implemented.');
+  }
   reservations: any[] = [];
   reserva: any = {}
   reservationsFiltered: any[] = [];
@@ -33,6 +36,15 @@ throw new Error('Method not implemented.');
   activeTab: number = 0;
   modalSections: string[] = ['Farmacia', 'Laboratorio', 'Tratamiento', 'Atencion Médica', 'Historia Clínica'];
 
+  selectReserva: number | null = null
+  selectAtencion: number | null = null
+  consulta: any = {}
+  newConsulta: AtencionCreate | null = null
+  newLaboratorio: LaboratorioCreate = {}
+  newTratamiento: TratamientoCreate = {}
+  tratamientos: any[] = []
+  laboratorios: any[] = []
+
   newMedicamento = {
     nombre: '',
     dosis: '',
@@ -40,7 +52,7 @@ throw new Error('Method not implemented.');
     duracion: '',
     instrucciones: ''
   };
-  
+
   medicamentos = [];
 
   newExamen = {
@@ -50,17 +62,7 @@ throw new Error('Method not implemented.');
     observaciones: '',
     estado: ''
   };
-  
-  examenes = [];
-  newTratamiento = {
-    descripcion: '',
-    fechaInicio: '',
-    fechaFin: '',
-    estado: '',
-    resultados: ''
-  };
-  
-  tratamientos = [];
+
   altaMedica = {
     motivoConsulta: '',
     diagnostico: '',
@@ -72,7 +74,10 @@ throw new Error('Method not implemented.');
   constructor(
     private attentionService: AttentionQuotasService,
     private doctorService: DoctorService,
-    private serviceS: Services
+    private serviceS: Services,
+    private consultaService: AtencionService,
+    private tratamientoService: TratamientoService,
+    private laboratorioService: LaboratorioService
   ) { }
 
   ngOnInit(): void {
@@ -90,6 +95,61 @@ throw new Error('Method not implemented.');
       console.error('Error al cargar datos:', error);
     }
     this.onWait = false;
+  }
+
+  async loadAtencion() {
+    if (this.selectReserva != null) {
+      this.onWait = true;
+      try {
+        this.consulta = await this.consultaService.getAtencionByReserva(this.selectReserva)
+        this.selectAtencion = this.consulta.id
+        if (this.selectAtencion != null) {
+          this.tratamientos = await this.tratamientoService.getTratamientosByAtencion(this.selectAtencion)
+          this.laboratorios = await this.laboratorioService.getLaboratorioByAtencion(this.selectAtencion)
+        }
+        console.log(this.consulta)
+        console.log(this.laboratorios)
+        console.log(this.tratamientos)
+      } catch (error) {
+
+      }
+      this.onWait = false;
+    }
+  }
+
+  async createTratamiento() {
+    if (this.selectAtencion != null) {
+      try {
+        this.newTratamiento.id_atencion = this.selectAtencion
+        console.log(this.newTratamiento)
+        await this.tratamientoService.createTratamiento(this.newTratamiento)
+        this.tratamientos.push(this.newTratamiento)
+      } catch (error) {
+
+      }
+    }
+  }
+
+  async createLaboratorio() {
+    if (this.selectAtencion != null) {
+      try {
+        this.newLaboratorio.id_atencion = this.selectAtencion
+        console.log(this.newLaboratorio)
+        await this.laboratorioService.createLaboratorio(this.newLaboratorio)
+        this.laboratorios.push(this.newLaboratorio)
+      } catch (error) {
+
+      }
+    }
+  }
+
+  async updateConsulta() {
+    try {
+      console.log(this.consulta)
+      await this.consultaService.updateAtencion(this.consulta)
+    } catch (error) {
+
+    }
   }
 
   applyFilters() {
@@ -120,6 +180,24 @@ throw new Error('Method not implemented.');
     return `${formattedHours}:${formattedMinutes}`;
   }
 
+  async generateReport() {
+    try {
+      const reportBlob = await this.consultaService.generateReport();
+      const url = window.URL.createObjectURL(reportBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'reporte_atenciones.pdf';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error al generar el reporte:', error);
+      alert('Hubo un error al generar el reporte.');
+    }
+  }
+
+  createReceta() {
+  }
+
   clearFilters() {
     this.doctorFilter = null;
     this.dateFilter = null;
@@ -129,6 +207,8 @@ throw new Error('Method not implemented.');
 
 
   openEditModal(reserva: any) {
+    this.selectReserva = reserva.id
+    this.loadAtencion()
     this.reserva = reserva
     this.isEditModalOpen = true;
     this.activeTab = 0;

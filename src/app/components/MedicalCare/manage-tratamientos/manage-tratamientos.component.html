@@ -1,0 +1,60 @@
+<div class="p-6 bg-white rounded-lg shadow-md w-full max-w-screen-xl mx-auto">
+    <h2 class="text-2xl font-semibold mb-4 text-center">Gestionar Tratamientos</h2>
+
+    <!-- Inputs para filtrar -->
+    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6 px-6">
+        <input
+            class="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none"
+            type="text" placeholder="..................." [(ngModel)]="userFilter" (input)="applyFilter()" />
+        <!-- Botón para generar reporte -->
+        <div class="flex justify-end mb-4 px-6">
+            <button
+                class="md:px-5 md:py-2 px-3 py-1 text-sm md:text-base bg-green-500 text-white rounded-lg shadow-sm hover:bg-green-600 transition duration-200"
+                (click)="generateReport()">
+                Generar Reporte
+            </button>
+        </div>
+
+        <button
+            class="md:px-5 md:py-2 px-3 py-1 text-sm md:text-base bg-red-500 text-white rounded-lg shadow-sm hover:bg-red-600 transition duration-200"
+            >
+            Limpiar Filtros
+        </button>
+    </div>
+
+    <!-- Vista de tabla en pantallas grandes -->
+    <div class="md:block bg-white p-6 rounded-lg shadow-md">
+        <table class="w-full border border-gray-100 border-collapse text-left overflow-hidden sm:text-sm">
+            <thead>
+                <tr class="bg-gray-100 ">
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100 sm:p-2">ID</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100 sm:p-2">Descripción/th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100 w-40 sm:w-32 sm:p-2">Fecha de Inicio</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100 w-32 sm:p-2">Fecha Fin</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100 sm:p-2">Estado</th>
+                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-100 w-50 sm:p-2">Resultados</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let tratamiento of tratamientos" class="border-b border-gray-100 hover:bg-gray-50">
+                    <td class="p-3 border-r border-gray-100 sm:p-2">{{ tratamiento.id }}</td>
+                    <td class="p-3 border-r border-gray-100 sm:p-2">{{ tratamiento.descripcion }}</td>
+                    <td class="p-3 border-r border-gray-100 sm:p-2">{{ tratamiento.fecha_inicio }}</td>
+                    <td class="p-3 border-r border-gray-100 sm:p-2">{{ tratamiento.fecha_fin }}</td>
+                    <td class="p-3 border-r border-gray-100 sm:p-2">{{ tratamiento.estado }}</td>
+                    <td class="p-3 border-r border-gray-100 sm:p-2">{{ tratamiento.resultados }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+<!-- Overlay de carga -->
+<div *ngIf="onWait" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+    <div class="text-center text-white">
+        <div class="loader mb-4"></div>
+        <p>Cargando datos...</p>
+    </div>
+</div>
