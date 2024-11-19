@@ -3,14 +3,9 @@ import { Injectable } from '@angular/core';
 import { ApiConfigService } from '../api-config.service';
 import { lastValueFrom } from 'rxjs';
 
-// Interfaz para el registro de emergencia médica
 export interface MedicalEmergencyRequest {
-  doctor: {
-    id: number;
-  };
-  insured: {
-    id: number;
-  };
+  doctorId: number;
+  insuredId: number;
   startTime: string;
   estimatedDuration: number;
   description: string;
@@ -36,6 +31,7 @@ export interface MedicalEmergencyResponse {
 
 // Interfaz para el detalle de emergencia médica
 export interface MedicalEmergencyDetailRequest {
+  medicalEmergencyId: number | null; // Ahora acepta null
   actionDescription: string;
   actionTime: string;
   performedBy: string;
@@ -66,7 +62,7 @@ export class MedicalEmergencyService {
 
   // Método para registrar una emergencia médica
   async registerEmergency(emergencyData: MedicalEmergencyRequest): Promise<MedicalEmergencyResponse> {
-    console.log("hastaqy llega",emergencyData)
+    console.log("hastaqy llega", emergencyData)
     return await lastValueFrom(this.http.post<MedicalEmergencyResponse>(`${this.apiUrl}/register`, emergencyData));
   }
 
@@ -91,8 +87,8 @@ export class MedicalEmergencyService {
   }
 
   // Método para agregar un detalle a una emergencia médica específica
-  async addDetailToEmergency(emergencyId: number, detail: MedicalEmergencyDetailRequest): Promise<MedicalEmergencyDetail> {
-    return await lastValueFrom(this.http.post<MedicalEmergencyDetail>(`${this.detailApiUrl}/${emergencyId}`, detail));
+  async addDetailToEmergency(detailData: MedicalEmergencyDetailRequest): Promise<MedicalEmergencyDetail> {
+    return await lastValueFrom(this.http.post<MedicalEmergencyDetail>(`${this.detailApiUrl}/register`, detailData));
   }
 
   // Método para obtener detalles de una emergencia médica específica por su ID de emergencia

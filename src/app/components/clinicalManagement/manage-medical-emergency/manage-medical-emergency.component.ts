@@ -21,6 +21,7 @@ export class ManageMedicalEmergencyComponent implements OnInit {
   isRegisterModalOpen: boolean = false;
 
   detail: MedicalEmergencyDetailRequest = {
+    medicalEmergencyId: null, // Ahora acepta null
     actionDescription: '',
     actionTime: '',
     performedBy: ''
@@ -66,6 +67,7 @@ export class ManageMedicalEmergencyComponent implements OnInit {
     }
     this.isLoading = false;
   }
+
   async loadData() {
     try {
       // Cargar asegurados
@@ -88,6 +90,7 @@ export class ManageMedicalEmergencyComponent implements OnInit {
 
   openDetailModal(emergency: MedicalEmergencyResponse) {
     this.selectedEmergency = emergency;
+    this.detail.medicalEmergencyId = emergency.id;
     this.isDetailModalOpen = true;
   }
 
@@ -104,16 +107,24 @@ export class ManageMedicalEmergencyComponent implements OnInit {
   }
 
   async submitDetail() {
-    if (!this.selectedEmergency) return;
+    if (!this.detail.medicalEmergencyId || !this.detail.actionDescription || !this.detail.performedBy) {
+      alert('Por favor, completa todos los campos antes de guardar.');
+      return;
+    }
+
+    const formattedActionTime = formatDate(new Date(), 'dd-MM-yyyy HH:mm', 'en-US');
+    this.detail.actionTime = formattedActionTime;
+
     try {
-      await this.medicalEmergencyService.addDetailToEmergency(this.selectedEmergency.id, this.detail);
-      alert('Detalle de emergencia registrado exitosamente');
+      const response = await this.medicalEmergencyService.addDetailToEmergency(this.detail);
+      console.log('Detalle registrado:', response);
+      alert('Detalle de emergencia registrado exitosamente.');
       this.closeDetailModal();
     } catch (error) {
-      console.error('Error al registrar detalle de emergencia:', error);
+      console.error('Error al registrar el detalle de emergencia:', error);
+      alert('Hubo un error al registrar el detalle. Por favor, inténtalo nuevamente.');
     }
   }
-
 
   async registerEmergency() {
     if (!this.selectedDoctorId || !this.selectedInsuredId || !this.estimatedDuration || !this.description) {
@@ -121,17 +132,17 @@ export class ManageMedicalEmergencyComponent implements OnInit {
       return;
     }
     const currentDate = new Date();
-    const formattedStartTime = formatDate(currentDate, 'yyyy-MM-ddTHH:mm:ss', 'en-US');
+    const formattedStartTime = formatDate(currentDate, 'dd-MM-yyyy HH:mm', 'en-US');
+
     const emergencyData: MedicalEmergencyRequest = {
-      doctor: { id: this.selectedDoctorId },
-      insured: { id: this.selectedInsuredId },
-      startTime: formattedStartTime, // Fecha en el formato esperado
-      estimatedDuration: this.estimatedDuration,
+      doctorId: this.selectedDoctorId!,
+      insuredId: this.selectedInsuredId!,
+      startTime: formattedStartTime,
+      estimatedDuration: this.estimatedDuration!,
       description: this.description
     };
 
     try {
-      console.log(emergencyData)
       const response = await this.medicalEmergencyService.registerEmergency(emergencyData);
       console.log('Emergencia registrada:', response);
       alert('Emergencia médica registrada exitosamente.');
@@ -142,5 +153,4 @@ export class ManageMedicalEmergencyComponent implements OnInit {
       alert('Hubo un error al registrar la emergencia. Por favor, inténtalo nuevamente.');
     }
   }
-
 }
