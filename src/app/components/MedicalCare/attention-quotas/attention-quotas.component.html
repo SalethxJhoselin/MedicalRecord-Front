@@ -32,10 +32,16 @@
     <ul>
       <li *ngFor="let quota of selectedQuotas" class="ficha-item">
         <p>Horario: {{ quota }}</p>
-        <button class="reserve-button" (click)="openReservationModal(quota)">Reservar</button>
+        <button 
+          class="reserve-button" 
+          [disabled]="isQuotaReserved(quota)" 
+          (click)="openReservationModal(quota)">
+          {{ isQuotaReserved(quota) ? 'Reservada' : 'Reservar' }}
+        </button>
       </li>
     </ul>
   </div>
+  
 
   <!-- Modal para la Selección de Asegurado y Detalles de Reserva -->
   <div class="modal-overlay" *ngIf="isModalVisible">

@@ -16,20 +16,21 @@ export class AttentionQuotasComponent implements OnInit {
   doctorHours: DoctorHour[] = [];
   insuredList: InsuredGet[] = [];
   selectedQuotas: string[] = [];
+  reservedQuotas: string[] = []; // Fichas reservadas
   isModalVisible = false;
   selectedQuota: string | null = null;
   selectedInsured: string | null = null;
-  reservationDate: string = ''; // Fecha de reserva en formato "YYYY-MM-DD"
+  reservationDate: string = '';
   reservationStatus: string = 'Pendiente';
   reservationComment: string = '';
-  selectedDate: string = ''; // Fecha seleccionada en formato "YYYY-MM-DD"
-  selectedDoctorHour: DoctorHour | null = null; // Almacenar el DoctorHour seleccionado
+  selectedDate: string = '';
+  selectedDoctorHour: DoctorHour | null = null;
 
   constructor(
     private doctorHoursService: DoctorHoursService,
     private insuredService: InsuredService,
     private attentionQuotasService: AttentionQuotasService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadDoctorHours();
@@ -39,16 +40,14 @@ export class AttentionQuotasComponent implements OnInit {
   async loadDoctorHours() {
     try {
       this.doctorHours = await this.doctorHoursService.getDoctorHours();
-      console.log('Horarios de médicos cargados:', this.doctorHours);
     } catch (error) {
-      console.error('Error al cargar los horarios de los médicos:', error);
+      console.error('Error al cargar los horarios:', error);
     }
   }
 
   async loadInsureds() {
     try {
       this.insuredList = await this.insuredService.getInsureds();
-      console.log('Asegurados cargados:', this.insuredList);
     } catch (error) {
       console.error('Error al cargar los asegurados:', error);
     }
@@ -59,14 +58,13 @@ export class AttentionQuotasComponent implements OnInit {
   }
 
   generateQuotas(hour: DoctorHour): void {
-    const startTime = hour.horarios[0].startTime;
-    const endTime = hour.horarios[0].endTime;
-    const duration = hour.horarios[0].service.duracion;
+    const { startTime, endTime, service } = hour.horarios[0];
+    const duration = service.duracion;
 
     let [currentHour, currentMinute] = startTime.split(':').map(Number);
     const [endHour, endMinute] = endTime.split(':').map(Number);
     this.selectedQuotas = [];
-    this.selectedDoctorHour = hour; // Guardar el horario seleccionado
+    this.selectedDoctorHour = hour;
 
     while (currentHour < endHour || (currentHour === endHour && currentMinute < endMinute)) {
       const formattedTime = `${String(currentHour).padStart(2, '0')}:${String(currentMinute).padStart(2, '0')}`;
@@ -75,7 +73,7 @@ export class AttentionQuotasComponent implements OnInit {
       currentMinute += duration;
       if (currentMinute >= 60) {
         currentHour += Math.floor(currentMinute / 60);
-        currentMinute = currentMinute % 60;
+        currentMinute %= 60;
       }
     }
   }
@@ -92,10 +90,7 @@ export class AttentionQuotasComponent implements OnInit {
   }
 
   async confirmReservation(): Promise<void> {
-    if (!this.selectedDoctorHour || !this.selectedDoctorHour.horarios[0]) {
-      console.error('No se ha seleccionado un horario o servicio válido');
-      return;
-    }
+    if (!this.selectedDoctorHour || !this.selectedDoctorHour.horarios[0]) return;
 
     const reservationData: ReservationCreate = {
       personaId: this.selectedDoctorHour.person.id,
@@ -104,12 +99,12 @@ export class AttentionQuotasComponent implements OnInit {
       fecha: this.selectedDate,
       estado: this.reservationStatus,
       comentario: this.reservationComment,
-      aseguradoId: this.selectedInsured ? parseInt(this.selectedInsured) : 0
+      aseguradoId: this.selectedInsured ? parseInt(this.selectedInsured) : 0,
     };
 
     try {
-      console.log('Reserva creada exitosamente:', reservationData);
       await this.attentionQuotasService.createReservation(reservationData);
+      if (this.selectedQuota) this.reservedQuotas.push(this.selectedQuota);
       console.log('Reserva creada exitosamente:', reservationData);
     } catch (error) {
       console.error('Error al crear la reserva:', error);
@@ -127,4 +122,9 @@ export class AttentionQuotasComponent implements OnInit {
     this.selectedInsured = null;
     this.reservationComment = '';
   }
+
+  isQuotaReserved(quota: string): boolean {
+    return this.reservedQuotas.includes(quota);
+  }
+
 }
