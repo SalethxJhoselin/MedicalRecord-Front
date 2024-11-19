@@ -102,6 +102,7 @@ export class AttentionQuotasComponent implements OnInit {
       aseguradoId: this.selectedInsured ? parseInt(this.selectedInsured) : 0,
     };
 
+    
     try {
       await this.attentionQuotasService.createReservation(reservationData);
       if (this.selectedQuota) this.reservedQuotas.push(this.selectedQuota);
