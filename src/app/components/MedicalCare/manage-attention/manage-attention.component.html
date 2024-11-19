@@ -123,7 +123,8 @@
 
                     <!-- Tabla para mostrar medicamentos -->
                     <div class="md:block bg-white p-6 rounded-lg shadow-md">
-                        <table class="w-full border border-gray-200 border-collapse text-left overflow-hidden sm:text-sm">
+                        <table
+                            class="w-full border border-gray-200 border-collapse text-left overflow-hidden sm:text-sm">
                             <thead>
                                 <tr class="bg-gray-200">
                                     <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Medicamento
@@ -161,21 +162,21 @@
 
                     <!-- Formulario para agregar exámenes -->
                     <div class="flex flex-wrap gap-4 items-center mb-6">
-                        <input type="text" placeholder="Tipo de examen" [(ngModel)]="newExamen.tipo"
+                        <input type="text" placeholder="Tipo de Laboratorio " [(ngModel)]="newLaboratorio.tipo_examen"
                             class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <input type="date" placeholder="Fecha de examen" [(ngModel)]="newExamen.fecha"
+                        <input type="date" placeholder="Fecha de Laboratorio " [(ngModel)]="newLaboratorio.fecha_examen"
                             class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <input type="text" placeholder="Resultados" [(ngModel)]="newExamen.resultados"
+                        <input type="text" placeholder="Resultados" [(ngModel)]="newLaboratorio.resultados"
                             class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <input type="text" placeholder="Observaciones" [(ngModel)]="newExamen.observaciones"
+                        <input type="text" placeholder="Observaciones" [(ngModel)]="newLaboratorio.observaciones"
                             class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <select [(ngModel)]="newExamen.estado"
+                        <select [(ngModel)]="newLaboratorio.estado"
                             class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="" disabled selected>Estado</option>
                             <option value="Pendiente">Pendiente</option>
                             <option value="Completado">Completado</option>
                         </select>
-                        <button 
+                        <button (click)="createLaboratorio()"
                             class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
                             Guardar
                         </button>
@@ -183,10 +184,12 @@
 
                     <!-- Tabla para mostrar exámenes -->
                     <div class="md:block bg-white p-6 rounded-lg shadow-md">
-                        <table class="w-full border border-gray-200 border-collapse text-left overflow-hidden sm:text-sm">
+                        <table
+                            class="w-full border border-gray-200 border-collapse text-left overflow-hidden sm:text-sm">
                             <thead>
                                 <tr class="bg-gray-200">
-                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Tipo de examen
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Tipo de
+                                        Laboratorio
                                     </th>
                                     <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Fecha</th>
                                     <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Resultados</th>
@@ -197,12 +200,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let examen of examenes" class="hover:bg-gray-50 border-b border-gray-300">
-                                    <td class="p-3 border-r border-gray-300">{{ examen }}</td>
-                                    <td class="p-3 border-r border-gray-300">{{ examen }}</td>
-                                    <td class="p-3 border-r border-gray-300">{{ examen}}</td>
-                                    <td class="p-3 border-r border-gray-300">{{ examen }}</td>
-                                    <td class="p-3 border-r border-gray-300">{{ examen}}</td>
+                                <tr *ngFor="let Laboratorio of laboratorios"
+                                    class="hover:bg-gray-50 border-b border-gray-300">
+                                    <td class="p-3 border-r border-gray-300">{{ Laboratorio.tipo_examen }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ Laboratorio.fecha_examen }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ Laboratorio.resultados }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ Laboratorio.observaciones }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ Laboratorio.estado }}</td>
                                     <td class="p-3 text-center">
                                         <button
                                             class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200">
@@ -217,14 +221,14 @@
 
                 <div *ngIf="activeTab === 2">
                     <h4 class="text-blue-500 font-semibold mb-4">Tratamiento</h4>
-                
+
                     <!-- Formulario para agregar tratamientos -->
                     <div class="flex flex-wrap gap-4 items-center mb-6">
                         <input type="text" placeholder="Descripción" [(ngModel)]="newTratamiento.descripcion"
                             class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                        <input type="date" placeholder="Fecha de inicio" [(ngModel)]="newTratamiento.fechaInicio"
+                        <input type="date" placeholder="Fecha de inicio" [(ngModel)]="newTratamiento.fecha_inicio"
                             class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                        <input type="date" placeholder="Fecha de fin" [(ngModel)]="newTratamiento.fechaFin"
+                        <input type="date" placeholder="Fecha de fin" [(ngModel)]="newTratamiento.fecha_fin"
                             class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                         <select [(ngModel)]="newTratamiento.estado"
                             class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
@@ -235,19 +239,22 @@
                         </select>
                         <input type="text" placeholder="Resultados" [(ngModel)]="newTratamiento.resultados"
                             class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                        <button 
+                        <button (click)="createTratamiento()"
                             class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
                             Guardar
                         </button>
                     </div>
-                
+
                     <!-- Tabla para mostrar tratamientos -->
                     <div class="md:block bg-white p-6 rounded-lg shadow-md">
-                        <table class="w-full border border-gray-200 border-collapse text-left overflow-hidden sm:text-sm">
+                        <table
+                            class="w-full border border-gray-200 border-collapse text-left overflow-hidden sm:text-sm">
                             <thead>
                                 <tr class="bg-gray-200">
-                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Descripción</th>
-                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Fecha inicio</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Descripción
+                                    </th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Fecha inicio
+                                    </th>
                                     <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Fecha fin</th>
                                     <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Estado</th>
                                     <th class="p-3 text-gray-600 font-semibold border-r border-gray-300">Resultados</th>
@@ -255,12 +262,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let tratamiento of tratamientos" class="hover:bg-gray-50 border-b border-gray-300">
-                                    <td class="p-3 border-r border-gray-300">{{ tratamiento }}</td>
-                                    <td class="p-3 border-r border-gray-300">{{ tratamiento }}</td>
-                                    <td class="p-3 border-r border-gray-300">{{ tratamiento }}</td>
-                                    <td class="p-3 border-r border-gray-300">{{ tratamiento }}</td>
-                                    <td class="p-3 border-r border-gray-300">{{ tratamiento }}</td>
+                                <tr *ngFor="let tratamiento of tratamientos"
+                                    class="hover:bg-gray-50 border-b border-gray-300">
+                                    <td class="p-3 border-r border-gray-300">{{ tratamiento.descripcion }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ tratamiento.fecha_inicio }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ tratamiento.fecha_fin }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ tratamiento.estado }}</td>
+                                    <td class="p-3 border-r border-gray-300">{{ tratamiento.resultados }}</td>
                                     <td class="p-3 text-center">
                                         <button
                                             class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200">
@@ -272,52 +280,80 @@
                         </table>
                     </div>
                 </div>
-                
+
                 <div *ngIf="activeTab === 3">
                     <h4 class="text-blue-500 font-semibold mb-4">Atencion Médica</h4>
-                
+
                     <!-- Formulario para alta médica -->
                     <div class="flex flex-wrap gap-4 items-center">
-                        <input type="text" placeholder="Motivo de consulta" [(ngModel)]="altaMedica.motivoConsulta"
-                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <input type="text" placeholder="Diagnóstico" [(ngModel)]="altaMedica.diagnostico"
-                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <textarea placeholder="Recomendaciones" [(ngModel)]="altaMedica.recomendaciones"
-                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                        <select [(ngModel)]="altaMedica.estado"
-                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="" disabled selected>Estado</option>
-                            <option value="Pendiente">Pendiente</option>
-                            <option value="Finalizado">Finalizado</option>
-                        </select>
+                        <!-- Motivo de consulta -->
+                        <div class="flex-1">
+                            <label for="motivo_consulta" class="block text-sm font-medium text-gray-700">Motivo de
+                                consulta</label>
+                            <input id="motivo_consulta" type="text" placeholder="Motivo de consulta"
+                                [(ngModel)]="consulta.motivo_consulta"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <!-- Diagnóstico -->
+                        <div class="flex-1">
+                            <label for="diagnostico" class="block text-sm font-medium text-gray-700">Diagnóstico</label>
+                            <input id="diagnostico" type="text" placeholder="Diagnóstico"
+                                [(ngModel)]="consulta.diagnostico"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <!-- Recomendaciones -->
+                        <div class="flex-1">
+                            <label for="recomendaciones"
+                                class="block text-sm font-medium text-gray-700">Recomendaciones</label>
+                            <textarea id="recomendaciones" placeholder="Recomendaciones"
+                                [(ngModel)]="consulta.recomendaciones"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+                        <!-- Estado -->
+                        <div class="flex-1">
+                            <label for="estado" class="block text-sm font-medium text-gray-700">Estado</label>
+                            <select id="estado" [(ngModel)]="consulta.estado"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="" disabled selected>Estado</option>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="Finalizado">Finalizado</option>
+                            </select>
+                        </div>
                     </div>
-                
+
+
                     <!-- Botón para guardar alta médica -->
                     <div class="mt-4">
-                        <button
+                        <button (click)="updateConsulta()"
                             class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
                             Guardar
                         </button>
                     </div>
                 </div>
-                
+
                 <div *ngIf="activeTab === 4">
                     <h4 class="text-blue-500 font-semibold">Historia Clínica</h4>
                     <div class="md:block bg-white p-6 rounded-lg shadow-md">
-                        <table class="w-full border border-gray-200 border-collapse text-left overflow-hidden sm:text-sm">
+                        <table
+                            class="w-full border border-gray-200 border-collapse text-left overflow-hidden sm:text-sm">
                             <thead>
                                 <tr class="bg-gray-200 ">
-                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2 w-32">ID Atencion</th>
-                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2 w-32">ID Asegurado</th>
-                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2 w-32">Servicio</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2 w-32">ID
+                                        Atencion</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2 w-32">ID
+                                        Asegurado</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2 w-32">
+                                        Servicio</th>
                                     <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2">Nombre
                                         Asegurado</th>
-                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2 w-28">Hora</th>
-                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2 w-28">Estado</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2 w-28">
+                                        Hora</th>
+                                    <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2 w-28">
+                                        Estado</th>
                                     <th class="p-3 text-center text-gray-600 font-semibold w-28">Acciones</th>
                                 </tr>
                             </thead>
-                
+
                         </table>
                     </div>
                 </div>
