@@ -48,7 +48,8 @@ export class SidebarComponent {
         { title: 'Gestionar medicos', route: '/medicos' },
         { title: 'Tegistro de triaje', route: '/triaje' },
         { title: 'Gestionar asegurados', route: '/asegurados' },
-        { title: 'Gestionar horarios de atencion a medicos', route: '/horariosMedicos' }
+        { title: 'Gestionar horarios de atencion a medicos', route: '/horariosMedicos' },
+        { title: 'EMERGENCIA MEDICA', route: '/emergencia' }
       ]
     },
     {
@@ -67,6 +68,6 @@ export class SidebarComponent {
 
   setSelected(title: string) {
     this.selected = title;
-    this.closeSidebar.emit(); 
+    this.closeSidebar.emit();
   }
 }

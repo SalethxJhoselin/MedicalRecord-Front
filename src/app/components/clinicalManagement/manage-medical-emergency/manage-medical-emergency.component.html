@@ -1,0 +1,126 @@
+<div class="p-6 bg-white rounded-lg shadow-md w-full max-w-screen-xl mx-auto">
+  <h2 class="text-2xl font-semibold mb-4 text-center">Gestión de Emergencias Médicas</h2>
+
+  <!-- Botón para abrir el modal de registro -->
+  <button (click)="openRegisterModal()" class="bg-blue-500 text-white px-4 py-2 rounded-lg mb-4">
+    Registrar Emergencia Médica
+  </button>
+
+  <!-- Modal para registrar emergencia médica -->
+  <div *ngIf="isRegisterModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg w-11/12 max-w-lg p-6 shadow-lg">
+      <h3 class="text-xl font-semibold mb-4">Registrar Emergencia Médica</h3>
+
+      <!-- Select para seleccionar el doctor -->
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Doctor</label>
+        <select [(ngModel)]="selectedDoctorId" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
+          <option *ngFor="let doctor of doctors" [value]="doctor.id">{{ doctor.nombre }}</option>
+        </select>
+      </div>
+
+      <!-- Select para seleccionar el asegurado -->
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Asegurado</label>
+        <select [(ngModel)]="selectedInsuredId" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
+          <option *ngFor="let insured of insureds" [value]="insured.id">{{ insured.nombre }}</option>
+        </select>
+      </div>
+
+      <!-- Input para duración estimada -->
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Duración Estimada (minutos)</label>
+        <input type="number" [(ngModel)]="estimatedDuration"
+          class="w-full px-3 py-2 border rounded-lg focus:outline-none">
+      </div>
+
+      <!-- Input para descripción -->
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Descripción</label>
+        <textarea [(ngModel)]="description" class="w-full px-3 py-2 border rounded-lg focus:outline-none"></textarea>
+      </div>
+
+      <!-- Botón para guardar la emergencia -->
+      <div class="flex justify-end space-x-2">
+        <button (click)="closeRegisterModal()" class="px-4 py-2 bg-gray-300 rounded-lg">Cancelar</button>
+        <button (click)="registerEmergency()" class="px-4 py-2 bg-blue-500 text-white rounded-lg">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Tabla de emergencias médicas -->
+  <div class="bg-white p-6 rounded-lg shadow-md">
+    <table class="w-full border border-gray-200 border-collapse text-left overflow-hidden sm:text-sm">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2">Médico</th>
+          <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2">Asegurado</th>
+          <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2">Hora de Inicio</th>
+          <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2">Duración</th>
+          <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2">Descripción</th>
+          <th class="p-3 text-center text-gray-600 font-semibold">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let emergency of emergencies" class="hover:bg-gray-50 border-b border-gray-200">
+          <td class="p-3 border-r border-gray-200">{{ emergency.doctor.nombre || 'Sin asignar' }}</td>
+          <td class="p-3 border-r border-gray-200">{{ emergency.insured.person.nombre || 'Sin asegurado' }}</td>
+          <td class="p-3 border-r border-gray-200">{{ emergency.startTime | date:'yyyy-MM-dd HH:mm' }}</td>
+          <td class="p-3 border-r border-gray-200">{{ emergency.estimatedDuration ? emergency.estimatedDuration + '
+            minutos' : 'Sin duración' }}</td>
+          <td class="p-3 border-r border-gray-200 text-sm text-gray-500">{{ emergency.description || 'Sin descripción'
+            }}</td>
+          <td class="p-3 text-center">
+            <button
+              class="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600 transition duration-200"
+              (click)="openDetailModal(emergency)">
+              Registrar Detalle
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal para registrar el detalle de la emergencia médica -->
+  <div *ngIf="isDetailModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50">
+    <div class="bg-white rounded-lg w-11/12 max-w-2xl p-6 shadow-lg mt-10">
+      <div class="flex justify-between items-center border-b pb-2 mb-4">
+        <h3 class="text-xl font-semibold">Registrar Detalle de Emergencia Médica</h3>
+        <button (click)="closeDetailModal()" class="text-gray-600 hover:text-gray-800 text-2xl">&times;</button>
+      </div>
+
+      <div *ngIf="selectedEmergency">
+        <p><strong>Médico:</strong> {{ selectedEmergency.doctor.nombre }}</p>
+        <p><strong>Asegurado:</strong> {{ selectedEmergency.insured.person.nombre }}</p>
+        <p><strong>Hora de Inicio:</strong> {{ selectedEmergency.startTime | date:'yyyy-MM-dd HH:mm' }}</p>
+      </div>
+
+      <form (ngSubmit)="submitDetail()">
+        <div class="flex flex-col space-y-4 mt-4">
+          <input type="text" placeholder="Descripción de la acción" [(ngModel)]="detail.actionDescription"
+            name="actionDescription"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <input type="datetime-local" placeholder="Fecha y Hora de la acción" [(ngModel)]="detail.actionTime"
+            name="actionTime"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <input type="text" placeholder="Realizado por" [(ngModel)]="detail.performedBy" name="performedBy"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="flex justify-end mt-6 space-x-4">
+          <button type="button" (click)="closeDetailModal()"
+            class="bg-gray-300 px-4 py-2 rounded-lg shadow hover:bg-gray-400 transition duration-200">
+            Cancelar
+          </button>
+          <button type="submit"
+            class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition duration-200">
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

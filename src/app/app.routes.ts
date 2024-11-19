@@ -17,6 +17,7 @@ import { ManageInsuredsComponent } from './components/MedicalCare/manage-insured
 import { InsuredDetailsComponent } from './components/MedicalCare/manage-insureds/insured-details/insured-details.component';
 import { ProgrammingCalendarComponentComponent } from './components/clinicalManagement/DoctorsHours/programming-calendar-component/programming-calendar-component.component';
 import { ManageAttentionComponent } from './components/MedicalCare/manage-attention/manage-attention.component';
+import { ManageMedicalEmergencyComponent } from './components/clinicalManagement/manage-medical-emergency/manage-medical-emergency.component';
 
 export const routes: Routes = [
     {
@@ -97,6 +98,11 @@ export const routes: Routes = [
             {
                 path: 'asegurados/:id',
                 component: InsuredDetailsComponent,
+            },
+            {
+                path: 'emergencia',
+                component: ManageMedicalEmergencyComponent,
+                canActivate: [AuthGuard]
             },
             {
                 path: '',
