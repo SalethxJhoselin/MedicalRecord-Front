@@ -38,5 +38,8 @@ export class LaboratorioService {
         return lastValueFrom(this.http.post<LaboratorioCreate>(this.apiUrl,tratamiento))
     }
 
+    async generateReport(): Promise<Blob> {
+        return lastValueFrom(this.http.get(`${this.apiUrl}/export`, { responseType: 'blob' }));
+    }
 
 }

@@ -18,6 +18,7 @@ import { InsuredDetailsComponent } from './components/MedicalCare/manage-insured
 import { ProgrammingCalendarComponentComponent } from './components/clinicalManagement/DoctorsHours/programming-calendar-component/programming-calendar-component.component';
 import { ManageAttentionComponent } from './components/MedicalCare/manage-attention/manage-attention.component';
 import { ManageMedicalEmergencyComponent } from './components/clinicalManagement/manage-medical-emergency/manage-medical-emergency.component';
+import { ManageTratamientosComponent } from './components/MedicalCare/manage-tratamientos/manage-tratamientos.component';
 
 export const routes: Routes = [
     {
@@ -102,6 +103,11 @@ export const routes: Routes = [
             {
                 path: 'emergencia',
                 component: ManageMedicalEmergencyComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'tratamientos',
+                component: ManageTratamientosComponent,
                 canActivate: [AuthGuard]
             },
             {

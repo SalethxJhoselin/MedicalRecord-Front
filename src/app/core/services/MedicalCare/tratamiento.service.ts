@@ -38,5 +38,9 @@ export class TratamientoService {
         return lastValueFrom(this.http.post<TratamientoCreate>(this.apiUrl,tratamiento))
     }
 
+    async generateReport(): Promise<Blob> {
+        return lastValueFrom(this.http.get(`${this.apiUrl}/export`, { responseType: 'blob' }));
+    }
+
 
 }

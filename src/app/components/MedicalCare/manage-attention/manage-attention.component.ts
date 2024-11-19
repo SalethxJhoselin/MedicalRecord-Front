@@ -19,9 +19,9 @@ import { LaboratorioCreate, LaboratorioService } from '../../../core/services/Me
   styleUrl: './manage-attention.component.css'
 })
 export class ManageAttentionComponent {
-confirmDelete() {
-throw new Error('Method not implemented.');
-}
+  confirmDelete() {
+    throw new Error('Method not implemented.');
+  }
   reservations: any[] = [];
   reserva: any = {}
   reservationsFiltered: any[] = [];
@@ -52,7 +52,7 @@ throw new Error('Method not implemented.');
     duracion: '',
     instrucciones: ''
   };
-  
+
   medicamentos = [];
 
   newExamen = {
@@ -62,7 +62,7 @@ throw new Error('Method not implemented.');
     observaciones: '',
     estado: ''
   };
-  
+
   altaMedica = {
     motivoConsulta: '',
     diagnostico: '',
@@ -97,7 +97,7 @@ throw new Error('Method not implemented.');
     this.onWait = false;
   }
 
-  async loadAtencion(){
+  async loadAtencion() {
     if (this.selectReserva != null) {
       this.onWait = true;
       try {
@@ -111,13 +111,13 @@ throw new Error('Method not implemented.');
         console.log(this.laboratorios)
         console.log(this.tratamientos)
       } catch (error) {
-        
+
       }
       this.onWait = false;
     }
   }
 
-  async createTratamiento(){
+  async createTratamiento() {
     if (this.selectAtencion != null) {
       try {
         this.newTratamiento.id_atencion = this.selectAtencion
@@ -125,12 +125,12 @@ throw new Error('Method not implemented.');
         await this.tratamientoService.createTratamiento(this.newTratamiento)
         this.tratamientos.push(this.newTratamiento)
       } catch (error) {
-        
+
       }
     }
-  } 
+  }
 
-  async createLaboratorio(){
+  async createLaboratorio() {
     if (this.selectAtencion != null) {
       try {
         this.newLaboratorio.id_atencion = this.selectAtencion
@@ -138,17 +138,17 @@ throw new Error('Method not implemented.');
         await this.laboratorioService.createLaboratorio(this.newLaboratorio)
         this.laboratorios.push(this.newLaboratorio)
       } catch (error) {
-        
+
       }
     }
   }
 
-  async updateConsulta(){
+  async updateConsulta() {
     try {
       console.log(this.consulta)
       await this.consultaService.updateAtencion(this.consulta)
     } catch (error) {
-      
+
     }
   }
 
@@ -178,6 +178,24 @@ throw new Error('Method not implemented.');
     const formattedHours = hours.toString().padStart(2, '0'); // Asegura dos dígitos
     const formattedMinutes = minutes.toString().padStart(2, '0'); // Asegura dos dígitos
     return `${formattedHours}:${formattedMinutes}`;
+  }
+
+  async generateReport() {
+    try {
+      const reportBlob = await this.consultaService.generateReport();
+      const url = window.URL.createObjectURL(reportBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'reporte_atenciones.pdf';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error al generar el reporte:', error);
+      alert('Hubo un error al generar el reporte.');
+    }
+  }
+
+  createReceta() {
   }
 
   clearFilters() {

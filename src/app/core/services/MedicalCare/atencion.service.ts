@@ -51,4 +51,9 @@ export class AtencionService {
         return lastValueFrom(this.http.put<any>(this.apiUrl,atencion))
     }
 
+    async generateReport(): Promise<Blob> {
+        return lastValueFrom(this.http.get(`${this.apiUrl}/export`, { responseType: 'blob' }));
+    }
+    
+
 }
