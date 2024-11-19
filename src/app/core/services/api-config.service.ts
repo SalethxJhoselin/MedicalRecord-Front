@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ApiConfigService {
-  readonly url: string = 'http://localhost:8080/';
+  readonly url: string = 'https://medicalrecord-backend.onrender.com/';
   // render 'https://medicalrecord-backend.onrender.com/';
   //railway https://medicalrecord-backend-production.up.railway.app/
   constructor() { }
