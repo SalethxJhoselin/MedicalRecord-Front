@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgFor, NgIf, CommonModule } from '@angular/common';
-import { MedicalEmergencyService, MedicalEmergencyResponse, MedicalEmergencyDetailRequest, MedicalEmergencyRequest } from '../../../core/services/clinical-management/manage-medical-emergency.service';
+import { MedicalEmergencyService, MedicalEmergencyResponse, MedicalEmergencyDetailRequest, MedicalEmergencyRequest, MedicalEmergencyDetail } from '../../../core/services/clinical-management/manage-medical-emergency.service';
 import { DoctorService } from '../../../core/services/clinical-management/doctors.service';
 import { InsuredService } from '../../../core/services/clinical-management/insureds.service';
 import { FormsModule } from '@angular/forms';
@@ -35,6 +35,10 @@ export class ManageMedicalEmergencyComponent implements OnInit {
 
   doctors: { id: number; nombre: string }[] = [];
   insureds: { id: number; nombre: string }[] = [];
+
+  // Para los detalles de la emergencia seleccionada
+  selectedEmergencyId: number | null = null;
+  emergencyDetails: MedicalEmergencyDetail[] = [];
 
   constructor(
     private medicalEmergencyService: MedicalEmergencyService,
@@ -151,6 +155,16 @@ export class ManageMedicalEmergencyComponent implements OnInit {
     } catch (error) {
       console.error('Error al registrar la emergencia:', error);
       alert('Hubo un error al registrar la emergencia. Por favor, inténtalo nuevamente.');
+    }
+  }
+  async loadEmergencyDetails() {
+    if (!this.selectedEmergencyId) return;
+
+    try {
+      this.emergencyDetails = await this.medicalEmergencyService.getDetailsByMedicalEmergencyId(this.selectedEmergencyId);
+      console.log("Detalles de la emergencia:", this.emergencyDetails);
+    } catch (error) {
+      console.error('Error al cargar detalles de la emergencia:', error);
     }
   }
 }

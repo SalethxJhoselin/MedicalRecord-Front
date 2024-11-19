@@ -123,4 +123,39 @@
       </form>
     </div>
   </div>
+  <div class="mt-6">
+    <h3 class="text-xl font-semibold mb-4">Detalles de Emergencia Médica</h3>
+
+    <!-- Select para elegir emergencia -->
+    <label class="block text-sm font-medium text-gray-700 mb-2">Seleccionar Emergencia</label>
+    <select [(ngModel)]="selectedEmergencyId" (change)="loadEmergencyDetails()"
+      class="w-full px-3 py-2 border rounded-lg focus:outline-none mb-4">
+      <option *ngFor="let emergency of emergencies" [value]="emergency.id">
+        {{ emergency.description }} (ID: {{ emergency.id }})
+      </option>
+    </select>
+
+    <!-- Tabla de detalles -->
+    <div *ngIf="emergencyDetails.length > 0">
+      <table class="w-full border border-gray-200 border-collapse text-left overflow-hidden sm:text-sm">
+        <thead>
+          <tr class="bg-gray-200">
+            <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2">Descripción</th>
+            <th class="p-3 text-gray-600 font-semibold border-r border-gray-200 sm:p-2">Hora</th>
+            <th class="p-3 text-gray-600 font-semibold sm:p-2">Realizado Por</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let detail of emergencyDetails" class="hover:bg-gray-50 border-b border-gray-200">
+            <td class="p-3 border-r border-gray-200">{{ detail.actionDescription }}</td>
+            <td class="p-3 border-r border-gray-200">{{ detail.actionTime }}</td>
+            <td class="p-3">{{ detail.performedBy }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p *ngIf="emergencyDetails.length === 0" class="text-gray-500 mt-4">No hay detalles para esta emergencia.</p>
+  </div>
+
 </div>
