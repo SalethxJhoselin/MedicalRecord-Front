@@ -20,6 +20,8 @@ import { ManageAttentionComponent } from './components/MedicalCare/manage-attent
 import { ManageMedicalEmergencyComponent } from './components/clinicalManagement/manage-medical-emergency/manage-medical-emergency.component';
 import { ManageTratamientosComponent } from './components/MedicalCare/manage-tratamientos/manage-tratamientos.component';
 
+import { HistorialComponent } from './components/historial/historial.component';
+
 export const routes: Routes = [
     {
         path: '',
@@ -38,6 +40,11 @@ export const routes: Routes = [
             {
                 path: 'roles',
                 component: ManageRolesComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'historial',
+                component: HistorialComponent,
                 canActivate: [AuthGuard]
             },
             {
