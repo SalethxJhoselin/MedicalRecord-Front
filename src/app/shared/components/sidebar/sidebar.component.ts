@@ -63,6 +63,11 @@ export class SidebarComponent {
         { title: 'Administrar historias clinicas', route: '/registrarse' },
         { title: 'Gestionar tratamiento', route: '/tratamientos' }
       ]
+    },
+    {
+      title: 'Estadisticas',
+      route: '/estadisticas',
+      icon: 'notifications',
     }
   ];
 
