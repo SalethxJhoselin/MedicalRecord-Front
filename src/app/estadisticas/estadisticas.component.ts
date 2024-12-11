@@ -1,6 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { EstadisticasService } from '../services/estadisticas.service';
 import { NgFor, NgIf } from '@angular/common';
+//import { NgChartsModule } from 'ng2-charts';
 
 
 @Component({
